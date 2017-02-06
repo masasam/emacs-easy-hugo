@@ -27,7 +27,6 @@
 ;;; Code:
 
 (defvar hugo-base-dir "~/src/github.com/masasam/blog/")
-(defvar hugo-buffer "*hugo*")
 
 (defun hugo-edit ()
   (interactive)
@@ -52,10 +51,9 @@
       (goto-char (point-max))
       (save-buffer))))
 
-;;helper functions
 (defun hugo-command (&rest args)
   (let ((default-directory (expand-file-name hugo-base-dir)))
-    (apply 'call-process "hugo" nil hugo-buffer t args)))
+    (apply 'call-process "hugo" nil "*hugo*" t args)))
 
 (defun hugo-replace-key (key val)
   (save-excursion
@@ -69,11 +67,10 @@
                  (re-search-forward ".+" (line-end-position) t))
         (or (replace-match val) t)))))
 
-;;publishing the blog
 (defun hugo-publish ()
   (interactive)
   (let* ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
-    (when (call-process "bash" nil hugo-buffer t  "./upload.sh")
+    (when (call-process "bash" nil "*hugo*" t  "./upload.sh")
       (message "Blog published"))))
 
 ;;; emacs-hugo.el ends here
