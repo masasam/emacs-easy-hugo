@@ -26,6 +26,54 @@
 
 ;;; Code:
 
+(defvar hugo-base-dir "~/src/github.com/masasam/blog/")
+(defvar hugo-buffer "*hugo*")
 
+(defun hugo-edit ()
+  (interactive)
+  (find-file (concat hugo-base-dir "content/post/")))
+
+(defun hugo-new-post ()
+  (interactive)
+  (let* ((title (read-from-minibuffer "Title: "))
+	 (filename (concat "post/"
+                           (read-from-minibuffer "Filename: "
+                                                 (replace-regexp-in-string "-\\.md" ".md"
+                                                   (concat (downcase
+                                                            (replace-regexp-in-string "[^a-z0-9]+" "-"
+                                                                                      title))
+                                                           ".md")))))
+         (path (concat hugo-base-dir "content/" filename)))
+    (if (file-exists-p path)
+        (message "File already exists!")
+      (hugo-command "new" filename)
+      (find-file path)
+      (hugo-replace-key "title" title)
+      (goto-char (point-max))
+      (save-buffer))))
+
+;;helper functions
+(defun hugo-command (&rest args)
+  (let ((default-directory (expand-file-name hugo-base-dir)))
+    (apply 'call-process "hugo" nil hugo-buffer t args)))
+
+(defun hugo-replace-key (key val)
+  (save-excursion
+    (goto-char (point-min))
+    ; quoted value
+    (if (and (re-search-forward (concat key " = \"") nil t)
+               (re-search-forward "[^\"]+" (line-end-position) t))
+        (or (replace-match val) t) ; ensure we return t
+      ; unquoted value
+      (when (and (re-search-forward (concat key " = ") nil t)
+                 (re-search-forward ".+" (line-end-position) t))
+        (or (replace-match val) t)))))
+
+;;publishing the blog
+(defun hugo-publish ()
+  (interactive)
+  (let* ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
+    (when (call-process "bash" nil hugo-buffer t  "./upload.sh")
+      (message "Blog published"))))
 
 ;;; emacs-hugo.el ends here
