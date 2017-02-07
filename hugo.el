@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; tramp with helm interface
+;; hugo utilities
 
 ;;; Code:
 
@@ -34,6 +34,17 @@
   "Open a list of articles written in hugo with dired."
   (interactive)
   (find-file (concat hugo-base-dir "content/post/")))
+
+(defun hugo-publish ()
+  "Adapt local change to the server with hugo."
+  (interactive)
+  (let* ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
+    (shell-command-to-string (concat "rm -rf public"))
+    (shell-command-to-string "hugo -d public")
+    (shell-command-to-string "find public \( -name '*.js' -or -name '*.css' -or -name '*.svg' -or -name '*.html' \) -exec gzip -k9 '{}' \;")
+    (shell-command-to-string (concat "rsync -rtpl --delete public/ " hugo-domain":"hugo-root))
+    (message "Blog published")
+    ))
 
 (defun hugo-entry ()
   "Create a new article with hugo."
@@ -65,17 +76,6 @@
       (when (and (re-search-forward (concat key " = ") nil t)
                  (re-search-forward ".+" (line-end-position) t))
         (or (replace-match val) t)))))
-
-(defun hugo-publish ()
-  "Adapt local change to the server with hugo."
-  (interactive)
-  (let* ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
-    (shell-command-to-string (concat "rm -rf public"))
-    (shell-command-to-string "hugo -d public")
-    (shell-command-to-string "find public \( -name '*.js' -or -name '*.css' -or -name '*.svg' -or -name '*.html' \) -exec gzip -k9 '{}' \;")
-    (shell-command-to-string (concat "rsync -rtpl --delete public/ " hugo-domain":"hugo-root))
-    (message "Blog published")
-    ))
 
 (provide 'hugo)
 
