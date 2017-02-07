@@ -1,4 +1,4 @@
-;;; hugo.el --- hugo with interface -*- lexical-binding: t; -*-
+;;; hugo.el --- hugo utilities -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017 by masasam
 
