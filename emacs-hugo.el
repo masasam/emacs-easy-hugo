@@ -36,7 +36,7 @@
 
 (defun hugo-entry ()
   (interactive)
-  (let ((title (read-from-minibuffer "Title: "))
+  (let* ((title (read-from-minibuffer "Title: "))
 	 (filename (concat "post/"
                            (read-from-minibuffer "Filename: "
                                                  (replace-regexp-in-string "-\\.md" ".md"
