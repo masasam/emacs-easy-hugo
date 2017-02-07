@@ -27,6 +27,8 @@
 ;;; Code:
 
 (defvar hugo-base-dir "~/src/github.com/masasam/blog/")
+(defvar hugo-domain "blogdomain")
+(defvar hugo-root "/home/blog/")
 
 (defun hugo-edit ()
   (interactive)
@@ -34,7 +36,7 @@
 
 (defun hugo-new-post ()
   (interactive)
-  (let* ((title (read-from-minibuffer "Title: "))
+  (let ((title (read-from-minibuffer "Title: "))
 	 (filename (concat "post/"
                            (read-from-minibuffer "Filename: "
                                                  (replace-regexp-in-string "-\\.md" ".md"
@@ -65,7 +67,11 @@
 (defun hugo-publish ()
   (interactive)
   (let* ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
-    (when (call-process "bash" nil "*hugo*" t  "./upload.sh")
-      (message "Blog published"))))
+    (shell-command-to-string (concat "rm -rf public"))
+    (shell-command-to-string "hugo -d public")
+    (shell-command-to-string "find public \( -name '*.js' -or -name '*.css' -or -name '*.svg' -or -name '*.html' \) -exec gzip -k9 '{}' \;")
+    (shell-command-to-string (concat "rsync -rtpl --delete public/ " hugo-domain":"hugo-root))
+    (message "Blog published")
+    ))
 
 ;;; emacs-hugo.el ends here
