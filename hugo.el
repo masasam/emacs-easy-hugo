@@ -1,11 +1,11 @@
-;;; emacs-hugo.el --- hugo with emacs interface -*- lexical-binding: t; -*-
+;;; hugo.el --- hugo with interface -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017 by masasam
 
 ;; Author: masasam
 ;; URL: https://github.com/masasam/emacs-hugo
 ;; Version: 0.01
-;; Package-Requires: (())
+;; Package-Requires: ((emacs "24"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -74,4 +74,6 @@
     (message "Blog published")
     ))
 
-;;; emacs-hugo.el ends here
+(provide 'hugo)
+
+;;; hugo.el ends here
