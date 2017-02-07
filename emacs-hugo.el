@@ -34,7 +34,7 @@
   (interactive)
   (find-file (concat hugo-base-dir "content/post/")))
 
-(defun hugo-new-post ()
+(defun hugo-entry ()
   (interactive)
   (let ((title (read-from-minibuffer "Title: "))
 	 (filename (concat "post/"
