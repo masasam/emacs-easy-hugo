@@ -38,7 +38,7 @@
 (defun hugo-publish ()
   "Adapt local change to the server with hugo."
   (interactive)
-  (let* ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
+  (let ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
     (shell-command-to-string (concat "rm -rf public"))
     (shell-command-to-string "hugo -d public")
     (shell-command-to-string "find public \( -name '*.js' -or -name '*.css' -or -name '*.svg' -or -name '*.html' \) -exec gzip -k9 '{}' \;")
