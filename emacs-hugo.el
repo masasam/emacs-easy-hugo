@@ -55,11 +55,9 @@
 (defun hugo-replace-key (key val)
   (save-excursion
     (goto-char (point-min))
-    ; quoted value
     (if (and (re-search-forward (concat key " = \"") nil t)
                (re-search-forward "[^\"]+" (line-end-position) t))
-        (or (replace-match val) t) ; ensure we return t
-      ; unquoted value
+        (or (replace-match val) t)
       (when (and (re-search-forward (concat key " = ") nil t)
                  (re-search-forward ".+" (line-end-position) t))
         (or (replace-match val) t)))))
