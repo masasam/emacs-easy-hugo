@@ -30,11 +30,13 @@
 (defvar hugo-domain "blogdomain")
 (defvar hugo-root "/home/blog/")
 
+;;;###autoload
 (defun hugo-edit ()
   "Open a list of articles written in hugo with dired."
   (interactive)
   (find-file (concat hugo-base-dir "content/post/")))
 
+;;;###autoload
 (defun hugo-publish ()
   "Adapt local change to the server with hugo."
   (interactive)
@@ -46,6 +48,7 @@
     (message "Blog published")
     ))
 
+;;;###autoload
 (defun hugo-entry ()
   "Create a new article with hugo."
   (interactive)
