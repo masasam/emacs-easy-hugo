@@ -1,4 +1,4 @@
 (source gnu)
 (source melpa)
 
-(package-file "emacs-hugo.el")
+(package-file "hugo.el")
