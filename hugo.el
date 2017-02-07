@@ -31,10 +31,12 @@
 (defvar hugo-root "/home/blog/")
 
 (defun hugo-edit ()
+  "Open a list of articles written in hugo with dired."
   (interactive)
   (find-file (concat hugo-base-dir "content/post/")))
 
 (defun hugo-entry ()
+  "Create a new article with hugo."
   (interactive)
   (let* ((title (read-from-minibuffer "Title: "))
 	 (filename (concat "post/"
@@ -65,6 +67,7 @@
         (or (replace-match val) t)))))
 
 (defun hugo-publish ()
+  "Adapt local change to the server with hugo."
   (interactive)
   (let* ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
     (shell-command-to-string (concat "rm -rf public"))
