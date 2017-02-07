@@ -42,18 +42,15 @@
                                                             (replace-regexp-in-string "[^a-z0-9]+" "-"
                                                                                       title))
                                                            ".md")))))
-         (path (concat hugo-base-dir "content/" filename)))
+         (path (concat hugo-base-dir "content/" filename))
+	 (default-directory (expand-file-name hugo-base-dir)))
     (if (file-exists-p path)
-        (message "File already exists!")
-      (hugo-command "new" filename)
+        (message "File exists!")
+	(apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
       (find-file path)
       (hugo-replace-key "title" title)
       (goto-char (point-max))
-      (save-buffer))))
-
-(defun hugo-command (&rest args)
-  (let ((default-directory (expand-file-name hugo-base-dir)))
-    (apply 'call-process "hugo" nil "*hugo*" t args)))
+      (save-buffer)))
 
 (defun hugo-replace-key (key val)
   (save-excursion
