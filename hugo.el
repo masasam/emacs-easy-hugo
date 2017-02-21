@@ -50,20 +50,14 @@
 
 ;;;###autoload
 (defun hugo-entry ()
-  "Create a new article with hugo."
+  "Create a new entry with hugo."
   (interactive)
   (let* ((title (read-from-minibuffer "Title: "))
-	 (filename (concat "post/"
-                           (read-from-minibuffer "Filename: "
-                                                 (replace-regexp-in-string "-\\.md" ".md"
-                                                   (concat (downcase
-                                                            (replace-regexp-in-string "[^a-z0-9]+" "-"
-                                                                                      title))
-                                                           ".md")))))
+	 (filename (concat "post/" (read-from-minibuffer "Filename: " (replace-regexp-in-string "-\\.md" ".md" (concat (downcase (replace-regexp-in-string "[^a-z0-9]+" "-" title)) ".md")))))
          (path (concat hugo-base-dir "content/" filename))
 	 (default-directory (expand-file-name hugo-base-dir)))
     (if (file-exists-p path)
-        (message "File exists!")
+        (message "File exists")
       (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
     (find-file path)
     (hugo-replace-key "title" title)
