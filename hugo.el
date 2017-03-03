@@ -26,7 +26,7 @@
 
 ;;; Code:
 
-(defvar hugo-base-dir "~/src/github.com/masasam/blog/")
+(defvar hugo-base-dir "~/src/github.com/masasam/hugo/")
 (defvar hugo-domain "blogdomain")
 (defvar hugo-root "/home/blog/")
 
