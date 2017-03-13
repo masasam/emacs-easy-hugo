@@ -78,8 +78,8 @@
     ))
 
 ;;;###autoload
-(defun hugo-entry ()
-  "Create a new entry with hugo."
+(defun hugo-post ()
+  "Create a new post with hugo."
   (interactive)
   (let* ((title (read-from-minibuffer "Title: "))
 	 (filename (concat "post/" (read-from-minibuffer "Filename: " (replace-regexp-in-string "-\\.md" ".md" (concat (downcase (replace-regexp-in-string "[^a-z0-9]+" "-" title)) ".md")))))
