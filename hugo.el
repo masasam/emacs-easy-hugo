@@ -28,7 +28,7 @@
 
 (defgroup hugo nil
   "hugo with emacs interface"
-  :group 'helm)
+  :group 'hugo)
 
 (defcustom hugo-base-dir
   "~/hugo/"
