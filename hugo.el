@@ -1,11 +1,11 @@
 ;;; hugo.el --- hugo utilities -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017 by masasam
+;; Copyright (C) 2017 by Masashi Miyaura
 
-;; Author: masasam
+;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-hugo
 ;; Version: 0.01
-;; Package-Requires: ((emacs "24"))
+;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@
     (shell-command-to-string "hugo -d public")
     (shell-command-to-string "cd public")
     (shell-command-to-string "git add -A")
-    (shell-command-to-string "git commit -m 'hubo commit")
+    (shell-command-to-string "git commit -m 'hugo commit'")
     (shell-command-to-string "git push origin master")
     (message "Blog published")
     ))
