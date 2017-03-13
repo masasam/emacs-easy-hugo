@@ -26,9 +26,24 @@
 
 ;;; Code:
 
-(defvar hugo-base-dir "~/src/github.com/masasam/blog/")
-(defvar hugo-domain "blogdomain")
-(defvar hugo-root "/home/blog/")
+(defgroup hugo nil
+  "hugo with emacs interface"
+  :group 'helm)
+
+(defcustom hugo-base-dir
+  "~/hugo/"
+  "Base directory of hugo"
+  :type 'string)
+
+(defcustom hugo-domain
+  "blogdomain"
+  "Domain of hugo at your ~/.ssh/config"
+  :type 'string)
+
+(defcustom hugo-root
+  "/home/blog/"
+  "Root directory of hugo at your server"
+  :type 'string)
 
 ;;;###autoload
 (defun hugo-edit ()
