@@ -49,6 +49,20 @@
     ))
 
 ;;;###autoload
+(defun hugo-publish-github-pages ()
+  "Adapt local change to the server with hugo."
+  (interactive)
+  (let ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
+    (shell-command-to-string (concat "rm -rf public"))
+    (shell-command-to-string "hugo -d public")
+    (shell-command-to-string "cd public")
+    (shell-command-to-string "git add -A")
+    (shell-command-to-string "git commit -m 'hubo commit")
+    (shell-command-to-string "git push origin master")
+    (message "Blog published")
+    ))
+
+;;;###autoload
 (defun hugo-entry ()
   "Create a new entry with hugo."
   (interactive)
