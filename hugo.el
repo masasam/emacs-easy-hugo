@@ -32,7 +32,7 @@
 
 (defcustom hugo-base-dir
   "~/hugo/"
-  "Base directory of hugo"
+  "Directory where hugo html source code is placed"
   :type 'string)
 
 (defcustom hugo-domain
