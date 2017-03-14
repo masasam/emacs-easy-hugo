@@ -46,8 +46,8 @@
   :type 'string)
 
 (defcustom hugo-command
-  (if (boundp 'hugo-theme)
-      (concat "hugo -t " hugo-theme)
+  (if (boundp 'hugo-theme-of-github-page)
+      (concat "hugo -t " hugo-theme-of-github-page)
     "hugo")
   "Build the project hugo command"
   :type 'string)
