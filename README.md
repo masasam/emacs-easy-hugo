@@ -10,8 +10,8 @@ M-x hugo-publish
 
 ## Requirements
 
-- Emacs 24 or higher
-- hugo 0.16 or higher
+- Emacs 24.4 or higher
+- hugo 0.19 or higher
 
 ## Sample Configuration
 
