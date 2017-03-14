@@ -21,7 +21,9 @@ M-x hugo-publish
 
 If publishing with GitHub Pages, set the theme as follows  
 
-	(setq hugo-theme-of-github-page 'themename)
+	(setq hugo-theme-of-github-page 'your theme name)
+
+## When publishing with your server
 
 ~/.ssh/config  
 
@@ -56,3 +58,12 @@ sample nginx.conf
 	index   index.html index.htm;
 		}
 	}
+
+## When publishing with GitHub Pages
+
+Create on GitHub <your-project>-hugo repository (it will host Hugo 's content)  
+Create on GitHub <username>.github.io repository (it will host the public folder: the static website)  
+git clone <<your-project>-hugo-url> && cd <your-project>-hugo  
+Make your website work locally (hugo server -t <yourtheme>)  
+Once you are happy with the results, Ctrl+C (kill server) and rm -rf public (don ’ t worry, it can always be regenerated with hugo -t <yourtheme>)  
+git submodule add -b master git@github.com:<username>/<username>.github.io.git public  
