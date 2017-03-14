@@ -45,6 +45,13 @@
   "Root directory of hugo at your server"
   :type 'string)
 
+(defcustom hugo-command
+  (if (boundp 'hugo-theme)
+      (concat "hugo -t " hugo-theme)
+    "hugo")
+  "Build the project hugo command"
+  :type 'string)
+
 ;;;###autoload
 (defun hugo-edit ()
   "Open a list of articles written in hugo with dired."
@@ -69,7 +76,7 @@
   (interactive)
   (let ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
     (shell-command-to-string (concat "rm -rf public"))
-    (shell-command-to-string "hugo -d public")
+    (shell-command-to-string hugo-command)
     (shell-command-to-string "cd public")
     (shell-command-to-string "git add -A")
     (shell-command-to-string "git commit -m 'hugo commit'")
