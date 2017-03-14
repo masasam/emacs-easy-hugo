@@ -19,6 +19,10 @@ M-x hugo-publish
 	(setq hugo-domain "blogdomain")
 	(setq hugo-root "/home/blog/")
 
+If publishing with GitHub Pages, set the theme as follows  
+
+	(setq hugo-theme-of-github-page 'themename)
+
 ~/.ssh/config  
 
 	 Host blogdomain
