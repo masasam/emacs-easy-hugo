@@ -26,22 +26,21 @@
 
 ;;; Code:
 
+(require 'cl-lib)
+
 (defgroup easy-hugo nil
   "Writing blogs made with hugo."
   :group 'easy-hugo)
 
-(defcustom easy-hugo-base-dir
-  "~/hugo/"
+(defcustom easy-hugo-base-dir "~/hugo/"
   "Directory where hugo html source code is placed."
   :type 'string)
 
-(defcustom easy-hugo-domain
-  "blogdomain"
+(defcustom easy-hugo-domain "blogdomain"
   "Domain of hugo at your ~/.ssh/config."
   :type 'string)
 
-(defcustom easy-hugo-root
-  "/home/blog/"
+(defcustom easy-hugo-root "/home/blog/"
   "Root directory of hugo at your server."
   :type 'string)
 
