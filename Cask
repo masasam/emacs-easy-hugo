@@ -1,4 +1,4 @@
 (source gnu)
 (source melpa)
 
-(package-file "hugo.el")
+(package-file "hugo-publish.el")
