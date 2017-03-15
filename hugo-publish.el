@@ -1,9 +1,9 @@
-;;; hugo.el --- hugo utilities -*- lexical-binding: t; -*-
+;;; hugo-publish.el --- hugo utilities -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017 by Masashi Miyaura
 
 ;; Author: Masashi Miyaura
-;; URL: https://github.com/masasam/emacs-hugo
+;; URL: https://github.com/masasam/emacs-hugo-publish
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "24.4"))
 
@@ -22,12 +22,12 @@
 
 ;;; Commentary:
 
-;; hugo utilities
+;; Package for writing blogs made with hugo just by Emacs
 
 ;;; Code:
 
 (defgroup hugo nil
-  "hugo with emacs interface"
+  "writing blogs made with hugo"
   :group 'hugo)
 
 (defcustom hugo-base-dir
@@ -46,8 +46,8 @@
   :type 'string)
 
 ;;;###autoload
-(defun hugo-edit ()
-  "Open a list of articles written in hugo with dired."
+(defun hugo-article ()
+  "Open a list of articles written in hugo."
   (interactive)
   (find-file (concat hugo-base-dir "content/post/")))
 
@@ -64,7 +64,7 @@
     ))
 
 ;;;###autoload
-(defun hugo-post ()
+(defun hugo-newpost ()
   "Create a new post with hugo."
   (interactive)
   (let* ((title (read-from-minibuffer "Title: "))
@@ -89,6 +89,6 @@
                  (re-search-forward ".+" (line-end-position) t))
         (or (replace-match val) t)))))
 
-(provide 'hugo)
+(provide 'hugo-publish)
 
-;;; hugo.el ends here
+;;; hugo-publish.el ends here
