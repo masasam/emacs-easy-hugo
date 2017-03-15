@@ -69,7 +69,7 @@
   (let ((filename (concat "post/" (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
 	(default-directory (expand-file-name hugo-base-dir)))
     (if (file-exists-p (concat hugo-base-dir "content/" filename))
-	(error (concat "File exists " filename))
+	(error (concat filename "is a file that already exists"))
       (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
     (find-file (concat hugo-base-dir "content/" filename))
     (goto-char (point-max))
