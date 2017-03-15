@@ -45,13 +45,6 @@
   "Root directory of hugo at your server"
   :type 'string)
 
-(defcustom hugo-command
-  (if (boundp 'hugo-theme-of-github-page)
-      (concat "hugo -t " hugo-theme-of-github-page)
-    "hugo")
-  "Build the project hugo command"
-  :type 'string)
-
 ;;;###autoload
 (defun hugo-edit ()
   "Open a list of articles written in hugo with dired."
@@ -67,19 +60,6 @@
     (shell-command-to-string "hugo -d public")
     (shell-command-to-string "find public \( -name '*.js' -or -name '*.css' -or -name '*.svg' -or -name '*.html' \) -exec gzip -k9 '{}' \;")
     (shell-command-to-string (concat "rsync -rtpl --delete public/ " hugo-domain":"hugo-root))
-    (message "Blog published")
-    ))
-
-;;;###autoload
-(defun hugo-publish-github-pages ()
-  "Adapt local change to the server with hugo."
-  (interactive)
-  (let ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
-    (shell-command-to-string hugo-command)
-    (shell-command-to-string "cd public")
-    (shell-command-to-string "git add -A")
-    (shell-command-to-string "git commit -m 'hugo commit'")
-    (shell-command-to-string "git push origin master")
     (message "Blog published")
     ))
 
