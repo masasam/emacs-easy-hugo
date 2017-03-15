@@ -1,9 +1,9 @@
-;;; hugo-publish.el --- hugo utilities -*- lexical-binding: t; -*-
+;;; easy-hugo.el --- hugo utilities -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017 by Masashi Miyaura
 
 ;; Author: Masashi Miyaura
-;; URL: https://github.com/masasam/emacs-hugo-publish
+;; URL: https://github.com/masasam/emacs-easy-hugo
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "24.4"))
 
@@ -26,55 +26,55 @@
 
 ;;; Code:
 
-(defgroup hugo nil
-  "writing blogs made with hugo"
-  :group 'hugo)
+(defgroup easy-hugo nil
+  "Writing blogs made with hugo."
+  :group 'easy-hugo)
 
-(defcustom hugo-base-dir
+(defcustom easy-hugo-base-dir
   "~/hugo/"
-  "Directory where hugo html source code is placed"
+  "Directory where hugo html source code is placed."
   :type 'string)
 
-(defcustom hugo-domain
+(defcustom easy-hugo-domain
   "blogdomain"
-  "Domain of hugo at your ~/.ssh/config"
+  "Domain of hugo at your ~/.ssh/config."
   :type 'string)
 
-(defcustom hugo-root
+(defcustom easy-hugo-root
   "/home/blog/"
-  "Root directory of hugo at your server"
+  "Root directory of hugo at your server."
   :type 'string)
 
 ;;;###autoload
-(defun hugo-articlelist ()
+(defun easy-hugo-articlelist ()
   "Open a list of articles written in hugo."
   (interactive)
-  (find-file (concat hugo-base-dir "content/post/")))
+  (find-file (concat easy-hugo-base-dir "content/post/")))
 
 ;;;###autoload
-(defun hugo-publish ()
+(defun easy-hugo-publish ()
   "Adapt local change to the server with hugo."
   (interactive)
-  (let ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
+  (let ((default-directory (concat (expand-file-name easy-hugo-base-dir) "/")))
     (shell-command-to-string (concat "rm -rf public"))
     (shell-command-to-string "hugo --destination public")
-    (shell-command-to-string (concat "rsync -rtpl --delete public/ " hugo-domain":"hugo-root))
+    (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-domain":"easy-hugo-root))
     (message "Blog published")
     ))
 
 ;;;###autoload
-(defun hugo-newpost ()
+(defun easy-hugo-newpost ()
   "Create a new post with hugo."
   (interactive)
   (let ((filename (concat "post/" (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
-	(default-directory (expand-file-name hugo-base-dir)))
-    (if (file-exists-p (concat hugo-base-dir "content/" filename))
+	(default-directory (expand-file-name easy-hugo-base-dir)))
+    (if (file-exists-p (concat easy-hugo-base-dir "content/" filename))
 	(error (concat filename "is a file that already exists"))
       (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
-    (find-file (concat hugo-base-dir "content/" filename))
+    (find-file (concat easy-hugo-base-dir "content/" filename))
     (goto-char (point-max))
     (save-buffer)))
 
-(provide 'hugo-publish)
+(provide 'easy-hugo)
 
-;;; hugo-publish.el ends here
+;;; easy-hugo.el ends here
