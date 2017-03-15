@@ -90,10 +90,8 @@
 	(browse-url "http://localhost:1313/")
 	(run-at-time easy-hugo-preview-time nil 'easy-hugo-preview-end)))))
 
-;;;###autoload
 (defun easy-hugo-preview-end ()
   "Finish previewing hugo at localhost."
-  (interactive)
   (unless (null easy-hugo--server-process)
     (delete-process easy-hugo--server-process)))
 
