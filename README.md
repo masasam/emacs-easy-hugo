@@ -1,10 +1,10 @@
-# hugo-publish
+# easy-hugo
 
 Package for writing blogs made with hugo just by emacs  
 
 ## Screenshot
 
-M-x hugo-publish  
+M-x easy-hugo-publish  
 
 ![emacs-hugo1](image/image1.png)
 
@@ -15,9 +15,9 @@ M-x hugo-publish
 
 ## Sample Configuration
 
-    (setq hugo-base-dir "~/src/github.com/masasam/blog/")
-	(setq hugo-domain "blogdomain")
-	(setq hugo-root "/home/blog/")
+    (setq easy-hugo-base-dir "~/src/github.com/masasam/blog/")
+	(setq easy-hugo-domain "blogdomain")
+	(setq easy-hugo-root "/home/blog/")
 
 ## Preparation for useing this package
 
