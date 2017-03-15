@@ -66,28 +66,14 @@
 (defun hugo-newpost ()
   "Create a new post with hugo."
   (interactive)
-  (let* ((filename (concat "post/"
-			   (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)
-			   ))
-	 (path (concat hugo-base-dir "content/" filename))
-	 (default-directory (expand-file-name hugo-base-dir)))
-    (if (file-exists-p path)
-	(message "File exists")
+  (let ((filename (concat "post/" (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
+	(default-directory (expand-file-name hugo-base-dir)))
+    (if (file-exists-p (concat hugo-base-dir "content/" filename))
+	(error (concat "File exists " filename))
       (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
-    (find-file path)
-    (hugo-replace-key "title" title)
+    (find-file (concat hugo-base-dir "content/" filename))
     (goto-char (point-max))
     (save-buffer)))
-
-(defun hugo-replace-key (key val)
-  (save-excursion
-    (goto-char (point-min))
-    (if (and (re-search-forward (concat key " = \"") nil t)
-	     (re-search-forward "[^\"]+" (line-end-position) t))
-        (or (replace-match val) t)
-      (when (and (re-search-forward (concat key " = ") nil t)
-                 (re-search-forward ".+" (line-end-position) t))
-        (or (replace-match val) t)))))
 
 (provide 'hugo-publish)
 
