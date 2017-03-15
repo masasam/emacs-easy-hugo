@@ -49,7 +49,7 @@
 (defvar easy-hugo--server-process nil)
 
 ;;;###autoload
-(defun easy-hugo-articlelist ()
+(defun easy-hugo-article ()
   "Open a list of articles written in hugo."
   (interactive)
   (find-file (concat easy-hugo-base-dir "content/post/")))
