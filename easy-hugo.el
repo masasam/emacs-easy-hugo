@@ -26,8 +26,6 @@
 
 ;;; Code:
 
-(require 'cl-lib)
-
 (defgroup easy-hugo nil
   "Writing blogs made with hugo."
   :group 'easy-hugo)
