@@ -60,4 +60,3 @@ For example
 
 	(setenv "GOPATH" "~/go")
 	(add-to-list 'exec-path (expand-file-name "~/go/bin"))
-n
