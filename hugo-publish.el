@@ -46,7 +46,7 @@
   :type 'string)
 
 ;;;###autoload
-(defun hugo-article ()
+(defun hugo-articlelist ()
   "Open a list of articles written in hugo."
   (interactive)
   (find-file (concat hugo-base-dir "content/post/")))
@@ -57,8 +57,7 @@
   (interactive)
   (let ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
     (shell-command-to-string (concat "rm -rf public"))
-    (shell-command-to-string "hugo -d public")
-    (shell-command-to-string "find public \( -name '*.js' -or -name '*.css' -or -name '*.svg' -or -name '*.html' \) -exec gzip -k9 '{}' \;")
+    (shell-command-to-string "hugo --destination public")
     (shell-command-to-string (concat "rsync -rtpl --delete public/ " hugo-domain":"hugo-root))
     (message "Blog published")
     ))
