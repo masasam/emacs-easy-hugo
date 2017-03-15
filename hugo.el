@@ -75,7 +75,6 @@
   "Adapt local change to the server with hugo."
   (interactive)
   (let ((default-directory (concat (expand-file-name hugo-base-dir) "/")))
-    (shell-command-to-string (concat "rm -rf public"))
     (shell-command-to-string hugo-command)
     (shell-command-to-string "cd public")
     (shell-command-to-string "git add -A")
