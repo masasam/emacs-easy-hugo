@@ -58,8 +58,7 @@
     (shell-command-to-string (concat "rm -rf public"))
     (shell-command-to-string "hugo --destination public")
     (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-domain":"easy-hugo-root))
-    (message "Blog published")
-    ))
+    (message "Blog published")))
 
 ;;;###autoload
 (defun easy-hugo-newpost ()
