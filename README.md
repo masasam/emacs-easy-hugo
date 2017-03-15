@@ -1,8 +1,8 @@
-# hugo
+# hugo-publish
 
-Edit hugo with emacs  
+Package for writing blogs made with hugo just by emacs  
 
-## Image
+## Screenshot
 
 M-x hugo-publish  
 
@@ -25,7 +25,7 @@ Write at ~/.ssh/config
 
 	 Host blogdomain
                         HostName "Your server's IP"
-                        User "Your ssh login user"
+                        User "Your server's ssh login username"
 
 Because blog is generated under /home/blog/ on the server  
 Set it to reference it with nginx.  
