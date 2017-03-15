@@ -42,6 +42,10 @@
   "Root directory of hugo at your server."
   :type 'string)
 
+(defcustom easy-hugo-preview-time 120
+  "Preview display time."
+  :type 'integer)
+
 (defvar easy-hugo--server-process nil)
 
 ;;;###autoload
@@ -83,7 +87,15 @@
       (progn
 	(setq easy-hugo--server-process
 	      (start-process "hugo-server" "*Hugo Server*" "hugo" "server"))
-	(browse-url "http://localhost:1313/")))))
+	(browse-url "http://localhost:1313/")
+	(run-at-time easy-hugo-preview-time nil 'easy-hugo-preview-end)))))
+
+;;;###autoload
+(defun easy-hugo-preview-end ()
+  "Finish previewing hugo at localhost."
+  (interactive)
+  (unless (null easy-hugo--server-process)
+    (delete-process easy-hugo--server-process)))
 
 (provide 'easy-hugo)
 
