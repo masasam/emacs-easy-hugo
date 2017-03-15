@@ -42,6 +42,8 @@
   "Root directory of hugo at your server."
   :type 'string)
 
+(defvar easy-hugo-server-process nil)
+
 ;;;###autoload
 (defun easy-hugo-articlelist ()
   "Open a list of articles written in hugo."
@@ -77,9 +79,12 @@
   "Preview hugo at localhost."
   (interactive)
   (let ((default-directory (expand-file-name easy-hugo-base-dir)))
-    (start-process "hugo-server" "*Hugo Server*" "hugo" "server")
-    (message "Started Hugo server")
-    (browse-url "http://localhost:1313/")))
+    (if (process-live-p easy-hugo-server-process)
+	(browse-url "http://localhost:1313/")
+      (progn
+	(setq easy-hugo-server-process
+	      (start-process "hugo-server" "*Hugo Server*" "hugo" "server"))
+	(browse-url "http://localhost:1313/")))))
 
 (provide 'easy-hugo)
 
