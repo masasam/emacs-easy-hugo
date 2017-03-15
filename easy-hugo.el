@@ -42,8 +42,6 @@
   "Root directory of hugo at your server."
   :type 'string)
 
-(defvar easy-hugo-server-process nil)
-
 ;;;###autoload
 (defun easy-hugo-articlelist ()
   "Open a list of articles written in hugo."
