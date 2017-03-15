@@ -55,3 +55,9 @@ sample nginx.conf
 		}
 	}
 
+Confirm that PATH passes from emacs to go  
+For example  
+
+	(setenv "GOPATH" "~/go")
+	(add-to-list 'exec-path (expand-file-name "~/go/bin"))
+n
