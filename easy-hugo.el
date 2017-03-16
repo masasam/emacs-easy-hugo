@@ -30,8 +30,12 @@
   "Writing blogs made with hugo."
   :group 'easy-hugo)
 
-(defcustom easy-hugo-base-dir "~/hugo/"
+(defcustom easy-hugo-basedir "~/hugo/"
   "Directory where hugo html source code is placed."
+  :type 'string)
+
+(defcustom easy-hugo-url nil
+  "Url of the site operated by hugo."
   :type 'string)
 
 (defcustom easy-hugo-domain "blogdomain"
@@ -42,7 +46,7 @@
   "Root directory of hugo at your server."
   :type 'string)
 
-(defcustom easy-hugo-preview-time 300
+(defcustom easy-hugo-previewtime 300
   "Preview display time."
   :type 'integer)
 
@@ -52,13 +56,13 @@
 (defun easy-hugo-article ()
   "Open a list of articles written in hugo."
   (interactive)
-  (find-file (concat easy-hugo-base-dir "content/post/")))
+  (find-file (concat easy-hugo-basedir "content/post/")))
 
 ;;;###autoload
 (defun easy-hugo-publish ()
   "Adapt local change to the server with hugo."
   (interactive)
-  (let ((default-directory (concat (expand-file-name easy-hugo-base-dir) "/")))
+  (let ((default-directory (concat (expand-file-name easy-hugo-basedir) "/")))
     (shell-command-to-string (concat "rm -rf public"))
     (shell-command-to-string "hugo --destination public")
     (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-domain":"easy-hugo-root))
@@ -69,11 +73,11 @@
   "Create a new post with hugo."
   (interactive)
   (let ((filename (concat "post/" (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
-	(default-directory (expand-file-name easy-hugo-base-dir)))
-    (if (file-exists-p (concat easy-hugo-base-dir "content/" filename))
+	(default-directory (expand-file-name easy-hugo-basedir)))
+    (if (file-exists-p (concat easy-hugo-basedir "content/" filename))
 	(error (concat filename "is a file that already exists"))
       (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
-    (find-file (concat easy-hugo-base-dir "content/" filename))
+    (find-file (concat easy-hugo-basedir "content/" filename))
     (goto-char (point-max))
     (save-buffer)))
 
@@ -81,14 +85,14 @@
 (defun easy-hugo-preview ()
   "Preview hugo at localhost."
   (interactive)
-  (let ((default-directory (expand-file-name easy-hugo-base-dir)))
+  (let ((default-directory (expand-file-name easy-hugo-basedir)))
     (if (process-live-p easy-hugo--server-process)
 	(browse-url "http://localhost:1313/")
       (progn
 	(setq easy-hugo--server-process
 	      (start-process "hugo-server" "*Hugo Server*" "hugo" "server"))
 	(browse-url "http://localhost:1313/")
-	(run-at-time easy-hugo-preview-time nil 'easy-hugo-preview-end)))))
+	(run-at-time easy-hugo-previewtime nil 'easy-hugo-preview-end)))))
 
 (defun easy-hugo-preview-end ()
   "Finish previewing hugo at localhost."
