@@ -59,8 +59,6 @@ Blogs with the same file name can not be made
 
 ![easy-hugo15](image/easy-hugo15.png)
 
-Rename PPA blog  
-
 ## Requirements
 
 - Emacs 24.4 or higher
