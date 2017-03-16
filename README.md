@@ -48,7 +48,7 @@ Well then it will be completed in one more pen
 
 ![easy-hugo14](image/easy-hugo14.png)
 
-Blogs with the same file name can not be made  
+Articles with the same file name can not be made  
 
 ![easy-hugo15](image/easy-hugo15.png)
 
@@ -66,6 +66,9 @@ Blogs with the same file name can not be made
 	(setq easy-hugo-previewtime "300")
 
 ## Preparation for useing this package
+
+Install hugo  
+See https://gohugo.io/  
 
 Write at ~/.ssh/config  
 
