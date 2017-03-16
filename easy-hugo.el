@@ -96,6 +96,8 @@
     (error "'hugo' is not installed"))
   (let ((filename (concat "post/" (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
 	(default-directory (expand-file-name easy-hugo-basedir)))
+    (when (equal filename "post/.md")
+      (error "Please enter file name"))
     (if (file-exists-p (concat easy-hugo-basedir "content/" filename))
 	(error (concat filename " already exists!"))
       (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))

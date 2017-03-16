@@ -25,7 +25,8 @@ You can write a blog with markdown
 
 The browser opens automatically and you can preview the blog on your PC  
 Even if you run the easy-hugo-preview command many times, only one hugo process will run so do not mind it  
-Since the process of hugo running in the PC disappears in 300 seconds, you do not have to worry  
+Since the process of hugo running in the PC disappears in 300 seconds,  
+you do not have to worry about killing hugo process  
 
 ![easy-hugo7](image/easy-hugo7.png)
 
@@ -60,7 +61,7 @@ Articles with the same file name can not be made!
 
 ## Sample Configuration
 
-	(setq easy-hugo-basedir "~/hugo/")
+	(setq easy-hugo-basedir "~/ppaphugo/")
 	(setq easy-hugo-url "https://yourblogdomain")
 	(setq easy-hugo-sshdomain "blogdomain")
 	(setq easy-hugo-root "/home/blog/")
@@ -76,6 +77,8 @@ easy-hugo-previewtime "Preview display time."
 
 Install hugo  
 See https://gohugo.io/  
+Quickstart Guide  
+See https://gohugo.io/overview/quickstart/  
 
 Write at ~/.ssh/config  
 
