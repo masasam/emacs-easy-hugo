@@ -27,8 +27,7 @@ You can write a blog with markdown
 ![easy-hugo5](image/easy-hugo5.png)
 
 The browser opens automatically and you can preview the blog on your PC  
-Since the process of hugo running in the PC disappears in 300 seconds,  
-you do not have to worry  
+Since the process of hugo running in the PC disappears in 300 seconds,you do not have to worry  
 Even if you run the easy-hugo-preview command many times,  
 only one hugo process will run so do not mind it  
 
