@@ -56,15 +56,13 @@ Display the list of articles you wrote
 
 Well then it will be completed in one more pen  
 
-![easy-hugo13](image/easy-hugo13.png)
+![easy-hugo14](image/easy-hugo14.png)
 
 Blogs with the same file name can not be made  
 
-![easy-hugo14](image/easy-hugo14.png)
+![easy-hugo15](image/easy-hugo15.png)
 
 Rename PPA blog  
-
-![easy-hugo15](image/easy-hugo15.png)
 
 ## Requirements
 
