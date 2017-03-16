@@ -52,6 +52,8 @@
 
 (defvar easy-hugo--server-process nil)
 
+(defconst easy-hugo--buffer-name "*Hugo Server*")
+
 ;;;###autoload
 (defun easy-hugo-article ()
   "Open a list of articles written in hugo."
@@ -104,7 +106,7 @@
 	(browse-url "http://localhost:1313/")
       (progn
 	(setq easy-hugo--server-process
-	      (start-process "hugo-server" "*Hugo Server*" "hugo" "server"))
+	      (start-process "hugo-server" easy-hugo--buffer-name "hugo" "server"))
 	(browse-url "http://localhost:1313/")
 	(run-at-time easy-hugo-previewtime nil 'easy-hugo-preview-end)))))
 
