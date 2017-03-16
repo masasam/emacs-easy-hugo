@@ -7,7 +7,7 @@ Emacs package for writing blogs made with hugo
     M-x easy-hugo-newpost
 
 You can post a new article  
-Hit a article file name  
+Enter a article file name in the minibuffer  
 
 ![easy-hugo2](image/easy-hugo2.png)
 
@@ -44,10 +44,12 @@ Display the list of articles you wrote
 ![easy-hugo11](image/easy-hugo11.png)
 
 Well then it will be completed in one more pen  
+M-x easy-hugo-newpost  
+Enter pen in the minibuffer  
 
 ![easy-hugo14](image/easy-hugo14.png)
 
-Articles with the same file name can not be made  
+Articles with the same file name can not be made!  
 
 ![easy-hugo15](image/easy-hugo15.png)
 
