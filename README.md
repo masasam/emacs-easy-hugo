@@ -55,10 +55,7 @@ Display the list of articles you wrote
 ![easy-hugo11](image/easy-hugo11.png)
 
 Well then it will be completed in one
-
-![easy-hugo12](image/easy-hugo12.png)
-
-pen  
+one more pen  
 
 ![easy-hugo13](image/easy-hugo13.png)
 
