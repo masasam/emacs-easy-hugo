@@ -7,9 +7,6 @@ Emacs package for writing blogs made with hugo
     M-x easy-hugo-newpost
 
 You can post a new article  
-
-![easy-hugo1](image/easy-hugo1.png)
-
 Hit a blog file name  
 
 ![easy-hugo2](image/easy-hugo2.png)
