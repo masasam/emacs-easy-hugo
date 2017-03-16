@@ -7,7 +7,7 @@ Emacs package for writing blogs made with hugo
     M-x easy-hugo-newpost
 
 You can post a new article  
-Hit a blog file name  
+Hit a article file name  
 
 ![easy-hugo2](image/easy-hugo2.png)
 
@@ -24,9 +24,8 @@ You can write a blog with markdown
 ![easy-hugo6](image/easy-hugo6.png)
 
 The browser opens automatically and you can preview the blog on your PC  
-Since the process of hugo running in the PC disappears in 300 seconds,you do not have to worry  
-Even if you run the easy-hugo-preview command many times,  
-only one hugo process will run so do not mind it  
+Even if you run the easy-hugo-preview command many times, only one hugo process will run so do not mind it  
+Since the process of hugo running in the PC disappears in 300 seconds, you do not have to worry  
 
 ![easy-hugo7](image/easy-hugo7.png)
 
