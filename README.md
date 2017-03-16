@@ -50,8 +50,6 @@ You can publish your blog to the server
 
     M-x easy-hugo-article
 
-![easy-hugo10](image/easy-hugo10.png)
-
 Display the list of articles you wrote  
 
 ![easy-hugo11](image/easy-hugo11.png)
