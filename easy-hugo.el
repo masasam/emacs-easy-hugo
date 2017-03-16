@@ -38,7 +38,7 @@
   "Url of the site operated by hugo."
   :type 'string)
 
-(defcustom easy-hugo-domain "blogdomain"
+(defcustom easy-hugo-sshdomain "blogdomain"
   "Domain of hugo at your ~/.ssh/config."
   :type 'string)
 
@@ -65,7 +65,7 @@
   (let ((default-directory (concat (expand-file-name easy-hugo-basedir) "/")))
     (shell-command-to-string (concat "rm -rf public"))
     (shell-command-to-string "hugo --destination public")
-    (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-domain":"easy-hugo-root))
+    (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-sshdomain":"easy-hugo-root))
     (message "Blog published")))
 
 ;;;###autoload
@@ -79,7 +79,9 @@
       (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
     (find-file (concat easy-hugo-basedir "content/" filename))
     (goto-char (point-max))
-    (save-buffer)))
+    (save-buffer)
+    (unless (null easy-hugo-url)
+      (browse-url easy-hugo-url))))
 
 ;;;###autoload
 (defun easy-hugo-preview ()
