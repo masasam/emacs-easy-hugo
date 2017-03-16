@@ -44,16 +44,6 @@ Display the list of articles you wrote
 
 ![easy-hugo11](image/easy-hugo11.png)
 
-Well then it will be completed in one more pen  
-M-x easy-hugo-newpost  
-Enter pen in the minibuffer  
-
-![easy-hugo14](image/easy-hugo14.png)
-
-Articles with the same file name can not be made!  
-
-![easy-hugo15](image/easy-hugo15.png)
-
 ## Requirements
 
 - Emacs 24.4 or higher
@@ -61,7 +51,7 @@ Articles with the same file name can not be made!
 
 ## Sample Configuration
 
-	(setq easy-hugo-basedir "~/ppaphugo/")
+	(setq easy-hugo-basedir "~/bookshelf/")
 	(setq easy-hugo-url "https://yourblogdomain")
 	(setq easy-hugo-sshdomain "blogdomain")
 	(setq easy-hugo-root "/home/blog/")
