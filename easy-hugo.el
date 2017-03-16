@@ -30,7 +30,7 @@
   "Writing blogs made with hugo."
   :group 'easy-hugo)
 
-(defcustom easy-hugo-basedir "~/hugo/"
+(defcustom easy-hugo-basedir nil
   "Directory where hugo html source code is placed."
   :type 'string)
 
@@ -56,22 +56,30 @@
 (defun easy-hugo-article ()
   "Open a list of articles written in hugo."
   (interactive)
+  (when (null easy-hugo-basedir)
+    (error "Please set easy-hugo-basedir variable"))
   (find-file (concat easy-hugo-basedir "content/post/")))
 
 ;;;###autoload
 (defun easy-hugo-publish ()
   "Adapt local change to the server with hugo."
   (interactive)
+  (when (null easy-hugo-basedir)
+    (error "Please set easy-hugo-basedir variable"))
   (let ((default-directory (concat (expand-file-name easy-hugo-basedir) "/")))
     (shell-command-to-string (concat "rm -rf public"))
     (shell-command-to-string "hugo --destination public")
     (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-sshdomain":"easy-hugo-root))
-    (message "Blog published")))
+    (message "Blog published")
+    (unless (null easy-hugo-url)
+      (browse-url easy-hugo-url))))
 
 ;;;###autoload
 (defun easy-hugo-newpost ()
   "Create a new post with hugo."
   (interactive)
+  (when (null easy-hugo-basedir)
+    (error "Please set easy-hugo-basedir variable"))
   (let ((filename (concat "post/" (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
 	(default-directory (expand-file-name easy-hugo-basedir)))
     (if (file-exists-p (concat easy-hugo-basedir "content/" filename))
@@ -79,14 +87,14 @@
       (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
     (find-file (concat easy-hugo-basedir "content/" filename))
     (goto-char (point-max))
-    (save-buffer)
-    (unless (null easy-hugo-url)
-      (browse-url easy-hugo-url))))
+    (save-buffer)))
 
 ;;;###autoload
 (defun easy-hugo-preview ()
   "Preview hugo at localhost."
   (interactive)
+  (when (null easy-hugo-basedir)
+    (error "Please set easy-hugo-basedir variable"))
   (let ((default-directory (expand-file-name easy-hugo-basedir)))
     (if (process-live-p easy-hugo--server-process)
 	(browse-url "http://localhost:1313/")
