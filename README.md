@@ -45,8 +45,6 @@ Woo
 
 You can publish your blog to the server  
 
-![easy-hugo9](image/easy-hugo9.png)
-
     M-x easy-hugo-article
 
 Display the list of articles you wrote  
