@@ -64,6 +64,12 @@ Articles with the same file name can not be made
 	(setq easy-hugo-root "/home/blog/")
 	(setq easy-hugo-previewtime "300")
 
+easy-hugo-basedir "Directory where hugo html source code is placed on your PC."  
+easy-hugo-url "Url of the blog."  
+easy-hugo-sshdomain "Domain written in ~/.ssh/config."  
+easy-hugo-root "Root directory of hugo at your server."  
+easy-hugo-previewtime "Preview display time."  
+
 ## Preparation for useing this package
 
 Install hugo  
