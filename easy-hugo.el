@@ -1,4 +1,4 @@
-;;; easy-hugo.el --- hugo utilities -*- lexical-binding: t; -*-
+;;; easy-hugo.el --- Package for writing blogs made with hugo -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017 by Masashi Miyaura
 
@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; Package for writing blogs made with hugo just by Emacs
+;; Package for writing blogs made with hugo
 
 ;;; Code:
 
