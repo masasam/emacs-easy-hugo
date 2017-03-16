@@ -38,11 +38,11 @@
   "Url of the site operated by hugo."
   :type 'string)
 
-(defcustom easy-hugo-sshdomain "blogdomain"
+(defcustom easy-hugo-sshdomain nil
   "Domain of hugo at your ~/.ssh/config."
   :type 'string)
 
-(defcustom easy-hugo-root "/home/blog/"
+(defcustom easy-hugo-root nil
   "Root directory of hugo at your server."
   :type 'string)
 
@@ -66,6 +66,10 @@
   (interactive)
   (when (null easy-hugo-basedir)
     (error "Please set easy-hugo-basedir variable"))
+  (when (null easy-hugo-sshdomain)
+    (error "Please set easy-hugo-sshdomain variable"))
+  (when (null easy-hugo-root)
+    (error "Please set easy-hugo-root variable"))
   (let ((default-directory (concat (expand-file-name easy-hugo-basedir) "/")))
     (shell-command-to-string (concat "rm -rf public"))
     (shell-command-to-string "hugo --destination public")
