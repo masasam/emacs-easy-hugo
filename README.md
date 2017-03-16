@@ -54,8 +54,7 @@ Display the list of articles you wrote
 
 ![easy-hugo11](image/easy-hugo11.png)
 
-Well then it will be completed in one
-one more pen  
+Well then it will be completed in one more pen  
 
 ![easy-hugo13](image/easy-hugo13.png)
 
@@ -65,7 +64,7 @@ Blogs with the same file name can not be made
 
 Rename PPA blog  
 
-![easy-hugo15](image/easy-hugo15png)
+![easy-hugo15](image/easy-hugo15.png)
 
 ## Requirements
 
