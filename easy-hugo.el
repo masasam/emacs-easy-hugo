@@ -42,7 +42,7 @@
   "Root directory of hugo at your server."
   :type 'string)
 
-(defcustom easy-hugo-preview-time 120
+(defcustom easy-hugo-preview-time 300
   "Preview display time."
   :type 'integer)
 
