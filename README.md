@@ -64,8 +64,27 @@ Install hugo
 See https://gohugo.io/  
 Quickstart Guide  
 See https://gohugo.io/overview/quickstart/  
-Configuring Hugo  
-See https://gohugo.io/overview/configuration/  
+
+Configuration file example
+
+	hasCJKLanguage = true
+	theme="material-design"
+	baseurl = "https://example.com"
+	languageCode = "ja"
+	title = "PPAP blog"
+	MetaDataFormat = "toml"
+	paginate = 9
+	copyright = "© 2017 PPAP blog powered by Hugo"
+
+	[params]
+	blogurl = "https://example.com"
+	blogdomain = "example.com"
+	github = "your github user name"
+	twitter = "your twitter user name"
+	googleAnalyticsUserID = "UA-************"
+
+	[permalinks]
+	post = "/:year/:month/:day/:title/"
 
 ### Prepare the server
 
