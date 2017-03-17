@@ -91,6 +91,7 @@ config.toml
 ### Prepare the server
 
 Let's build with a free trial of "google compute engine" or "amazon ec2"  
+I created my blog in google compute engine  
 Check if rsync and is installed on the server  
 
 Write at ~/.ssh/config on your PC  
