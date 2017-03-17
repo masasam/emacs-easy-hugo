@@ -90,9 +90,9 @@ config.toml
 
 ### Prepare the server
 
-Let's build with a free trial of "google compute engine" or "amazon ec2"  
-I created my blog in google compute engine  
-Check if rsync and is installed on the server  
+Let's build with a free trial of "google compute engine" or "amazon ec2".  
+I created my blog in google compute engine.  
+Check if rsync is installed on the server.  
 
 Write at ~/.ssh/config on your PC  
 
@@ -100,9 +100,8 @@ Write at ~/.ssh/config on your PC
                         HostName "Your server's IP"
                         User "Your server's ssh login username"
 
-Because blog is generated under /home/blog/ on the server  
-Set it to reference it with nginx.  
-Ssl uses certbot  
+Because blog is generated under /home/blog/ on the server, set it to reference it with nginx.  
+Ssl uses certbot.  
 
 sample nginx.conf  
 
@@ -128,7 +127,7 @@ sample nginx.conf
 		}
 	}
 
-Confirm that PATH passes from emacs to go  
+Confirm that PATH passes from emacs to go.  
 For example  
 
 	(setenv "GOPATH" "~/go")
