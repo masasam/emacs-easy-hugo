@@ -70,7 +70,12 @@ See https://gohugo.io/
 Quickstart Guide  
 See https://gohugo.io/overview/quickstart/  
 
-Write at ~/.ssh/config  
+### Prepare the server
+
+Let's build with a free trial of "google compute engine" or "amazon ec2"  
+Check if rsync and is installed on the server
+
+Write at ~/.ssh/config on your PC  
 
 	 Host blogdomain
                         HostName "Your server's IP"
