@@ -28,15 +28,9 @@ Even if you run the easy-hugo-preview command many times, only one hugo process 
 Since the process of hugo running in the PC disappears in 300 seconds,  
 you do not have to worry about killing hugo process  
 
-![easy-hugo7](image/easy-hugo7.png)
-
-Let's add another article  
-
-![easy-hugo8](image/easy-hugo8.png)
-
     M-x easy-hugo-publish  
 
-You can publish your blog to the server  
+You can publish your blog to the server and the browser opens automatically  
 
     M-x easy-hugo-article
 
