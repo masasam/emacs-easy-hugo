@@ -24,10 +24,10 @@ You can write a blog with markdown
 ![easy-hugo6](image/easy-hugo6.png)
 The picture of the header is http://www.pixiv.net/member_illust.php?mode=medium&illust_id=60674880
 
-The browser opens automatically and you can preview the blog on your PC  
-Even if you run the easy-hugo-preview command many times, only one hugo process will run so do not mind it  
+The browser opens automatically and you can preview the blog on your PC.  
+Even if you run the easy-hugo-preview command many times, only one hugo process will run so do not mind it.  
 Since the process of hugo running in the PC disappears in 300 seconds,  
-you do not have to worry about killing hugo process  
+you do not have to worry about killing hugo process.  
 
     M-x easy-hugo-publish  
 
