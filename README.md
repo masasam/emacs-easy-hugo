@@ -64,6 +64,8 @@ Install hugo
 See https://gohugo.io/  
 Quickstart Guide  
 See https://gohugo.io/overview/quickstart/  
+Configuring Hugo  
+See https://gohugo.io/overview/configuration/  
 
 ### Prepare the server
 
