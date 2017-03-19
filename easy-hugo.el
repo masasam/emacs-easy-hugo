@@ -78,7 +78,7 @@
     (error "'rsync' is not installed"))
   (unless (file-exists-p "~/.ssh/config")
     (error "There is no ~/.ssh/config"))
-  (let ((default-directory (concat (expand-file-name easy-hugo-basedir) "/")))
+  (let ((default-directory (expand-file-name easy-hugo-basedir)))
     (delete-directory "public" t nil)
     (shell-command-to-string "hugo --destination public")
     (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-sshdomain ":" (shell-quote-argument easy-hugo-root)))
