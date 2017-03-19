@@ -58,7 +58,7 @@
 (defun easy-hugo-article ()
   "Open a list of articles written in hugo."
   (interactive)
-  (when (null easy-hugo-basedir)
+  (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
   (find-file (concat easy-hugo-basedir "content/post/")))
 
@@ -66,11 +66,11 @@
 (defun easy-hugo-publish ()
   "Adapt local change to the server with hugo."
   (interactive)
-  (when (null easy-hugo-basedir)
+  (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
-  (when (null easy-hugo-sshdomain)
+  (unless easy-hugo-sshdomain
     (error "Please set easy-hugo-sshdomain variable"))
-  (when (null easy-hugo-root)
+  (unless easy-hugo-root
     (error "Please set easy-hugo-root variable"))
   (unless (executable-find "hugo")
     (error "'hugo' is not installed"))
@@ -90,7 +90,7 @@
 (defun easy-hugo-newpost ()
   "Create a new post with hugo."
   (interactive)
-  (when (null easy-hugo-basedir)
+  (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
   (unless (executable-find "hugo")
     (error "'hugo' is not installed"))
@@ -109,7 +109,7 @@
 (defun easy-hugo-preview ()
   "Preview hugo at localhost."
   (interactive)
-  (when (null easy-hugo-basedir)
+  (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
   (unless (executable-find "hugo")
     (error "'hugo' is not installed"))
