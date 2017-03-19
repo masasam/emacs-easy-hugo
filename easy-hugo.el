@@ -28,7 +28,7 @@
 
 (defgroup easy-hugo nil
   "Writing blogs made with hugo."
-  :group 'easy-hugo)
+  :group 'tools)
 
 (defcustom easy-hugo-basedir nil
   "Directory where hugo html source code is placed."
