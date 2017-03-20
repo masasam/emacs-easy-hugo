@@ -132,3 +132,6 @@ For example
 
 	(setenv "GOPATH" "~/go")
 	(add-to-list 'exec-path (expand-file-name "~/go/bin"))
+
+PPAP source sample  
+https://github.com/masasam/PPAP
