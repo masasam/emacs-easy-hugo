@@ -60,7 +60,7 @@
   (interactive)
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
-  (find-file (concat easy-hugo-basedir "content/post/")))
+  (find-file (expand-file-name (concat easy-hugo-basedir "content/post/"))))
 
 ;;;###autoload
 (defun easy-hugo-publish ()
