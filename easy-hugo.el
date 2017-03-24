@@ -60,7 +60,7 @@
   (interactive)
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
-  (find-file (expand-file-name (concat easy-hugo-basedir "content/post/"))))
+  (find-file (expand-file-name (concat easy-hugo-basedir "content/post"))))
 
 ;;;###autoload
 (defun easy-hugo-publish ()
@@ -101,7 +101,7 @@
     (if (file-exists-p (concat easy-hugo-basedir "content/" filename))
 	(error (concat filename " already exists!"))
       (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
-    (find-file (concat easy-hugo-basedir "content/" filename))
+    (find-file (expand-file-name (concat easy-hugo-basedir "content/" filename)))
     (goto-char (point-max))
     (save-buffer)))
 
