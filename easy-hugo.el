@@ -1,8 +1,8 @@
 ;;; easy-hugo.el --- Package for writing blogs made with hugo -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017 by Masashi Miyaura
+;; Copyright (C) 2017 by Masashı Mıyaura
 
-;; Author: Masashi Miyaura
+;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "24.4"))
