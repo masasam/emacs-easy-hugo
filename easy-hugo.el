@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.1
+;; Version: 0.2.1
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -66,7 +66,6 @@
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
   (find-file (expand-file-name "content/post" easy-hugo-basedir)))
-
 
 (defmacro easy-hugo-with-env (&rest body)
   "Evaluate BODY with `default-directory' set to `easy-hugo-basedir'.
