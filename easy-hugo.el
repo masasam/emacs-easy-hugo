@@ -109,10 +109,10 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
     (error "Please enter .md file name"))
   (easy-hugo-with-env
    (let ((filename (concat "post/" post-file)))
-     (when (file-exists-p (file-truename filename))
+     (when (file-exists-p (file-truename (concat easy-hugo-basedir "/content/" filename)))
        (error "%s already exists!" filename))
-     (call-process "hugo" nil "*hugo*" t "new" post-file)
-     (find-file (concat "content/" post-file))
+     (call-process "hugo" nil "*hugo*" t "new" filename)
+     (find-file (concat "content/" filename))
      (goto-char (point-max))
      (save-buffer))))
 
