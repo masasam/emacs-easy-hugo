@@ -46,6 +46,11 @@ Display the list of articles you wrote.
 - Emacs 24.4 or higher
 - hugo 0.19 or higher
 
+## Installation
+
+You can install `easy-hugo.el` from [MELPA](http://melpa.org) with package.el
+(`M-x package-install easy-hugo`).
+
 ## Sample Configuration
 
 	(setq easy-hugo-basedir "~/bookshelf/")
