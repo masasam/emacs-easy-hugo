@@ -32,22 +32,27 @@
 
 (defcustom easy-hugo-basedir nil
   "Directory where hugo html source code is placed."
+  :group 'easy-hugo
   :type 'string)
 
 (defcustom easy-hugo-url nil
   "Url of the site operated by hugo."
+  :group 'easy-hugo
   :type 'string)
 
 (defcustom easy-hugo-sshdomain nil
   "Domain of hugo at your ~/.ssh/config."
+  :group 'easy-hugo
   :type 'string)
 
 (defcustom easy-hugo-root nil
   "Root directory of hugo at your server."
+  :group 'easy-hugo
   :type 'string)
 
 (defcustom easy-hugo-previewtime 300
   "Preview display time."
+  :group 'easy-hugo
   :type 'integer)
 
 (defvar easy-hugo--server-process nil)
@@ -60,67 +65,67 @@
   (interactive)
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
-  (find-file (expand-file-name (concat easy-hugo-basedir "content/post"))))
+  (find-file (expand-file-name "content/post" easy-hugo-basedir)))
+
+
+(defmacro easy-hugo-with-env (&rest body)
+  "Evaluate BODY with `default-directory' set to `easy-hugo-basedir'.
+Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
+  `(progn
+     (unless easy-hugo-basedir
+       (error "Please set easy-hugo-basedir variable"))
+     (unless (executable-find "hugo")
+       (error "'hugo' is not installed"))
+     (let ((default-directory easy-hugo-basedir))
+       ,@body)))
 
 ;;;###autoload
 (defun easy-hugo-publish ()
   "Adapt local change to the server with hugo."
   (interactive)
-  (unless easy-hugo-basedir
-    (error "Please set easy-hugo-basedir variable"))
   (unless easy-hugo-sshdomain
     (error "Please set easy-hugo-sshdomain variable"))
   (unless easy-hugo-root
     (error "Please set easy-hugo-root variable"))
-  (unless (executable-find "hugo")
-    (error "'hugo' is not installed"))
   (unless (executable-find "rsync")
     (error "'rsync' is not installed"))
   (unless (file-exists-p "~/.ssh/config")
     (error "There is no ~/.ssh/config"))
-  (let ((default-directory (expand-file-name easy-hugo-basedir)))
-    (delete-directory "public" t nil)
-    (shell-command-to-string "hugo --destination public")
-    (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-sshdomain ":" (shell-quote-argument easy-hugo-root)))
-    (message "Blog published")
-    (unless (null easy-hugo-url)
-      (browse-url easy-hugo-url))))
+  (easy-hugo-with-env
+   (delete-directory "public" t nil)
+   (shell-command-to-string "hugo --destination public")
+   (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-sshdomain ":" (shell-quote-argument easy-hugo-root)))
+   (message "Blog published")
+   (when easy-hugo-url
+     (browse-url easy-hugo-url))))
 
 ;;;###autoload
-(defun easy-hugo-newpost ()
-  "Create a new post with hugo."
-  (interactive)
-  (unless easy-hugo-basedir
-    (error "Please set easy-hugo-basedir variable"))
-  (unless (executable-find "hugo")
-    (error "'hugo' is not installed"))
-  (let ((filename (concat "post/" (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
-	(default-directory (expand-file-name easy-hugo-basedir)))
-    (when (equal filename "post/.md")
-      (error "Please enter file name"))
-    (if (file-exists-p (file-truename (concat easy-hugo-basedir "content/" filename)))
-	(error (concat filename " already exists!"))
-      (apply 'call-process "hugo" nil "*hugo*" t (list "new" filename)))
-    (find-file (expand-file-name (concat easy-hugo-basedir "content/" filename)))
-    (goto-char (point-max))
-    (save-buffer)))
+(defun easy-hugo-newpost (post-file)
+  "Create a new post with hugo, where POST-FILE is the basename of a .md file."
+  (interactive (list (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
+  (unless (string-match-p "^.*\\.md$" post-file)
+    (error "Please enter .md file name"))
+  (easy-hugo-with-env
+   (let ((filename (concat "post/" post-file)))
+     (when (file-exists-p (file-truename filename))
+       (error "%s already exists!" filename))
+     (call-process "hugo" nil "*hugo*" t "new" post-file)
+     (find-file (concat "content/" post-file))
+     (goto-char (point-max))
+     (save-buffer))))
 
 ;;;###autoload
 (defun easy-hugo-preview ()
   "Preview hugo at localhost."
   (interactive)
-  (unless easy-hugo-basedir
-    (error "Please set easy-hugo-basedir variable"))
-  (unless (executable-find "hugo")
-    (error "'hugo' is not installed"))
-  (let ((default-directory (expand-file-name easy-hugo-basedir)))
-    (if (process-live-p easy-hugo--server-process)
-	(browse-url "http://localhost:1313/")
-      (progn
-	(setq easy-hugo--server-process
-	      (start-process "hugo-server" easy-hugo--buffer-name "hugo" "server"))
-	(browse-url "http://localhost:1313/")
-	(run-at-time easy-hugo-previewtime nil 'easy-hugo-preview-end)))))
+  (easy-hugo-with-env
+   (if (process-live-p easy-hugo--server-process)
+       (browse-url "http://localhost:1313/")
+     (progn
+       (setq easy-hugo--server-process
+             (start-process "hugo-server" easy-hugo--buffer-name "hugo" "server"))
+       (browse-url "http://localhost:1313/")
+       (run-at-time easy-hugo-previewtime nil 'easy-hugo-preview-end)))))
 
 (defun easy-hugo-preview-end ()
   "Finish previewing hugo at localhost."
