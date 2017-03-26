@@ -7,6 +7,7 @@ Emacs package for writing blogs made with hugo
     M-x easy-hugo-newpost
 
 You can post a new article.
+
 Enter a article file name in the minibuffer.
 
 ![easy-hugo2](image/easy-hugo2.png)
@@ -25,9 +26,10 @@ You can write a blog with markdown.
 (The picture of the header is http://www.pixiv.net/member_illust.php?mode=medium&illust_id=60674880)
 
 The browser opens automatically and you can preview the blog on your PC.
+
 Even if you run the easy-hugo-preview command many times, only one hugo process will run so do not mind it.
-Since the process of hugo running in the PC disappears in 300 seconds,
-you do not have to worry about killing hugo process.
+
+Since the process of hugo running in the PC disappears in 300 seconds,you do not have to worry about killing hugo process.
 
     M-x easy-hugo-publish
 
@@ -53,16 +55,23 @@ Display the list of articles you wrote.
 	(setq easy-hugo-previewtime "300")
 
 easy-hugo-basedir "Directory where hugo html source code is placed on your PC."
+
 easy-hugo-url "Url of the blog."
+
 easy-hugo-sshdomain "Domain written in ~/.ssh/config."
+
 easy-hugo-root "Root directory of hugo at your server."
+
 easy-hugo-previewtime "Preview display time."
 
 ## Preparation for useing this package
 
 Install hugo
+
 See https://gohugo.io/
+
 Quickstart Guide
+
 See https://gohugo.io/overview/quickstart/
 
 ### Configuration file example
@@ -91,7 +100,9 @@ config.toml
 ### Prepare the server
 
 Let's build with a free trial of "google compute engine" or "amazon ec2".
+
 I created my blog in google compute engine.
+
 Check if rsync is installed on the server.
 
 Write at ~/.ssh/config on your PC
@@ -128,12 +139,14 @@ sample nginx.conf
 	}
 
 Confirm that PATH passes from emacs to go.
+
 For example
 
 	(setenv "GOPATH" "~/go")
 	(add-to-list 'exec-path (expand-file-name "~/go/bin"))
 
 PPAP source sample
+
 https://github.com/masasam/PPAP
 
 [melpa-link]: http://melpa.org/#/easy-hugo
