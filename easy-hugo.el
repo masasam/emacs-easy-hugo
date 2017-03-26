@@ -105,6 +105,8 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (interactive (list (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
   (unless (string-match-p "^.*\\.md$" post-file)
     (error "Please enter .md file name"))
+  (when (string-match-p "^\\.md$" post-file)
+    (error "Please enter .md file name"))
   (easy-hugo-with-env
    (let ((filename (concat "post/" post-file)))
      (when (file-exists-p (file-truename filename))
