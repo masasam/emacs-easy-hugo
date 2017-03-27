@@ -55,6 +55,8 @@
   :group 'easy-hugo
   :type 'integer)
 
+(defconst easy-hugo--formats '("md" "org"))
+
 (defvar easy-hugo--server-process nil)
 
 (defconst easy-hugo--buffer-name "*Hugo Server*")
@@ -98,20 +100,40 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
 
+(defun easy-hugo--org-headers ()
+  "Returns a draft org mode header string for a new article."
+  (let ((datetimezone
+         (concat
+          (format-time-string "%Y-%m-%dT%T")
+          ((lambda (x) (concat (substring x 0 3) ":" (substring x 3 5)))
+           (format-time-string "%z")))))
+    (concat
+     "#+TITLE: New"
+     "\n#+DATE: " datetimezone
+     "\n#+PUBLISHDATE: " datetimezone
+     "\n#+DRAFT: nil"
+     "\n# #+TAGS: nil, nil"
+     "\n#+DESCRIPTION: Short description"
+     "\n\n")))
+
 ;;;###autoload
 (defun easy-hugo-newpost (post-file)
-  "Create a new post with hugo, where POST-FILE is the basename of a .md file."
-  (interactive (list (read-from-minibuffer "Filename: " '(".md" . 1) nil nil nil)))
-  (unless (string-match-p "^.*\\.md$" post-file)
-    (error "Please enter .md file name"))
-  (when (string-match-p "^\\.md$" post-file)
-    (error "Please enter .md file name"))
-  (easy-hugo-with-env
-   (let ((filename (concat "post/" post-file)))
-     (when (file-exists-p (file-truename (concat easy-hugo-basedir "/content/" filename)))
-       (error "%s already exists!" filename))
-     (call-process "hugo" nil "*hugo*" t "new" filename)
+  "Create a new post with hugo.
+
+POST-FILE needs to have and extension '.md' org '.org'."
+  (interactive "MFilename: ")
+  (let ((filename (concat "post/" post-file))
+        (file-ext (file-name-extension post-file)))
+    (when (not (member file-ext easy-hugo--formats))
+      (error "Please enter .md or .org file name"))
+    (easy-hugo-with-env
+     (when (file-exists-p (concat "content/" filename))
+       (error "%s already exists!" (concat easy-hugo-basedir "content/" filename)))
+     (if (string-equal file-ext "md")
+         (call-process "hugo" nil "*hugo*" t "new" filename))
      (find-file (concat "content/" filename))
+     (if (string-equal file-ext "org")
+         (insert (easy-hugo--org-headers)))
      (goto-char (point-max))
      (save-buffer))))
 
