@@ -1,4 +1,4 @@
-;;; easy-hugo.el --- Package for writing blogs made with hugo -*- lexical-binding: t; -*-
+;;; easy-hugo.el --- Write blogs made with hugo by markdown or org-mode -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2017 by Masashı Mıyaura
 
@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; Package for writing blogs made with hugo
+;; Package for writing blogs made with hugo by markdown or org-mode
 
 ;;; Code:
 
