@@ -69,6 +69,12 @@ easy-hugo-root "Root directory of hugo at your server."
 
 easy-hugo-previewtime "Preview display time."
 
+If you want the default extension to be '.org'.
+
+	(setq easy-hugo-default-ext ".org")
+
+If not set the default extension will be '.md'.
+
 ## Preparation for useing this package
 
 Install hugo

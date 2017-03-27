@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.2.1
+;; Version: 0.3.1
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -55,11 +55,16 @@
   :group 'easy-hugo
   :type 'integer)
 
-(defconst easy-hugo--formats '("md" "org"))
+(defcustom easy-hugo-default-ext ".md"
+  "Root directory of hugo at your server."
+  :group 'easy-hugo
+  :type 'string)
 
 (defvar easy-hugo--server-process nil)
 
 (defconst easy-hugo--buffer-name "*Hugo Server*")
+
+(defconst easy-hugo--formats '("md" "org"))
 
 ;;;###autoload
 (defun easy-hugo-article ()
@@ -101,12 +106,11 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
      (browse-url easy-hugo-url))))
 
 (defun easy-hugo--org-headers ()
-  "Returns a draft org mode header string for a new article."
+  "Return a draft org mode header string for a new article."
   (let ((datetimezone
          (concat
           (format-time-string "%Y-%m-%dT%T")
-          ((lambda (x) (concat (substring x 0 3) ":" (substring x 3 5)))
-           (format-time-string "%z")))))
+          (easy-hugo--orgtime-format (format-time-string "%z")))))
     (concat
      "#+TITLE: New"
      "\n#+DATE: " datetimezone
@@ -119,15 +123,14 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 ;;;###autoload
 (defun easy-hugo-newpost (post-file)
   "Create a new post with hugo.
-
-POST-FILE needs to have and extension '.md' org '.org'."
-  (interactive "MFilename: ")
+POST-FILE needs to have and extension '.md' or '.org'."
+  (interactive (list (read-from-minibuffer "Filename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
   (let ((filename (concat "post/" post-file))
         (file-ext (file-name-extension post-file)))
     (when (not (member file-ext easy-hugo--formats))
       (error "Please enter .md or .org file name"))
     (easy-hugo-with-env
-     (when (file-exists-p (concat "content/" filename))
+     (when (file-exists-p (file-truename (concat "content/" filename)))
        (error "%s already exists!" (concat easy-hugo-basedir "content/" filename)))
      (if (string-equal file-ext "md")
          (call-process "hugo" nil "*hugo*" t "new" filename))
@@ -148,12 +151,16 @@ POST-FILE needs to have and extension '.md' org '.org'."
        (setq easy-hugo--server-process
              (start-process "hugo-server" easy-hugo--buffer-name "hugo" "server"))
        (browse-url "http://localhost:1313/")
-       (run-at-time easy-hugo-previewtime nil 'easy-hugo-preview-end)))))
+       (run-at-time easy-hugo-previewtime nil 'easy-hugo--preview-end)))))
 
-(defun easy-hugo-preview-end ()
+(defun easy-hugo--preview-end ()
   "Finish previewing hugo at localhost."
   (unless (null easy-hugo--server-process)
     (delete-process easy-hugo--server-process)))
+
+(defun easy-hugo--orgtime-format (x)
+  "Format orgtime as X."
+  (concat (substring x 0 3) ":" (substring x 3 5)))
 
 (provide 'easy-hugo)
 
