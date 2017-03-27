@@ -56,7 +56,7 @@
   :type 'integer)
 
 (defcustom easy-hugo-default-ext ".md"
-  "Root directory of hugo at your server."
+  "Default extension when posting new articles."
   :group 'easy-hugo
   :type 'string)
 
