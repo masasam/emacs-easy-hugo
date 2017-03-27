@@ -105,14 +105,14 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
 
-(defun easy-hugo--org-headers ()
-  "Return a draft org mode header string for a new article."
+(defun easy-hugo--org-headers (file)
+  "Return a draft org mode header string for a new article as FILE."
   (let ((datetimezone
          (concat
           (format-time-string "%Y-%m-%dT%T")
           (easy-hugo--orgtime-format (format-time-string "%z")))))
     (concat
-     "#+TITLE: New"
+     "#+TITLE: " file
      "\n#+DATE: " datetimezone
      "\n#+PUBLISHDATE: " datetimezone
      "\n#+DRAFT: nil"
@@ -136,7 +136,7 @@ POST-FILE needs to have and extension '.md' or '.org'."
          (call-process "hugo" nil "*hugo*" t "new" filename))
      (find-file (concat "content/" filename))
      (if (string-equal file-ext "org")
-         (insert (easy-hugo--org-headers)))
+         (insert (easy-hugo--org-headers (file-name-base post-file))))
      (goto-char (point-max))
      (save-buffer))))
 
