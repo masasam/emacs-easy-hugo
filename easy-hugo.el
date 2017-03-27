@@ -116,7 +116,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
      "\n#+DATE: " datetimezone
      "\n#+PUBLISHDATE: " datetimezone
      "\n#+DRAFT: nil"
-     "\n# #+TAGS: nil, nil"
+     "\n#+TAGS: nil, nil"
      "\n#+DESCRIPTION: Short description"
      "\n\n")))
 
