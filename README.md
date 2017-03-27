@@ -18,6 +18,10 @@ A markdown file is automatically generated.
 
 You can write a blog with markdown.
 
+![easy-hugo3](image/org-mode.png)
+
+You can write a blog with org-mode.
+
 ![easy-hugo4](image/easy-hugo4.png)
 
     M-x easy-hugo-preview
