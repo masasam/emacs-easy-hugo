@@ -20,6 +20,7 @@ You can write a blog with markdown.
 
 ![easy-hugo4](image/easy-hugo4.png)
 
+If you enter '.org' file name in the minibuffer,
 You can write a blog with org-mode.
 
 ![easy-hugo3](image/org-mode.png)
