@@ -49,7 +49,7 @@ Display the list of articles you wrote.
 
 Execute deploy.sh which exists in directory 'easy-hugo-basedir'.
 
-It is useful for managing blogs with [github-page](https://gohugo.io/tutorials/github-pages-blog/) etc.
+It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 
 ## Requirements
 
