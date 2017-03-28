@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.3.1
+;; Version: 0.4.1
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -161,6 +161,18 @@ POST-FILE needs to have and extension '.md' or '.org'."
 (defun easy-hugo--orgtime-format (x)
   "Format orgtime as X."
   (concat (substring x 0 3) ":" (substring x 3 5)))
+
+;;;###autoload
+(defun easy-hugo-deploy ()
+  "Execute deploy.sh script locate at 'easy-hugo-basedir'."
+  (interactive)
+  (let ((deployscript (file-truename (concat easy-hugo-basedir "deploy.sh"))))
+    (unless (executable-find deployscript)
+      (error "%s do not execute" deployscript))
+    (shell-command-to-string (shell-quote-argument deployscript))
+    (message "Blog deployed")
+    (when easy-hugo-url
+      (browse-url easy-hugo-url))))
 
 (provide 'easy-hugo)
 
