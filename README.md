@@ -48,7 +48,7 @@ Display the list of articles you wrote.
 
 	M-x easy-hugo-deploy
 
-Run deploy.sh directly under 'easy-hugo-basedir'.
+Execute deploy.sh which exists in directory 'easy-hugo-basedir'.
 
 It is useful for managing blogs with [github-page](https://gohugo.io/tutorials/github-pages-blog/) etc.
 
