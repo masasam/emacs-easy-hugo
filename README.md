@@ -46,6 +46,12 @@ Display the list of articles you wrote.
 
 ![easy-hugo11](image/easy-hugo11.png)
 
+	M-x easy-hugo-deploy
+
+Run deploy.sh directly under 'easy-hugo-basedir'.
+
+It is useful for managing blogs with [github-page](https://gohugo.io/tutorials/github-pages-blog/) etc.
+
 ## Requirements
 
 - Emacs 24.4 or higher
