@@ -1,6 +1,6 @@
 # easy-hugo [![melpa badge][melpa-badge]][melpa-link] [![melpa stable badge][melpa-stable-badge]][melpa-stable-link]
 
-Emacs package for writing blogs made with hugo
+Emacs package for writing blogs made with hugo by markdown or org-mode
 
 ## Screenshot
 
@@ -20,8 +20,7 @@ You can write a blog with markdown.
 
 ![easy-hugo4](image/easy-hugo4.png)
 
-If you enter '.org' file name in the minibuffer,
-You can write a blog with org-mode.
+If you enter '.org' file name in the minibuffer, you can write a blog with org-mode.
 
 ![easy-hugo3](image/org-mode.png)
 
