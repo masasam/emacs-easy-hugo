@@ -166,15 +166,14 @@ POST-FILE needs to have and extension '.md' or '.org'."
 (defun easy-hugo-deploy ()
   "Execute deploy.sh script locate at 'easy-hugo-basedir'."
   (interactive)
-  (unless easy-hugo-basedir
-    (error "Please set easy-hugo-basedir variable"))
-  (let ((deployscript (file-truename (concat easy-hugo-basedir "deploy.sh"))))
-    (unless (executable-find deployscript)
-      (error "%s do not execute" deployscript))
-    (shell-command-to-string (shell-quote-argument deployscript))
-    (message "Blog deployed")
-    (when easy-hugo-url
-      (browse-url easy-hugo-url))))
+  (easy-hugo-with-env
+   (let ((deployscript (file-truename (concat easy-hugo-basedir "deploy.sh"))))
+     (unless (executable-find deployscript)
+       (error "%s do not execute" deployscript))
+     (shell-command-to-string (shell-quote-argument deployscript))
+     (message "Blog deployed")
+     (when easy-hugo-url
+       (browse-url easy-hugo-url)))))
 
 (provide 'easy-hugo)
 
