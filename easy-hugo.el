@@ -185,7 +185,8 @@ d   ... Delete current post
 l   ... List of article
 P   ... Publish to server
 D   ... Deploy at github-pages
-q   ... quit easy-hugo
+r   ... Refresh easy-hugo
+q   ... Quit easy-hugo
 
 "
   "Help of easy-hugo.")
@@ -198,6 +199,7 @@ q   ... quit easy-hugo
     (define-key map "P" #'easy-hugo-publish)
     (define-key map "o" #'easy-hugo-open)
     (define-key map "d" #'easy-hugo-delete)
+    (define-key map "r" #'easy-hugo)
     (define-key map "D" #'easy-hugo-deploy)
     (define-key map "q" #'easy-hugo-quit)
     map)
@@ -234,7 +236,8 @@ q   ... quit easy-hugo
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
     (when (file-exists-p file)
       (when (y-or-n-p "Do you delete a file? ")
-	(delete-file file)))))
+	(delete-file file)
+	(easy-hugo)))))
 
 ;;;###autoload
 (defun easy-hugo ()
