@@ -206,6 +206,9 @@ q   ... quit easy-hugo
 (defvar easy-hugo-mode-buffer nil
   "Main buffer of easy-hugo.")
 
+(defvar easy-hugo-cursor nil
+  "Cursor of easy-hugo.")
+
 (defconst easy-hugo-buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
@@ -233,11 +236,13 @@ q   ... quit easy-hugo
   (setq buffer-read-only nil)
   (erase-buffer)
   (insert easy-hugo-help)
+  (setq easy-hugo-cursor (point))
   (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir))))
     (while files
       (unless (or (string= (car files) ".") (string= (car files) ".."))
 	(insert (concat (car files) "\n")))
       (setq files (cdr files)))
+    (goto-char easy-hugo-cursor)
     (easy-hugo-mode)
     )
   )
