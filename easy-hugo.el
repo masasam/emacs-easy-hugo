@@ -184,7 +184,7 @@ l   ... List of article with dired
 P   ... Publish to server
 D   ... Deploy at github-pages etc
 d   ... Delete current post
-RET ... Open current post
+j ... Open current post
 r   ... Refresh
 q   ... quit easy-hugo
 
@@ -197,7 +197,7 @@ q   ... quit easy-hugo
     (define-key map "l" #'easy-hugo-article)
     (define-key map "p" #'easy-hugo-preview)
     (define-key map "P" #'easy-hugo-publish)
-    (define-key map "RET" #'easy-hugo-open)
+    (define-key map "j" #'easy-hugo-open)
     (define-key map "D" #'easy-hugo-deploy)
     (define-key map "q" #'easy-hugo-quit)
     map)
@@ -223,7 +223,8 @@ q   ... quit easy-hugo
 
 (defun easy-hugo-open ()
   "Open file."
-  (interactive))
+  (interactive)
+  (find-file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
 
 ;;;###autoload
 (defun easy-hugo ()
