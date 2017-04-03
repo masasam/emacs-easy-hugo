@@ -180,12 +180,11 @@ POST-FILE needs to have and extension '.md' or '.org'."
 
 n   ... Write new post
 p   ... Preview
-l   ... List of article with dired
-P   ... Publish to server
-D   ... Deploy at github-pages etc
+o   ... Open current post
 d   ... Delete current post
-j ... Open current post
-r   ... Refresh
+l   ... List of article
+P   ... Publish to server
+D   ... Deploy at github-pages
 q   ... quit easy-hugo
 
 "
@@ -197,7 +196,8 @@ q   ... quit easy-hugo
     (define-key map "l" #'easy-hugo-article)
     (define-key map "p" #'easy-hugo-preview)
     (define-key map "P" #'easy-hugo-publish)
-    (define-key map "j" #'easy-hugo-open)
+    (define-key map "o" #'easy-hugo-open)
+    (define-key map "d" #'easy-hugo-delete)
     (define-key map "D" #'easy-hugo-deploy)
     (define-key map "q" #'easy-hugo-quit)
     map)
@@ -224,7 +224,17 @@ q   ... quit easy-hugo
 (defun easy-hugo-open ()
   "Open file."
   (interactive)
-  (find-file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
+  (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
+    (when (file-exists-p file)
+      (find-file file))))
+
+(defun easy-hugo-delete ()
+  "Open file."
+  (interactive)
+  (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
+    (when (file-exists-p file)
+      (when (y-or-n-p "Do you delete a file? ")
+	(delete-file file)))))
 
 ;;;###autoload
 (defun easy-hugo ()
