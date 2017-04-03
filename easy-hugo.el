@@ -180,14 +180,13 @@ POST-FILE needs to have and extension '.md' or '.org'."
 
 n   ... Write new post
 p   ... Preview
-l   ... List of article
+l   ... List of article with dired
 P   ... Publish to server
 D   ... Deploy at github-pages etc
 d   ... Delete current post
-c   ... Duplicate current post
 RET ... Open current post
 r   ... Refresh
-q   ... quit easy-huto
+q   ... quit easy-hugo
 
 "
   "Help of easy-hugo.")
@@ -198,6 +197,7 @@ q   ... quit easy-huto
     (define-key map "l" #'easy-hugo-article)
     (define-key map "p" #'easy-hugo-preview)
     (define-key map "P" #'easy-hugo-publish)
+    (define-key map "RET" #'easy-hugo-open)
     (define-key map "D" #'easy-hugo-deploy)
     (define-key map "q" #'easy-hugo-quit)
     map)
@@ -214,8 +214,11 @@ q   ... quit easy-huto
   "Quit easy hugo."
   (interactive)
   (buffer-live-p easy-hugo-mode-buffer)
-  (kill-buffer easy-hugo-mode-buffer)
-  )
+  (kill-buffer easy-hugo-mode-buffer))
+
+(defun easy-hugo-open ()
+  "Open file."
+  (interactive))
 
 ;;;###autoload
 (defun easy-hugo ()
@@ -227,7 +230,13 @@ q   ... quit easy-huto
   (setq buffer-read-only nil)
   (erase-buffer)
   (insert easy-hugo-help)
-  (easy-hugo-mode)
+  (let ((dir (directory-files (expand-file-name "content/post" easy-hugo-basedir))))
+    (while dir
+      (unless (or (string= (car dir) ".") (string= (car dir) ".."))
+	(insert (concat (car dir) "\n")))
+      (setq dir (cdr dir)))
+    (easy-hugo-mode)
+    )
   )
 
 (provide 'easy-hugo)
