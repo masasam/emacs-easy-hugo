@@ -213,8 +213,7 @@ q   ... quit easy-hugo
   "Buffer name of easy-hugo.")
 
 (define-derived-mode easy-hugo-mode special-mode "Easyhugo"
-  "Major mode for easy hugo."
-  )
+  "Major mode for easy hugo.")
 
 (defun easy-hugo-quit ()
   "Quit easy hugo."
@@ -243,9 +242,7 @@ q   ... quit easy-hugo
 	(insert (concat (car files) "\n")))
       (setq files (cdr files)))
     (goto-char easy-hugo-cursor)
-    (easy-hugo-mode)
-    )
-  )
+    (easy-hugo-mode)))
 
 (provide 'easy-hugo)
 
