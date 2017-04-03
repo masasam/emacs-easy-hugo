@@ -206,6 +206,9 @@ q   ... quit easy-hugo
 (defvar easy-hugo-mode-buffer nil
   "Main buffer of easy-hugo.")
 
+(defconst easy-hugo-buffer-name "*Easy-hugo*"
+  "Buffer name of easy-hugo.")
+
 (define-derived-mode easy-hugo-mode special-mode "Easyhugo"
   "Major mode for easy hugo."
   )
@@ -224,17 +227,17 @@ q   ... quit easy-hugo
 (defun easy-hugo ()
   "Easy hugo."
   (interactive)
-  (setq easy-hugo-mode-buffer (get-buffer-create "*Easy-hugo*"))
+  (setq easy-hugo-mode-buffer (get-buffer-create easy-hugo-buffer-name))
   (switch-to-buffer easy-hugo-mode-buffer)
   (setq-local default-directory easy-hugo-basedir)
   (setq buffer-read-only nil)
   (erase-buffer)
   (insert easy-hugo-help)
-  (let ((dir (directory-files (expand-file-name "content/post" easy-hugo-basedir))))
-    (while dir
-      (unless (or (string= (car dir) ".") (string= (car dir) ".."))
-	(insert (concat (car dir) "\n")))
-      (setq dir (cdr dir)))
+  (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir))))
+    (while files
+      (unless (or (string= (car files) ".") (string= (car files) ".."))
+	(insert (concat (car files) "\n")))
+      (setq files (cdr files)))
     (easy-hugo-mode)
     )
   )
