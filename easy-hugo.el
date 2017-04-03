@@ -253,9 +253,10 @@ q   ... Quit easy-hugo
   (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir))))
     (while files
       (unless (or (string= (car files) ".") (string= (car files) ".."))
-	(insert (concat (car files) "\n")))
+	(insert (concat (format-time-string "%Y-%m-%d " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files) "\n")))
       (setq files (cdr files)))
     (goto-char easy-hugo-cursor)
+    (forward-char 11)
     (easy-hugo-mode)))
 
 (provide 'easy-hugo)
