@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.4.1
+;; Version: 0.5.1
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -174,6 +174,61 @@ POST-FILE needs to have and extension '.md' or '.org'."
      (message "Blog deployed")
      (when easy-hugo-url
        (browse-url easy-hugo-url)))))
+
+(defconst easy-hugo-help
+  "Easy-hugo
+
+n   ... Write new post
+p   ... Preview
+l   ... List of article
+P   ... Publish to server
+D   ... Deploy at github-pages etc
+d   ... Delete current post
+c   ... Duplicate current post
+RET ... Open current post
+r   ... Refresh
+q   ... quit easy-huto
+
+"
+  "Help of easy-hugo.")
+
+(defvar easy-hugo-mode-map
+  (let ((map (make-keymap)))
+    (define-key map "n" #'easy-hugo-newpost)
+    (define-key map "l" #'easy-hugo-article)
+    (define-key map "p" #'easy-hugo-preview)
+    (define-key map "P" #'easy-hugo-publish)
+    (define-key map "D" #'easy-hugo-deploy)
+    (define-key map "q" #'easy-hugo-quit)
+    map)
+  "Keymap for easy-hugo major mode.")
+
+(defvar easy-hugo-mode-buffer nil
+  "Main buffer of easy-hugo.")
+
+(define-derived-mode easy-hugo-mode special-mode "Easyhugo"
+  "Major mode for easy hugo."
+  )
+
+(defun easy-hugo-quit ()
+  "Quit easy hugo."
+  (interactive)
+  (buffer-live-p easy-hugo-mode-buffer)
+  (kill-buffer easy-hugo-mode-buffer)
+  )
+
+;;;###autoload
+(defun easy-hugo ()
+  "Easy hugo."
+  (interactive)
+  (setq easy-hugo-mode-buffer (get-buffer-create "*Easy-hugo*"))
+  (switch-to-buffer easy-hugo-mode-buffer)
+  (setq-local default-directory easy-hugo-basedir)
+  (setq buffer-read-only nil)
+  (erase-buffer)
+  (insert easy-hugo-help)
+  (easy-hugo-mode)
+  )
 
 (provide 'easy-hugo)
 
