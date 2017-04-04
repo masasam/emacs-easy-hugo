@@ -251,17 +251,15 @@ P ... Publish to server    q ... Quit easy-hugo
   (insert easy-hugo-help)
   (setq easy-hugo-cursor (point))
   (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
-	(lists (list))
-	(rlists (list)))
+	(lists (list)))
     (while files
       (unless (or (string= (car files) ".") (string= (car files) ".."))
-	(push (list (format-time-string "%Y-%m-%d %H:%M:%S" (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files)) lists))
+	(push (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files)) lists))
       (setq files (cdr files)))
-    (cl-sort lists #'string< :key #'car)
-    (setq rlists (reverse lists))
-    (while rlists
-      (insert (concat (mapconcat 'identity (car rlists) " ") "\n"))
-      (setq rlists (cdr rlists)))
+    (setq lists (reverse (sort lists 'string<)))
+    (while lists
+      (insert (concat (car lists) "\n"))
+      (setq lists (cdr lists)))
     (goto-char easy-hugo-cursor)
     (forward-char 20)
     (easy-hugo-mode)))
