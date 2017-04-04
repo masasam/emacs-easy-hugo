@@ -178,7 +178,7 @@ POST-FILE needs to have and extension '.md' or '.org'."
 (defconst easy-hugo-help
   "Easy-hugo
 
-n ... Write new post       D ... Deploy at github-pages
+n ... New blog post        D ... Deploy at github-pages
 p ... Preview              r ... Refresh easy-hugo
 o ... Open current post    g ... Refresh easy-hugo
 d ... Delete current post  j ... Next line
