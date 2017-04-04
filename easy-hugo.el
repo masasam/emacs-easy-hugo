@@ -255,15 +255,13 @@ P ... Publish to server    q ... Quit easy-hugo
 	(rlists (list)))
     (while files
       (unless (or (string= (car files) ".") (string= (car files) ".."))
-	(push (list (format-time-string "%Y-%m-%d %H:%M:%S" (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files)) lists)
-	)
+	(push (list (format-time-string "%Y-%m-%d %H:%M:%S" (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files)) lists))
       (setq files (cdr files)))
     (cl-sort lists #'string< :key #'car)
     (setq rlists (reverse lists))
     (while rlists
       (insert (concat (mapconcat 'identity (car rlists) " ") "\n"))
-      (setq rlists (cdr rlists))
-      )
+      (setq rlists (cdr rlists)))
     (goto-char easy-hugo-cursor)
     (forward-char 20)
     (easy-hugo-mode)))
