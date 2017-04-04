@@ -178,15 +178,12 @@ POST-FILE needs to have and extension '.md' or '.org'."
 (defconst easy-hugo-help
   "Easy-hugo
 
-n   ... Write new post
-p   ... Preview
-o   ... Open current post
-d   ... Delete current post
-l   ... List of article
-P   ... Publish to server
-D   ... Deploy at github-pages
-r   ... Refresh easy-hugo
-q   ... Quit easy-hugo
+n ... Write new post       D ... Deploy at github-pages
+p ... Preview              r ... Refresh easy-hugo
+o ... Open current post    g ... Refresh easy-hugo
+d ... Delete current post  j ... Next line
+l ... List of article      k ... Previous line
+P ... Publish to server    q ... Quit easy-hugo
 
 "
   "Help of easy-hugo.")
@@ -200,7 +197,10 @@ q   ... Quit easy-hugo
     (define-key map "o" #'easy-hugo-open)
     (define-key map "d" #'easy-hugo-delete)
     (define-key map "r" #'easy-hugo)
+    (define-key map "g" #'easy-hugo)
     (define-key map "D" #'easy-hugo-deploy)
+    (define-key map "j" #'next-line)
+    (define-key map "k" #'previous-line)
     (define-key map "q" #'easy-hugo-quit)
     map)
   "Keymap for easy-hugo major mode.")
@@ -255,7 +255,7 @@ q   ... Quit easy-hugo
 	(rlists (list)))
     (while files
       (unless (or (string= (car files) ".") (string= (car files) ".."))
-	(push (list (format-time-string "%Y-%m-%d" (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files)) lists)
+	(push (list (format-time-string "%Y-%m-%d %H:%M:%S" (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files)) lists)
 	)
       (setq files (cdr files)))
     (cl-sort lists #'string< :key #'car)
@@ -265,7 +265,7 @@ q   ... Quit easy-hugo
       (setq rlists (cdr rlists))
       )
     (goto-char easy-hugo-cursor)
-    (forward-char 11)
+    (forward-char 20)
     (easy-hugo-mode)))
 
 (provide 'easy-hugo)
