@@ -214,7 +214,7 @@ P ... Publish to server    q ... Quit easy-hugo
 (defconst easy-hugo-buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
-(define-derived-mode easy-hugo-mode special-mode "Easyhugo"
+(define-derived-mode easy-hugo-mode special-mode "Easy-hugo"
   "Major mode for easy hugo.")
 
 (defun easy-hugo-quit ()
