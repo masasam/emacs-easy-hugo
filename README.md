@@ -41,7 +41,7 @@ You can publish your blog to the server and the browser opens automatically.
 
     M-x easy-hugo-article
 
-Display the list of articles you wrote.
+Open the list of articles you wrote with dired.
 
 ![easy-hugo11](image/easy-hugo11.png)
 
