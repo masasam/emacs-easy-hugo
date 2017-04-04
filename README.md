@@ -51,11 +51,11 @@ Execute deploy.sh which exists in directory 'easy-hugo-basedir'.
 
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 
-![easy-hugo-mode](image/easy-hugo-mode.png)
-
 	M-x easy-hugo
 
 You can manage blogs on easy-hugo-mode screen.
+
+![easy-hugo-mode](image/easy-hugo-mode.png)
 
 ## Requirements
 
