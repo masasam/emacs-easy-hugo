@@ -195,6 +195,8 @@ P ... Publish to server    q ... Quit easy-hugo
     (define-key map "p" #'easy-hugo-preview)
     (define-key map "P" #'easy-hugo-publish)
     (define-key map "o" #'easy-hugo-open)
+    (define-key map "\C-m" 'easy-hugo-open)
+    (put 'easy-hugo-open :advertised-binding "\C-m")
     (define-key map "d" #'easy-hugo-delete)
     (define-key map "r" #'easy-hugo)
     (define-key map "g" #'easy-hugo)
