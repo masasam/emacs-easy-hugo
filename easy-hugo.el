@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.5.2
+;; Version: 0.5.3
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -189,6 +189,19 @@ P ... Publish to server    q ... Quit easy-hugo
 "
   "Help of easy-hugo.")
 
+(defconst easy-hugo-first-help
+  "Welcome to Easy-hugo
+
+Let's post an article first.
+Press n on this screen or M-x easy-hugo-newpost.
+Enter a article file name in the minibuffer.
+Then M-x easy-hugo again or refresh the screen with r or g key in this buffer,
+article which you wrote should appear here.
+Enjoy!
+
+"
+  "Help of easy-hugo first time.")
+
 (defvar easy-hugo-mode-map
   (let ((map (make-keymap)))
     (define-key map "n" 'easy-hugo-newpost)
@@ -272,6 +285,7 @@ P ... Publish to server    q ... Quit easy-hugo
 	 (lists (list)))
      (if (eq 2 (length files))
 	 (progn
+	   (insert easy-hugo-first-help)
 	   (easy-hugo-mode)
 	   (goto-char easy-hugo-cursor))
        (progn
