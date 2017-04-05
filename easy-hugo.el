@@ -249,7 +249,7 @@ P ... Publish to server    q ... Quit easy-hugo
   "Delete file."
   (interactive)
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (file-exists-p file)
+    (when (and (file-exists-p file) (not (file-directory-p file)))
       (when (y-or-n-p "Do you delete a file? ")
 	(delete-file file)
 	(easy-hugo)))))
