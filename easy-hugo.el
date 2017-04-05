@@ -239,14 +239,14 @@ P ... Publish to server    q ... Quit easy-hugo
       (find-file file))))
 
 (defun easy-hugo-view ()
-  "Open file."
+  "Open file with 'view-mode'."
   (interactive)
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
     (when (file-exists-p file)
       (view-file file))))
 
 (defun easy-hugo-delete ()
-  "Open file."
+  "Delete file."
   (interactive)
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
     (when (file-exists-p file)
@@ -269,7 +269,9 @@ P ... Publish to server    q ... Quit easy-hugo
 	(lists (list)))
     (while files
       (unless (or (string= (car files) ".") (string= (car files) ".."))
-	(push (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files)) lists))
+	(push
+	 (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
+	 lists))
       (setq files (cdr files)))
     (setq lists (reverse (sort lists 'string<)))
     (while lists
