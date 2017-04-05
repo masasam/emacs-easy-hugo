@@ -180,7 +180,7 @@ POST-FILE needs to have and extension '.md' or '.org'."
 
 n ... New blog post        D ... Deploy at github-pages
 p ... Preview              r ... Refresh easy-hugo
-o ... Open current post    g ... Refresh easy-hugo
+v ... Open view-mode       g ... Refresh easy-hugo
 d ... Delete current post  j ... Next line
 l ... List of article      k ... Previous line
 P ... Publish to server    q ... Quit easy-hugo
@@ -190,20 +190,25 @@ P ... Publish to server    q ... Quit easy-hugo
 
 (defvar easy-hugo-mode-map
   (let ((map (make-keymap)))
-    (define-key map "n" #'easy-hugo-newpost)
-    (define-key map "l" #'easy-hugo-article)
-    (define-key map "p" #'easy-hugo-preview)
-    (define-key map "P" #'easy-hugo-publish)
-    (define-key map "o" #'easy-hugo-open)
+    (define-key map "n" 'easy-hugo-newpost)
+    (define-key map "l" 'easy-hugo-article)
+    (define-key map "p" 'easy-hugo-preview)
+    (define-key map "P" 'easy-hugo-publish)
+    (define-key map "o" 'easy-hugo-open)
     (define-key map "\C-m" 'easy-hugo-open)
     (put 'easy-hugo-open :advertised-binding "\C-m")
-    (define-key map "d" #'easy-hugo-delete)
-    (define-key map "r" #'easy-hugo)
-    (define-key map "g" #'easy-hugo)
-    (define-key map "D" #'easy-hugo-deploy)
-    (define-key map "j" #'next-line)
-    (define-key map "k" #'previous-line)
-    (define-key map "q" #'easy-hugo-quit)
+    (define-key map "d" 'easy-hugo-delete)
+    (define-key map "e" 'easy-hugo-open)
+    (define-key map "f" 'easy-hugo-open)
+    (define-key map "j" 'next-line)
+    (define-key map "k" 'previous-line)
+    (define-key map " " 'next-line)
+    (define-key map [?\S-\ ] 'previous-line)
+    (define-key map "v" 'easy-hugo-view)
+    (define-key map "r" 'easy-hugo)
+    (define-key map "g" 'easy-hugo)
+    (define-key map "D" 'easy-hugo-deploy)
+    (define-key map "q" 'easy-hugo-quit)
     map)
   "Keymap for easy-hugo major mode.")
 
@@ -231,6 +236,13 @@ P ... Publish to server    q ... Quit easy-hugo
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
     (when (file-exists-p file)
       (find-file file))))
+
+(defun easy-hugo-view ()
+  "Open file."
+  (interactive)
+  (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
+    (when (file-exists-p file)
+      (view-file file))))
 
 (defun easy-hugo-delete ()
   "Open file."
