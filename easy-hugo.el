@@ -258,28 +258,31 @@ P ... Publish to server    q ... Quit easy-hugo
 (defun easy-hugo ()
   "Easy hugo."
   (interactive)
-  (setq easy-hugo-mode-buffer (get-buffer-create easy-hugo-buffer-name))
-  (switch-to-buffer easy-hugo-mode-buffer)
-  (setq-local default-directory easy-hugo-basedir)
-  (setq buffer-read-only nil)
-  (erase-buffer)
-  (insert easy-hugo-help)
-  (setq easy-hugo-cursor (point))
-  (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
-	(lists (list)))
-    (while files
-      (unless (or (string= (car files) ".") (string= (car files) ".."))
-	(push
-	 (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
-	 lists))
-      (setq files (cdr files)))
-    (setq lists (reverse (sort lists 'string<)))
-    (while lists
-      (insert (concat (car lists) "\n"))
-      (setq lists (cdr lists)))
-    (goto-char easy-hugo-cursor)
-    (forward-char 20)
-    (easy-hugo-mode)))
+  (easy-hugo-with-env
+   (unless (file-directory-p (expand-file-name "content/post" easy-hugo-basedir))
+     (error "Did you execute hugo new site bookshelf?"))
+   (setq easy-hugo-mode-buffer (get-buffer-create easy-hugo-buffer-name))
+   (switch-to-buffer easy-hugo-mode-buffer)
+   (setq-local default-directory easy-hugo-basedir)
+   (setq buffer-read-only nil)
+   (erase-buffer)
+   (insert easy-hugo-help)
+   (setq easy-hugo-cursor (point))
+   (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
+	 (lists (list)))
+     (while files
+       (unless (or (string= (car files) ".") (string= (car files) ".."))
+	 (push
+	  (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
+	  lists))
+       (setq files (cdr files)))
+     (setq lists (reverse (sort lists 'string<)))
+     (while lists
+       (insert (concat (car lists) "\n"))
+       (setq lists (cdr lists)))
+     (goto-char easy-hugo-cursor)
+     (forward-char 20)
+     (easy-hugo-mode))))
 
 (provide 'easy-hugo)
 
