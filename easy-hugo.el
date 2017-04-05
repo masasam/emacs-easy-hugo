@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.5.2
+;; Version: 0.5.3
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -189,6 +189,19 @@ P ... Publish to server    q ... Quit easy-hugo
 "
   "Help of easy-hugo.")
 
+(defconst easy-hugo-first-help
+  "Welcome to Easy-hugo
+
+Let's post an article first.
+Press n on this screen or M-x easy-hugo-newpost.
+Enter a article file name in the minibuffer.
+Then M-x easy-hugo again or refresh the screen with r or g key in this buffer,
+article which you wrote should appear here.
+Enjoy!
+
+"
+  "Help of easy-hugo first time.")
+
 (defvar easy-hugo-mode-map
   (let ((map (make-keymap)))
     (define-key map "n" 'easy-hugo-newpost)
@@ -235,21 +248,21 @@ P ... Publish to server    q ... Quit easy-hugo
   "Open file."
   (interactive)
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (file-exists-p file)
+    (when (and (file-exists-p file) (not (file-directory-p file)))
       (find-file file))))
 
 (defun easy-hugo-view ()
   "Open file with 'view-mode'."
   (interactive)
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (file-exists-p file)
+    (when (and (file-exists-p file) (not (file-directory-p file)))
       (view-file file))))
 
 (defun easy-hugo-delete ()
   "Delete file."
   (interactive)
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (file-exists-p file)
+    (when (and (file-exists-p file) (not (file-directory-p file)))
       (when (y-or-n-p "Do you delete a file? ")
 	(delete-file file)
 	(easy-hugo)))))
@@ -258,28 +271,37 @@ P ... Publish to server    q ... Quit easy-hugo
 (defun easy-hugo ()
   "Easy hugo."
   (interactive)
-  (setq easy-hugo-mode-buffer (get-buffer-create easy-hugo-buffer-name))
-  (switch-to-buffer easy-hugo-mode-buffer)
-  (setq-local default-directory easy-hugo-basedir)
-  (setq buffer-read-only nil)
-  (erase-buffer)
-  (insert easy-hugo-help)
-  (setq easy-hugo-cursor (point))
-  (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
-	(lists (list)))
-    (while files
-      (unless (or (string= (car files) ".") (string= (car files) ".."))
-	(push
-	 (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
-	 lists))
-      (setq files (cdr files)))
-    (setq lists (reverse (sort lists 'string<)))
-    (while lists
-      (insert (concat (car lists) "\n"))
-      (setq lists (cdr lists)))
-    (goto-char easy-hugo-cursor)
-    (forward-char 20)
-    (easy-hugo-mode)))
+  (easy-hugo-with-env
+   (unless (file-directory-p (expand-file-name "content/post" easy-hugo-basedir))
+     (error "Did you execute hugo new site bookshelf?"))
+   (setq easy-hugo-mode-buffer (get-buffer-create easy-hugo-buffer-name))
+   (switch-to-buffer easy-hugo-mode-buffer)
+   (setq-local default-directory easy-hugo-basedir)
+   (setq buffer-read-only nil)
+   (erase-buffer)
+   (insert easy-hugo-help)
+   (setq easy-hugo-cursor (point))
+   (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
+	 (lists (list)))
+     (if (eq 2 (length files))
+	 (progn
+	   (insert easy-hugo-first-help)
+	   (easy-hugo-mode)
+	   (goto-char easy-hugo-cursor))
+       (progn
+	 (while files
+	   (unless (or (string= (car files) ".") (string= (car files) ".."))
+	     (push
+	      (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
+	      lists))
+	   (pop files))
+	 (setq lists (reverse (sort lists 'string<)))
+	 (while lists
+	   (insert (concat (car lists) "\n"))
+	   (pop lists))
+	 (goto-char easy-hugo-cursor)
+	 (forward-char 20)
+	 (easy-hugo-mode))))))
 
 (provide 'easy-hugo)
 
