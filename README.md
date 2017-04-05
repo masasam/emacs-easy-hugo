@@ -4,6 +4,8 @@ Emacs package for writing blogs made with hugo by markdown or org-mode
 
 ## Screenshot
 
+![easy-hugo-mode](image/easy-hugo.gif)
+
     M-x easy-hugo-newpost
 
 You can post a new article.
