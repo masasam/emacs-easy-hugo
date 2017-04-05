@@ -235,14 +235,14 @@ P ... Publish to server    q ... Quit easy-hugo
   "Open file."
   (interactive)
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (file-exists-p file)
+    (when (and (file-exists-p file) (not (file-directory-p file)))
       (find-file file))))
 
 (defun easy-hugo-view ()
   "Open file with 'view-mode'."
   (interactive)
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (file-exists-p file)
+    (when (and (file-exists-p file) (not (file-directory-p file)))
       (view-file file))))
 
 (defun easy-hugo-delete ()
