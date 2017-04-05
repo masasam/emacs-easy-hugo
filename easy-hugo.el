@@ -275,11 +275,11 @@ P ... Publish to server    q ... Quit easy-hugo
 	 (push
 	  (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
 	  lists))
-       (setq files (cdr files)))
+       (pop files))
      (setq lists (reverse (sort lists 'string<)))
      (while lists
        (insert (concat (car lists) "\n"))
-       (setq lists (cdr lists)))
+       (pop lists))
      (goto-char easy-hugo-cursor)
      (forward-char 20)
      (easy-hugo-mode))))
