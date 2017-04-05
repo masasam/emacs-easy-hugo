@@ -43,8 +43,6 @@ You can publish your blog to the server and the browser opens automatically.
 
 Open the list of articles you wrote with dired.
 
-![easy-hugo11](image/easy-hugo11.png)
-
 	M-x easy-hugo-deploy
 
 Execute deploy.sh which exists in directory 'easy-hugo-basedir'.
