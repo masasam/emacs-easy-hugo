@@ -53,7 +53,7 @@ It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pa
 
 	M-x easy-hugo
 
-You can manage blogs on easy-hugo-mode screen.
+You can manage blogs on easy-hugo-mode.
 
 ![easy-hugo-mode](image/easy-hugo-mode.png)
 
@@ -74,6 +74,7 @@ You can install `easy-hugo.el` from [MELPA](http://melpa.org) with package.el
 	(setq easy-hugo-sshdomain "blogdomain")
 	(setq easy-hugo-root "/home/blog/")
 	(setq easy-hugo-previewtime "300")
+	(define-key global-map (kbd "C-c C-e") 'easy-hugo)
 
 easy-hugo-basedir "Directory where hugo html source code is placed on your PC."
 
