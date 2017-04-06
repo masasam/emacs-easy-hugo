@@ -2,9 +2,9 @@
 
 Emacs package for writing blogs made with hugo by markdown or org-mode
 
-## Screenshot
+## Screencast
 
-![easy-hugo-mode](image/easy-hugo.gif)
+![screencast](image/screencast.gif)
 
     M-x easy-hugo-newpost
 
