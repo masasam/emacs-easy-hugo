@@ -6,6 +6,12 @@ Emacs package for writing blogs made with hugo by markdown or org-mode
 
 ![screencast](image/screencast.gif)
 
+	M-x easy-hugo
+
+You can manage blogs on easy-hugo-mode.
+
+![easy-hugo-mode](image/easy-hugo-mode.png)
+
     M-x easy-hugo-newpost
 
 You can post a new article.
@@ -46,12 +52,6 @@ Open the list of articles you wrote with dired.
 Execute deploy.sh which exists in directory 'easy-hugo-basedir'.
 
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
-
-	M-x easy-hugo
-
-You can manage blogs on easy-hugo-mode.
-
-![easy-hugo-mode](image/easy-hugo-mode.png)
 
 ## Requirements
 
