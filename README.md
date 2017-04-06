@@ -12,11 +12,7 @@ You can post a new article.
 
 Enter a article file name in the minibuffer.
 
-![easy-hugo2](image/easy-hugo2.png)
-
 A markdown file is automatically generated.
-
-![easy-hugo3](image/easy-hugo3.png)
 
 You can write a blog with markdown.
 
@@ -24,7 +20,7 @@ You can write a blog with markdown.
 
 If you enter '.org' file name in the minibuffer, org file is automatically generated and you can write a blog with org-mode.
 
-![easy-hugo3](image/org-mode.png)
+![easy-org-mode](image/org-mode.png)
 
     M-x easy-hugo-preview
 
