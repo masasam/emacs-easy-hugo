@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.5.3
+;; Version: 0.5.4
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -232,6 +232,9 @@ Enjoy!
 (defvar easy-hugo-cursor nil
   "Cursor of easy-hugo.")
 
+(defvar easy-hugo-line nil
+  "Line of easy-hugo.")
+
 (defconst easy-hugo-buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
@@ -264,8 +267,12 @@ Enjoy!
   (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
     (when (and (file-exists-p file) (not (file-directory-p file)))
       (when (y-or-n-p "Do you delete a file? ")
+	(setq easy-hugo-line (- (line-number-at-pos) 11))
 	(delete-file file)
-	(easy-hugo)))))
+	(easy-hugo)
+	(when (> easy-hugo-line 0)
+	  (forward-line easy-hugo-line)
+	  (forward-char 20))))))
 
 ;;;###autoload
 (defun easy-hugo ()
