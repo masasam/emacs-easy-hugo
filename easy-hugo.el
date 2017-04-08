@@ -179,12 +179,12 @@ POST-FILE needs to have and extension '.md' or '.org'."
 (defconst easy-hugo--help
   "Easy-hugo
 
-n ... New blog post    D ... Deploy github-pages
-p ... Preview          g ... Refresh easy-hugo
-v ... Open view-mode   s ... Sort article list
-d ... Delete post      j ... Next line
-P ... Publish server   k ... Previous line
-h ... Help easy-hugo   q ... Quit easy-hugo
+n ... New blog post    G ... Deploy github-pages  S ... Sort character
+p ... Preview          g ... Refresh              r ... Refresh
+v ... Open view-mode   s ... Sort time            D ... Dired
+d ... Delete post      j ... Next line            h ... Backword char
+P ... Publish server   k ... Previous line        l ... Forward char
+? ... Help easy-hugo   q ... Quit easy-hugo
 
 "
   "Help of easy-hugo.")
@@ -205,7 +205,7 @@ Enjoy!
 (defvar easy-hugo-mode-map
   (let ((map (make-keymap)))
     (define-key map "n" 'easy-hugo-newpost)
-    (define-key map "l" 'easy-hugo-article)
+    (define-key map "D" 'easy-hugo-article)
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)
     (define-key map "o" 'easy-hugo-open)
@@ -216,13 +216,16 @@ Enjoy!
     (define-key map "f" 'easy-hugo-open)
     (define-key map "j" 'next-line)
     (define-key map "k" 'previous-line)
+    (define-key map "h" 'backward-char)
+    (define-key map "l" 'forward-char)
     (define-key map " " 'next-line)
     (define-key map [?\S-\ ] 'previous-line)
     (define-key map "v" 'easy-hugo-view)
     (define-key map "r" 'easy-hugo-refresh)
     (define-key map "g" 'easy-hugo-refresh)
-    (define-key map "s" 'easy-hugo-sort)
-    (define-key map "D" 'easy-hugo-deploy)
+    (define-key map "s" 'easy-hugo-sort-time)
+    (define-key map "S" 'easy-hugo-sort-character)
+    (define-key map "G" 'easy-hugo-deploy)
     (define-key map "q" 'easy-hugo-quit)
     map)
   "Keymap for easy-hugo major mode.")
@@ -236,8 +239,11 @@ Enjoy!
 (defvar easy-hugo--line nil
   "Line of easy-hugo.")
 
-(defvar easy-hugo--sort-flg nil
-  "Sort flg of easy-hugo.")
+(defvar easy-hugo--sort-time-flg nil
+  "Sort time flg of easy-hugo.")
+
+(defvar easy-hugo--sort-character-flg nil
+  "Sort character flg of easy-hugo.")
 
 (defvar easy-hugo--refresh nil
   "Refresh flg of easy-hugo.")
@@ -266,7 +272,7 @@ Enjoy!
   (easy-hugo)
   (setq easy-hugo--refresh nil))
 
-(defun easy-hugo-sort ()
+(defun easy-hugo-sort-time ()
   "Sort easy hugo."
   (interactive)
   (cond ((null easy-hugo--sort-flg) (setq easy-hugo--sort-flg 1))
