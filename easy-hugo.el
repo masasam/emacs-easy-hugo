@@ -238,6 +238,9 @@ Enjoy!
 (defconst easy-hugo-buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
+(defconst easy-hugo-forward-char 20
+  "Forward-char of easy-hugo.")
+
 (define-derived-mode easy-hugo-mode special-mode "Easy-hugo"
   "Major mode for easy hugo.")
 
@@ -251,8 +254,8 @@ Enjoy!
   "Open file."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-point 'line))))
-    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
+$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo-forward-char -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(find-file file)))))
 
@@ -260,8 +263,8 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-poin
   "Open file with 'view-mode'."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-point 'line))))
-    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
+$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo-forward-char -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(view-file file)))))
 
@@ -269,8 +272,8 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-poin
   "Delete file."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-point 'line))))
-    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
+$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo-forward-char -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(when (y-or-n-p "Do you delete a file? ")
 	  (setq easy-hugo-line (- (line-number-at-pos) 11))
@@ -278,7 +281,7 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-poin
 	  (easy-hugo)
 	  (when (> easy-hugo-line 0)
 	    (forward-line easy-hugo-line)
-	    (forward-char 20)))))))
+	    (forward-char easy-hugo-forward-char)))))))
 
 ;;;###autoload
 (defun easy-hugo ()
@@ -313,7 +316,7 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-poin
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
 	 (goto-char easy-hugo-cursor)
-	 (forward-char 20)
+	 (forward-char easy-hugo-forward-char)
 	 (easy-hugo-mode))))))
 
 (provide 'easy-hugo)
