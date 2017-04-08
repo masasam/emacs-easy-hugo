@@ -197,7 +197,7 @@ Press n on this screen or M-x easy-hugo-newpost.
 Enter a article file name in the minibuffer.
 Then M-x easy-hugo again or refresh the screen with r or g key in this buffer,
 article which you wrote should appear here.
-Enjoy!
+Enjoy using Easy-hugo.
 
 "
   "Help of easy-hugo first time.")
@@ -250,29 +250,35 @@ Enjoy!
 (defun easy-hugo-open ()
   "Open file."
   (interactive)
-  (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (and (file-exists-p file) (not (file-directory-p file)))
-      (find-file file))))
+  (unless (or (string-match "^
+$" (thing-at-point 'line)) (eq (point) (point-max)) (eq (line-number-at-pos) 1))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
+      (when (and (file-exists-p file) (not (file-directory-p file)))
+	(find-file file)))))
 
 (defun easy-hugo-view ()
   "Open file with 'view-mode'."
   (interactive)
-  (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (and (file-exists-p file) (not (file-directory-p file)))
-      (view-file file))))
+  (unless (or (string-match "^
+$" (thing-at-point 'line)) (eq (point) (point-max)) (eq (line-number-at-pos) 1))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
+      (when (and (file-exists-p file) (not (file-directory-p file)))
+	(view-file file)))))
 
 (defun easy-hugo-delete ()
   "Delete file."
   (interactive)
-  (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (and (file-exists-p file) (not (file-directory-p file)))
-      (when (y-or-n-p "Do you delete a file? ")
-	(setq easy-hugo-line (- (line-number-at-pos) 11))
-	(delete-file file)
-	(easy-hugo)
-	(when (> easy-hugo-line 0)
-	  (forward-line easy-hugo-line)
-	  (forward-char 20))))))
+  (unless (or (string-match "^
+$" (thing-at-point 'line)) (eq (point) (point-max)) (eq (line-number-at-pos) 1))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
+      (when (and (file-exists-p file) (not (file-directory-p file)))
+	(when (y-or-n-p "Do you delete a file? ")
+	  (setq easy-hugo-line (- (line-number-at-pos) 11))
+	  (delete-file file)
+	  (easy-hugo)
+	  (when (> easy-hugo-line 0)
+	    (forward-line easy-hugo-line)
+	    (forward-char 20)))))))
 
 ;;;###autoload
 (defun easy-hugo ()
