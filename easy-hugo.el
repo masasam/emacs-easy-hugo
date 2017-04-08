@@ -219,8 +219,8 @@ Enjoy!
     (define-key map " " 'next-line)
     (define-key map [?\S-\ ] 'previous-line)
     (define-key map "v" 'easy-hugo-view)
-    (define-key map "r" 'easy-hugo)
-    (define-key map "g" 'easy-hugo)
+    (define-key map "r" 'easy-hugo-refresh)
+    (define-key map "g" 'easy-hugo-refresh)
     (define-key map "s" 'easy-hugo-sort)
     (define-key map "D" 'easy-hugo-deploy)
     (define-key map "q" 'easy-hugo-quit)
@@ -239,6 +239,9 @@ Enjoy!
 (defvar easy-hugo--sort-flg nil
   "Sort flg of easy-hugo.")
 
+(defvar easy-hugo--refresh nil
+  "Refresh flg of easy-hugo.")
+
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
@@ -254,6 +257,14 @@ Enjoy!
   (setq easy-hugo--sort-flg nil)
   (buffer-live-p easy-hugo--mode-buffer)
   (kill-buffer easy-hugo--mode-buffer))
+
+(defun easy-hugo-refresh ()
+  "Refresh easy hugo."
+  (interactive)
+  (setq easy-hugo--cursor (point))
+  (setq easy-hugo--refresh 1)
+  (easy-hugo)
+  (setq easy-hugo--refresh nil))
 
 (defun easy-hugo-sort ()
   "Sort easy hugo."
@@ -310,7 +321,8 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
    (setq buffer-read-only nil)
    (erase-buffer)
    (insert easy-hugo--help)
-   (setq easy-hugo--cursor (point))
+   (unless easy-hugo--refresh
+     (setq easy-hugo--cursor (point)))
    (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
 	 (lists (list)))
      (if (eq 2 (length files))
@@ -333,7 +345,8 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
 	 (goto-char easy-hugo--cursor)
-	 (forward-char easy-hugo--forward-char)
+	 (unless easy-hugo--refresh
+	   (forward-char easy-hugo--forward-char))
 	 (easy-hugo-mode))))))
 
 (provide 'easy-hugo)
