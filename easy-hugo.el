@@ -262,8 +262,10 @@ Enjoy!
   (interactive)
   (setq easy-hugo--sort-time-flg 1)
   (setq easy-hugo--sort-char-flg nil)
-  (buffer-live-p easy-hugo--mode-buffer)
-  (kill-buffer easy-hugo--mode-buffer))
+  (easy-hugo--preview-end)
+  (when (buffer-live-p easy-hugo--mode-buffer)
+    (kill-buffer easy-hugo--mode-buffer)
+    ))
 
 (defun easy-hugo-refresh ()
   "Refresh easy hugo."
