@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.5.4
+;; Version: 0.5.5
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -179,12 +179,12 @@ POST-FILE needs to have and extension '.md' or '.org'."
 (defconst easy-hugo--help
   "Easy-hugo
 
-n ... New blog post        D ... Deploy at github-pages
-p ... Preview              r ... Refresh easy-hugo
-v ... Open view-mode       g ... Refresh easy-hugo
-d ... Delete current post  j ... Next line
-l ... List of article      k ... Previous line
-P ... Publish to server    q ... Quit easy-hugo
+n ... New blog post    D ... Deploy github-pages
+p ... Preview          g ... Refresh easy-hugo
+v ... Open view-mode   s ... Sort article list
+d ... Delete post      j ... Next line
+P ... Publish server   k ... Previous line
+h ... Help easy-hugo   q ... Quit easy-hugo
 
 "
   "Help of easy-hugo.")
@@ -221,6 +221,7 @@ Enjoy!
     (define-key map "v" 'easy-hugo-view)
     (define-key map "r" 'easy-hugo)
     (define-key map "g" 'easy-hugo)
+    (define-key map "s" 'easy-hugo-sort)
     (define-key map "D" 'easy-hugo-deploy)
     (define-key map "q" 'easy-hugo-quit)
     map)
@@ -235,6 +236,9 @@ Enjoy!
 (defvar easy-hugo--line nil
   "Line of easy-hugo.")
 
+(defvar easy-hugo--sort-flg nil
+  "Sort flg of easy-hugo.")
+
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
@@ -247,8 +251,18 @@ Enjoy!
 (defun easy-hugo-quit ()
   "Quit easy hugo."
   (interactive)
+  (setq easy-hugo--sort-flg nil)
   (buffer-live-p easy-hugo--mode-buffer)
   (kill-buffer easy-hugo--mode-buffer))
+
+(defun easy-hugo-sort ()
+  "Sort easy hugo."
+  (interactive)
+  (cond ((null easy-hugo--sort-flg) (setq easy-hugo--sort-flg 1))
+	((eq 1 easy-hugo--sort-flg) (setq easy-hugo--sort-flg 2))
+	((eq 2 easy-hugo--sort-flg) (setq easy-hugo--sort-flg 3))
+	((eq 3 easy-hugo--sort-flg) (setq easy-hugo--sort-flg nil)))
+  (easy-hugo))
 
 (defun easy-hugo-open ()
   "Open file."
@@ -305,13 +319,16 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
 	   (easy-hugo-mode)
 	   (goto-char easy-hugo--cursor))
        (progn
+	 (cond ((eq 2 easy-hugo--sort-flg) (setq files (reverse (sort files 'string<))))
+	       ((eq 3 easy-hugo--sort-flg) (setq files (sort files 'string<))))
 	 (while files
 	   (unless (or (string= (car files) ".") (string= (car files) ".."))
 	     (push
 	      (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
 	      lists))
 	   (pop files))
-	 (setq lists (reverse (sort lists 'string<)))
+	 (cond ((null easy-hugo--sort-flg) (setq lists (reverse (sort lists 'string<))))
+	       ((eq 1 easy-hugo--sort-flg) (setq lists (sort lists 'string<))))
 	 (while lists
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
