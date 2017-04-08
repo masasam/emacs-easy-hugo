@@ -224,7 +224,7 @@ Enjoy!
     (define-key map "r" 'easy-hugo-refresh)
     (define-key map "g" 'easy-hugo-refresh)
     (define-key map "s" 'easy-hugo-sort-time)
-    (define-key map "S" 'easy-hugo-sort-character)
+    (define-key map "S" 'easy-hugo-sort-char)
     (define-key map "G" 'easy-hugo-deploy)
     (define-key map "q" 'easy-hugo-quit)
     map)
@@ -239,8 +239,11 @@ Enjoy!
 (defvar easy-hugo--line nil
   "Line of easy-hugo.")
 
-(defvar easy-hugo--sort-flg nil
+(defvar easy-hugo--sort-time-flg 1
   "Sort time flg of easy-hugo.")
+
+(defvar easy-hugo--sort-char-flg nil
+  "Sort char flg of easy-hugo.")
 
 (defvar easy-hugo--refresh nil
   "Refresh flg of easy-hugo.")
@@ -257,7 +260,8 @@ Enjoy!
 (defun easy-hugo-quit ()
   "Quit easy hugo."
   (interactive)
-  (setq easy-hugo--sort-flg nil)
+  (setq easy-hugo--sort-time-flg 1)
+  (setq easy-hugo--sort-char-flg nil)
   (buffer-live-p easy-hugo--mode-buffer)
   (kill-buffer easy-hugo--mode-buffer))
 
@@ -270,12 +274,21 @@ Enjoy!
   (setq easy-hugo--refresh nil))
 
 (defun easy-hugo-sort-time ()
-  "Sort easy hugo."
+  "Sort time easy hugo."
   (interactive)
-  (cond ((null easy-hugo--sort-flg) (setq easy-hugo--sort-flg 1))
-	((eq 1 easy-hugo--sort-flg) (setq easy-hugo--sort-flg 2))
-	((eq 2 easy-hugo--sort-flg) (setq easy-hugo--sort-flg 3))
-	((eq 3 easy-hugo--sort-flg) (setq easy-hugo--sort-flg nil)))
+  (setq easy-hugo--sort-char-flg nil)
+  (if (eq 1 easy-hugo--sort-time-flg)
+      (setq easy-hugo--sort-time-flg 2)
+    (setq easy-hugo--sort-time-flg 1))
+  (easy-hugo))
+
+(defun easy-hugo-sort-char ()
+  "Sort char easy hugo."
+  (interactive)
+  (setq easy-hugo--sort-time-flg nil)
+  (if (eq 1 easy-hugo--sort-char-flg)
+      (setq easy-hugo--sort-char-flg 2)
+    (setq easy-hugo--sort-char-flg 1))
   (easy-hugo))
 
 (defun easy-hugo-open ()
@@ -334,16 +347,16 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
 	   (easy-hugo-mode)
 	   (goto-char easy-hugo--cursor))
        (progn
-	 (cond ((eq 2 easy-hugo--sort-flg) (setq files (reverse (sort files 'string<))))
-	       ((eq 3 easy-hugo--sort-flg) (setq files (sort files 'string<))))
+	 (cond ((eq 1 easy-hugo--sort-char-flg) (setq files (reverse (sort files 'string<))))
+	       ((eq 2 easy-hugo--sort-char-flg) (setq files (sort files 'string<))))
 	 (while files
 	   (unless (or (string= (car files) ".") (string= (car files) ".."))
 	     (push
 	      (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
 	      lists))
 	   (pop files))
-	 (cond ((null easy-hugo--sort-flg) (setq lists (reverse (sort lists 'string<))))
-	       ((eq 1 easy-hugo--sort-flg) (setq lists (sort lists 'string<))))
+	 (cond ((eq 1 easy-hugo--sort-time-flg) (setq lists (reverse (sort lists 'string<))))
+	       ((eq 2 easy-hugo--sort-time-flg) (setq lists (sort lists 'string<))))
 	 (while lists
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
