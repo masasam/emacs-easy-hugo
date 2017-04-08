@@ -179,12 +179,12 @@ POST-FILE needs to have and extension '.md' or '.org'."
 (defconst easy-hugo--help
   "Easy-hugo
 
-n ... New blog post    D ... Deploy github-pages
-p ... Preview          g ... Refresh easy-hugo
-v ... Open view-mode   s ... Sort article list
-d ... Delete post      j ... Next line
-P ... Publish server   k ... Previous line
-h ... Help easy-hugo   q ... Quit easy-hugo
+n ... New blog post    G ... Deploy github-pages  S ... Sort character
+p ... Preview          g ... Refresh              r ... Refresh
+v ... Open view-mode   s ... Sort time            D ... Dired
+d ... Delete post      j ... Next line            h ... Backword char
+P ... Publish server   k ... Previous line        l ... Forward char
+? ... Help easy-hugo   q ... Quit easy-hugo
 
 "
   "Help of easy-hugo.")
@@ -205,7 +205,7 @@ Enjoy!
 (defvar easy-hugo-mode-map
   (let ((map (make-keymap)))
     (define-key map "n" 'easy-hugo-newpost)
-    (define-key map "l" 'easy-hugo-article)
+    (define-key map "D" 'easy-hugo-article)
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)
     (define-key map "o" 'easy-hugo-open)
@@ -216,13 +216,16 @@ Enjoy!
     (define-key map "f" 'easy-hugo-open)
     (define-key map "j" 'next-line)
     (define-key map "k" 'previous-line)
+    (define-key map "h" 'backward-char)
+    (define-key map "l" 'forward-char)
     (define-key map " " 'next-line)
     (define-key map [?\S-\ ] 'previous-line)
     (define-key map "v" 'easy-hugo-view)
-    (define-key map "r" 'easy-hugo)
-    (define-key map "g" 'easy-hugo)
-    (define-key map "s" 'easy-hugo-sort)
-    (define-key map "D" 'easy-hugo-deploy)
+    (define-key map "r" 'easy-hugo-refresh)
+    (define-key map "g" 'easy-hugo-refresh)
+    (define-key map "s" 'easy-hugo-sort-time)
+    (define-key map "S" 'easy-hugo-sort-char)
+    (define-key map "G" 'easy-hugo-deploy)
     (define-key map "q" 'easy-hugo-quit)
     map)
   "Keymap for easy-hugo major mode.")
@@ -236,8 +239,14 @@ Enjoy!
 (defvar easy-hugo--line nil
   "Line of easy-hugo.")
 
-(defvar easy-hugo--sort-flg nil
-  "Sort flg of easy-hugo.")
+(defvar easy-hugo--sort-time-flg 1
+  "Sort time flg of easy-hugo.")
+
+(defvar easy-hugo--sort-char-flg nil
+  "Sort char flg of easy-hugo.")
+
+(defvar easy-hugo--refresh nil
+  "Refresh flg of easy-hugo.")
 
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
@@ -251,17 +260,37 @@ Enjoy!
 (defun easy-hugo-quit ()
   "Quit easy hugo."
   (interactive)
-  (setq easy-hugo--sort-flg nil)
-  (buffer-live-p easy-hugo--mode-buffer)
-  (kill-buffer easy-hugo--mode-buffer))
+  (setq easy-hugo--sort-time-flg 1)
+  (setq easy-hugo--sort-char-flg nil)
+  (easy-hugo--preview-end)
+  (when (buffer-live-p easy-hugo--mode-buffer)
+    (kill-buffer easy-hugo--mode-buffer)
+    ))
 
-(defun easy-hugo-sort ()
-  "Sort easy hugo."
+(defun easy-hugo-refresh ()
+  "Refresh easy hugo."
   (interactive)
-  (cond ((null easy-hugo--sort-flg) (setq easy-hugo--sort-flg 1))
-	((eq 1 easy-hugo--sort-flg) (setq easy-hugo--sort-flg 2))
-	((eq 2 easy-hugo--sort-flg) (setq easy-hugo--sort-flg 3))
-	((eq 3 easy-hugo--sort-flg) (setq easy-hugo--sort-flg nil)))
+  (setq easy-hugo--cursor (point))
+  (setq easy-hugo--refresh 1)
+  (easy-hugo)
+  (setq easy-hugo--refresh nil))
+
+(defun easy-hugo-sort-time ()
+  "Sort time easy hugo."
+  (interactive)
+  (setq easy-hugo--sort-char-flg nil)
+  (if (eq 1 easy-hugo--sort-time-flg)
+      (setq easy-hugo--sort-time-flg 2)
+    (setq easy-hugo--sort-time-flg 1))
+  (easy-hugo))
+
+(defun easy-hugo-sort-char ()
+  "Sort char easy hugo."
+  (interactive)
+  (setq easy-hugo--sort-time-flg nil)
+  (if (eq 1 easy-hugo--sort-char-flg)
+      (setq easy-hugo--sort-char-flg 2)
+    (setq easy-hugo--sort-char-flg 1))
   (easy-hugo))
 
 (defun easy-hugo-open ()
@@ -310,7 +339,8 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
    (setq buffer-read-only nil)
    (erase-buffer)
    (insert easy-hugo--help)
-   (setq easy-hugo--cursor (point))
+   (unless easy-hugo--refresh
+     (setq easy-hugo--cursor (point)))
    (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
 	 (lists (list)))
      (if (eq 2 (length files))
@@ -319,21 +349,22 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
 	   (easy-hugo-mode)
 	   (goto-char easy-hugo--cursor))
        (progn
-	 (cond ((eq 2 easy-hugo--sort-flg) (setq files (reverse (sort files 'string<))))
-	       ((eq 3 easy-hugo--sort-flg) (setq files (sort files 'string<))))
+	 (cond ((eq 1 easy-hugo--sort-char-flg) (setq files (reverse (sort files 'string<))))
+	       ((eq 2 easy-hugo--sort-char-flg) (setq files (sort files 'string<))))
 	 (while files
 	   (unless (or (string= (car files) ".") (string= (car files) ".."))
 	     (push
 	      (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
 	      lists))
 	   (pop files))
-	 (cond ((null easy-hugo--sort-flg) (setq lists (reverse (sort lists 'string<))))
-	       ((eq 1 easy-hugo--sort-flg) (setq lists (sort lists 'string<))))
+	 (cond ((eq 1 easy-hugo--sort-time-flg) (setq lists (reverse (sort lists 'string<))))
+	       ((eq 2 easy-hugo--sort-time-flg) (setq lists (sort lists 'string<))))
 	 (while lists
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
 	 (goto-char easy-hugo--cursor)
-	 (forward-char easy-hugo--forward-char)
+	 (unless easy-hugo--refresh
+	   (forward-char easy-hugo--forward-char))
 	 (easy-hugo-mode))))))
 
 (provide 'easy-hugo)
