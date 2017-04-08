@@ -197,7 +197,7 @@ Press n on this screen or M-x easy-hugo-newpost.
 Enter a article file name in the minibuffer.
 Then M-x easy-hugo again or refresh the screen with r or g key in this buffer,
 article which you wrote should appear here.
-Enjoy using Easy-hugo.
+Enjoy!
 
 "
   "Help of easy-hugo first time.")
@@ -251,7 +251,7 @@ Enjoy using Easy-hugo.
   "Open file."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (eq (line-number-at-pos) 1))
+$" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-point 'line))))
     (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(find-file file)))))
@@ -260,7 +260,7 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (eq (line-number-at-pos) 1))
   "Open file with 'view-mode'."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (eq (line-number-at-pos) 1))
+$" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-point 'line))))
     (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(view-file file)))))
@@ -269,7 +269,7 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (eq (line-number-at-pos) 1))
   "Delete file."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (eq (line-number-at-pos) 1))
+$" (thing-at-point 'line)) (eq (point) (point-max)) (> 21 (length (thing-at-point 'line))))
     (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(when (y-or-n-p "Do you delete a file? ")
