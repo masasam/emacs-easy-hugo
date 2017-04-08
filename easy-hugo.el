@@ -250,9 +250,11 @@ Enjoy!
 (defun easy-hugo-open ()
   "Open file."
   (interactive)
-  (let ((file (expand-file-name (concat "content/post/" (thing-at-point 'filename)) easy-hugo-basedir)))
-    (when (and (file-exists-p file) (not (file-directory-p file)))
-      (find-file file))))
+  (unless (or (string-match "^
+$" (thing-at-point 'line)) (eq (point) (point-max)) (eq (line-number-at-pos) 1))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) 20 -1)) easy-hugo-basedir)))
+      (when (and (file-exists-p file) (not (file-directory-p file)))
+	(find-file file)))))
 
 (defun easy-hugo-view ()
   "Open file with 'view-mode'."
