@@ -176,7 +176,7 @@ POST-FILE needs to have and extension '.md' or '.org'."
      (when easy-hugo-url
        (browse-url easy-hugo-url)))))
 
-(defconst easy-hugo-help
+(defconst easy-hugo--help
   "Easy-hugo
 
 n ... New blog post        D ... Deploy at github-pages
@@ -189,7 +189,7 @@ P ... Publish to server    q ... Quit easy-hugo
 "
   "Help of easy-hugo.")
 
-(defconst easy-hugo-first-help
+(defconst easy-hugo--first-help
   "Welcome to Easy-hugo
 
 Let's post an article first.
@@ -226,19 +226,19 @@ Enjoy!
     map)
   "Keymap for easy-hugo major mode.")
 
-(defvar easy-hugo-mode-buffer nil
+(defvar easy-hugo--mode-buffer nil
   "Main buffer of easy-hugo.")
 
-(defvar easy-hugo-cursor nil
+(defvar easy-hugo--cursor nil
   "Cursor of easy-hugo.")
 
-(defvar easy-hugo-line nil
+(defvar easy-hugo--line nil
   "Line of easy-hugo.")
 
-(defconst easy-hugo-buffer-name "*Easy-hugo*"
+(defconst easy-hugo--buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
-(defconst easy-hugo-forward-char 20
+(defconst easy-hugo--forward-char 20
   "Forward-char of easy-hugo.")
 
 (define-derived-mode easy-hugo-mode special-mode "Easy-hugo"
@@ -247,15 +247,15 @@ Enjoy!
 (defun easy-hugo-quit ()
   "Quit easy hugo."
   (interactive)
-  (buffer-live-p easy-hugo-mode-buffer)
-  (kill-buffer easy-hugo-mode-buffer))
+  (buffer-live-p easy-hugo--mode-buffer)
+  (kill-buffer easy-hugo--mode-buffer))
 
 (defun easy-hugo-open ()
   "Open file."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo-forward-char -1)) easy-hugo-basedir)))
+$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(find-file file)))))
 
@@ -263,8 +263,8 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-ch
   "Open file with 'view-mode'."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo-forward-char -1)) easy-hugo-basedir)))
+$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(view-file file)))))
 
@@ -272,16 +272,16 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-ch
   "Delete file."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo-forward-char -1)) easy-hugo-basedir)))
+$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(when (y-or-n-p "Do you delete a file? ")
-	  (setq easy-hugo-line (- (line-number-at-pos) 11))
+	  (setq easy-hugo--line (- (line-number-at-pos) 11))
 	  (delete-file file)
 	  (easy-hugo)
-	  (when (> easy-hugo-line 0)
-	    (forward-line easy-hugo-line)
-	    (forward-char easy-hugo-forward-char)))))))
+	  (when (> easy-hugo--line 0)
+	    (forward-line easy-hugo--line)
+	    (forward-char easy-hugo--forward-char)))))))
 
 ;;;###autoload
 (defun easy-hugo ()
@@ -290,20 +290,20 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-ch
   (easy-hugo-with-env
    (unless (file-directory-p (expand-file-name "content/post" easy-hugo-basedir))
      (error "Did you execute hugo new site bookshelf?"))
-   (setq easy-hugo-mode-buffer (get-buffer-create easy-hugo-buffer-name))
-   (switch-to-buffer easy-hugo-mode-buffer)
+   (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
+   (switch-to-buffer easy-hugo--mode-buffer)
    (setq-local default-directory easy-hugo-basedir)
    (setq buffer-read-only nil)
    (erase-buffer)
-   (insert easy-hugo-help)
-   (setq easy-hugo-cursor (point))
+   (insert easy-hugo--help)
+   (setq easy-hugo--cursor (point))
    (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
 	 (lists (list)))
      (if (eq 2 (length files))
 	 (progn
-	   (insert easy-hugo-first-help)
+	   (insert easy-hugo--first-help)
 	   (easy-hugo-mode)
-	   (goto-char easy-hugo-cursor))
+	   (goto-char easy-hugo--cursor))
        (progn
 	 (while files
 	   (unless (or (string= (car files) ".") (string= (car files) ".."))
@@ -315,8 +315,8 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo-forward-ch
 	 (while lists
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
-	 (goto-char easy-hugo-cursor)
-	 (forward-char easy-hugo-forward-char)
+	 (goto-char easy-hugo--cursor)
+	 (forward-char easy-hugo--forward-char)
 	 (easy-hugo-mode))))))
 
 (provide 'easy-hugo)
