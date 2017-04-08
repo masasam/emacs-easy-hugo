@@ -239,11 +239,8 @@ Enjoy!
 (defvar easy-hugo--line nil
   "Line of easy-hugo.")
 
-(defvar easy-hugo--sort-time-flg nil
+(defvar easy-hugo--sort-flg nil
   "Sort time flg of easy-hugo.")
-
-(defvar easy-hugo--sort-character-flg nil
-  "Sort character flg of easy-hugo.")
 
 (defvar easy-hugo--refresh nil
   "Refresh flg of easy-hugo.")
