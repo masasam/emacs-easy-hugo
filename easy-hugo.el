@@ -64,6 +64,8 @@
 
 (defconst easy-hugo--buffer-name "*Hugo Server*")
 
+(defconst easy-hugo--preview-buffer "*Hugo Preview*")
+
 (defconst easy-hugo--formats '("md" "org"))
 
 ;;;###autoload
@@ -150,14 +152,16 @@ POST-FILE needs to have and extension '.md' or '.org'."
        (browse-url "http://localhost:1313/")
      (progn
        (setq easy-hugo--server-process
-             (start-process "hugo-server" easy-hugo--buffer-name "hugo" "server"))
+	     (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server"))
        (browse-url "http://localhost:1313/")
        (run-at-time easy-hugo-previewtime nil 'easy-hugo--preview-end)))))
 
 (defun easy-hugo--preview-end ()
   "Finish previewing hugo at localhost."
   (unless (null easy-hugo--server-process)
-    (delete-process easy-hugo--server-process)))
+    (delete-process easy-hugo--server-process))
+  (when (get-buffer easy-hugo--preview-buffer)
+    (kill-buffer easy-hugo--preview-buffer)))
 
 (defun easy-hugo--orgtime-format (x)
   "Format orgtime as X."
@@ -264,8 +268,7 @@ Enjoy!
   (setq easy-hugo--sort-char-flg nil)
   (easy-hugo--preview-end)
   (when (buffer-live-p easy-hugo--mode-buffer)
-    (kill-buffer easy-hugo--mode-buffer)
-    ))
+    (kill-buffer easy-hugo--mode-buffer)))
 
 (defun easy-hugo-refresh ()
   "Refresh easy hugo."
