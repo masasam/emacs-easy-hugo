@@ -198,7 +198,7 @@ p ... Preview          g ... Refresh              r ... Refresh
 v ... Open view-mode   s ... Sort time            D ... Dired
 d ... Delete post      j ... Next line            h ... Backword char
 P ... Publish server   k ... Previous line        l ... Forward char
-? ... Help easy-hugo   q ... Quit easy-hugo
+? ... Help easy-hugo   q ... Quit easy-hugo       N ... No help-mode
 
 "
   "Help of easy-hugo.")
@@ -228,6 +228,7 @@ Enjoy!
     (define-key map "d" 'easy-hugo-delete)
     (define-key map "e" 'easy-hugo-open)
     (define-key map "f" 'easy-hugo-open)
+    (define-key map "N" 'easy-hugo-no-help)
     (define-key map "j" 'next-line)
     (define-key map "k" 'previous-line)
     (define-key map "h" 'backward-char)
@@ -262,6 +263,9 @@ Enjoy!
 (defvar easy-hugo--refresh nil
   "Refresh flg of easy-hugo.")
 
+(defvar easy-hugo--no-help nil
+  "No help flg of easy-hugo.")
+
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
@@ -279,6 +283,14 @@ Enjoy!
   (easy-hugo--preview-end)
   (when (buffer-live-p easy-hugo--mode-buffer)
     (kill-buffer easy-hugo--mode-buffer)))
+
+(defun easy-hugo-no-help ()
+  "No help easy hugo."
+  (interactive)
+  (if easy-hugo--no-help
+      (setq easy-hugo--no-help nil)
+    (setq easy-hugo--no-help 1))
+  (easy-hugo))
 
 (defun easy-hugo-refresh ()
   "Refresh easy hugo."
@@ -332,7 +344,9 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
     (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(when (y-or-n-p "Do you delete a file? ")
-	  (setq easy-hugo--line (- (line-number-at-pos) 11))
+	  (if easy-hugo--no-help
+	      (setq easy-hugo--line (- (line-number-at-pos) 2))
+	    (setq easy-hugo--line (- (line-number-at-pos) 11)))
 	  (delete-file file)
 	  (easy-hugo)
 	  (when (> easy-hugo--line 0)
@@ -351,7 +365,8 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
    (setq-local default-directory easy-hugo-basedir)
    (setq buffer-read-only nil)
    (erase-buffer)
-   (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face))
+   (unless easy-hugo--no-help
+     (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
      (setq easy-hugo--cursor (point)))
    (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
