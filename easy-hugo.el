@@ -30,6 +30,10 @@
   "Writing blogs made with hugo."
   :group 'tools)
 
+(defgroup easy-hugo-faces nil
+  "Faces used in `easy-hugo'"
+  :group 'easy-hugo :group 'faces)
+
 (defcustom easy-hugo-basedir nil
   "Directory where hugo html source code is placed."
   :group 'easy-hugo
@@ -67,6 +71,12 @@
 (defconst easy-hugo--preview-buffer "*Hugo Preview*")
 
 (defconst easy-hugo--formats '("md" "org"))
+
+(defface easy-hugo-help-face
+  '((((class color) (background light)) (:bold t :foreground "#82c600" :background "#f0f8ff"))
+    (((class color) (background dark)) (:bold t :foreground "#82c600" :background "#2f4f4f")))
+  ""
+  :group 'easy-hugo-faces)
 
 ;;;###autoload
 (defun easy-hugo-article ()
@@ -341,7 +351,7 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
    (setq-local default-directory easy-hugo-basedir)
    (setq buffer-read-only nil)
    (erase-buffer)
-   (insert easy-hugo--help)
+   (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face))
    (unless easy-hugo--refresh
      (setq easy-hugo--cursor (point)))
    (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
