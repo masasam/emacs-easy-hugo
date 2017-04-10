@@ -64,6 +64,11 @@
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-no-help nil
+  "No help flg of easy-hugo."
+  :group 'easy-hugo
+  :type 'integer)
+
 (defvar easy-hugo--server-process nil)
 
 (defconst easy-hugo--buffer-name "*Hugo Server*")
@@ -263,9 +268,6 @@ Enjoy!
 (defvar easy-hugo--refresh nil
   "Refresh flg of easy-hugo.")
 
-(defvar easy-hugo--no-help nil
-  "No help flg of easy-hugo.")
-
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
@@ -287,9 +289,9 @@ Enjoy!
 (defun easy-hugo-no-help ()
   "No help easy hugo."
   (interactive)
-  (if easy-hugo--no-help
-      (setq easy-hugo--no-help nil)
-    (setq easy-hugo--no-help 1))
+  (if easy-hugo-no-help
+      (setq easy-hugo-no-help nil)
+    (setq easy-hugo-no-help 1))
   (easy-hugo))
 
 (defun easy-hugo-refresh ()
@@ -344,7 +346,7 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
     (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1)) easy-hugo-basedir)))
       (when (and (file-exists-p file) (not (file-directory-p file)))
 	(when (y-or-n-p "Do you delete a file? ")
-	  (if easy-hugo--no-help
+	  (if easy-hugo-no-help
 	      (setq easy-hugo--line (- (line-number-at-pos) 2))
 	    (setq easy-hugo--line (- (line-number-at-pos) 11)))
 	  (delete-file file)
@@ -365,7 +367,7 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
    (setq-local default-directory easy-hugo-basedir)
    (setq buffer-read-only nil)
    (erase-buffer)
-   (unless easy-hugo--no-help
+   (unless easy-hugo-no-help
      (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
      (setq easy-hugo--cursor (point)))
