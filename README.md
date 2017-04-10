@@ -82,11 +82,18 @@ easy-hugo-root "Root directory of hugo at your server."
 
 easy-hugo-previewtime "Preview display time."
 
-If you want the default extension to be '.org'.
+If you want the default extension to be '.org'.  
+If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".org")
 
-If not set the default extension will be '.md'.
+If you want customise color, write the following in the init.el or .emacs.
+
+	(defface easy-hugo-help-face
+	'((((class color) (background light)) (:bold t :foreground "your-hex-color" :background "your-hex-color"))
+    (((class color) (background dark)) (:bold t :foreground "your-hex-color" :background "your-hex-color")))
+	""
+	:group 'easy-hugo-faces)
 
 ## Preparation for useing this package
 
