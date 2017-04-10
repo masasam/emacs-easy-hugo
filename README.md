@@ -87,6 +87,10 @@ If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".org")
 
+If you want to change to No help-mode from startup
+
+	(setq easy-hugo-no-help t)
+
 If you want customise color, write the following in the init.el or .emacs.
 
 	(defface easy-hugo-help-face
