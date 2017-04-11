@@ -1,6 +1,6 @@
 # easy-hugo [![melpa badge][melpa-badge]][melpa-link] [![melpa stable badge][melpa-stable-badge]][melpa-stable-link]
 
-Emacs package for writing blogs made with hugo by markdown or org-mode
+Emacs major mode for writing blogs made with hugo by markdown or org-mode
 
 ## Screencast
 
