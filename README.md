@@ -28,6 +28,14 @@ If you enter '.org' file name in the minibuffer, org file is automatically gener
 
 ![easy-org-mode](image/org-mode.png)
 
+If you enter '.ad' file name in the minibuffer, AsciiDoc file is automatically generated and you can write a blog with AsciiDoc.
+
+![easy-org-mode](image/asciidoc.png)
+
+If you enter '.rst' file name in the minibuffer, reStructuredText file is automatically generated and you can write a blog with reStructuredText.
+
+![easy-org-mode](image/rst.png)
+
     M-x easy-hugo-preview
 
 ![easy-hugo6](image/easy-hugo6.png)
@@ -86,6 +94,16 @@ If you want the default extension to be '.org'.
 If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".org")
+
+If you want the default extension to be '.ad'.  
+If not set the default extension will be '.md'.
+
+	(setq easy-hugo-default-ext ".ad")
+
+If you want the default extension to be '.rst'.  
+If not set the default extension will be '.md'.
+
+	(setq easy-hugo-default-ext ".rst")
 
 If you want to change to No help-mode from startup
 
