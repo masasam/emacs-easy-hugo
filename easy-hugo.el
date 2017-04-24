@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.5.5
+;; Version: 0.6.5
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -75,7 +75,7 @@
 
 (defconst easy-hugo--preview-buffer "*Hugo Preview*")
 
-(defconst easy-hugo--formats '("md" "org"))
+(defconst easy-hugo--formats '("md" "org" "ad" "rst"))
 
 (defface easy-hugo-help-face
   '((((class color) (background light)) (:bold t :foreground "#82c600" :background "#f0f8ff"))
@@ -141,17 +141,17 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 ;;;###autoload
 (defun easy-hugo-newpost (post-file)
   "Create a new post with hugo.
-POST-FILE needs to have and extension '.md' or '.org'."
+POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst'."
   (interactive (list (read-from-minibuffer "Filename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
   (let ((filename (concat "post/" post-file))
         (file-ext (file-name-extension post-file)))
     (when (not (member file-ext easy-hugo--formats))
-      (error "Please enter .md or .org file name"))
+      (error "Please enter .md or .org or .ad or .rst file name"))
     (easy-hugo-with-env
      (when (file-exists-p (file-truename (concat "content/" filename)))
        (error "%s already exists!" (concat easy-hugo-basedir "content/" filename)))
-     (if (string-equal file-ext "md")
-         (call-process "hugo" nil "*hugo*" t "new" filename))
+     (if (or (string-equal file-ext "md") (string-equal file-ext "ad") (string-equal file-ext "rst"))
+	 (call-process "hugo" nil "*hugo*" t "new" filename))
      (find-file (concat "content/" filename))
      (if (string-equal file-ext "org")
          (insert (easy-hugo--org-headers (file-name-base post-file))))
