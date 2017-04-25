@@ -98,6 +98,9 @@ easy-hugo-root "Root directory of hugo at your server."
 
 easy-hugo-previewtime "Preview display time."
 
+When writing blog with rst-mode at .rst file or web-mode at .html file,
+"C-c C-e" keys are duplicated so please use other keys.
+
 If you want the default extension to be '.org'.  
 If not set the default extension will be '.md'.
 
@@ -124,6 +127,21 @@ If you want customise color, write the following in the init.el or .emacs.
     (((class color) (background dark)) (:bold t :foreground "your-hex-color" :background "your-hex-color")))
 	""
 	:group 'easy-hugo-faces)
+
+If you want change markdown filename extention, please select md or markdown or mdown.
+Because only these three are supported by hugo. If not set markdown filename extension will be 'md'.
+
+	(setq easy-hugo-markdown-extention "markdown")
+
+If you want change asciidoc filename extention, please select ad or asciidoc or adoc.
+Because only these three are supported by hugo. If not set asciidoc filename extension will be 'ad'.
+
+	(setq easy-hugo-asciidoc-extention "asciidoc")
+
+If you want change html filename extention, please select html or htm.
+Because only these two are supported by hugo. If not set html filename extension will be 'html'.
+
+	(setq easy-hugo-asciidoc-extention "htm")
 
 ## Preparation for useing this package
 
