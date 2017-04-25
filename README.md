@@ -1,6 +1,6 @@
 # easy-hugo [![melpa badge][melpa-badge]][melpa-link] [![melpa stable badge][melpa-stable-badge]][melpa-stable-link]
 
-Emacs major mode for writing blogs made with hugo by markdown or org-mode or AsciiDoc or reStructuredText
+Emacs major mode for writing blogs made with hugo by markdown or org-mode or AsciiDoc or reStructuredText or mmark or html
 
 ## Screencast
 
@@ -35,6 +35,14 @@ If you enter '.ad' file name in the minibuffer, AsciiDoc file is automatically g
 If you enter '.rst' file name in the minibuffer, reStructuredText file is automatically generated and you can write a blog with reStructuredText.
 
 ![easy-org-mode](image/rst.png)
+
+If you enter '.mmark' file name in the minibuffer, mmark file is automatically generated and you can write a blog with mmark.
+
+![easy-org-mode](image/mmark.png)
+
+If you enter '.html' file name in the minibuffer, html file is automatically generated and you can write a blog with html.
+
+![easy-org-mode](image/html.png)
 
     M-x easy-hugo-preview
 
