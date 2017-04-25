@@ -128,20 +128,20 @@ If you want customise color, write the following in the init.el or .emacs.
 	""
 	:group 'easy-hugo-faces)
 
-If you want change markdown filename extention, please select md or markdown or mdown.
+If you want change markdown filename extension, please select md or markdown or mdown.
 Because only these three are supported by hugo. If not set markdown filename extension will be 'md'.
 
-	(setq easy-hugo-markdown-extention "markdown")
+	(setq easy-hugo-markdown-extension "markdown")
 
-If you want change asciidoc filename extention, please select ad or asciidoc or adoc.
+If you want change asciidoc filename extension, please select ad or asciidoc or adoc.
 Because only these three are supported by hugo. If not set asciidoc filename extension will be 'ad'.
 
-	(setq easy-hugo-asciidoc-extention "asciidoc")
+	(setq easy-hugo-asciidoc-extension "asciidoc")
 
-If you want change html filename extention, please select html or htm.
+If you want change html filename extension, please select html or htm.
 Because only these two are supported by hugo. If not set html filename extension will be 'html'.
 
-	(setq easy-hugo-asciidoc-extention "htm")
+	(setq easy-hugo-asciidoc-extension "htm")
 
 ## Preparation for useing this package
 
