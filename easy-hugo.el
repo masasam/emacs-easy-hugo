@@ -69,13 +69,39 @@
   :group 'easy-hugo
   :type 'integer)
 
+(defcustom easy-hugo-markdown-extention "md"
+  "Markdown extention.
+Please select md or markdown or mdown.
+Because only these three are supported by hugo."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-asciidoc-extention "ad"
+  "Asciidoc extention.
+Please select ad or asciidoc or adoc.
+Because only these three are supported by hugo."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-html-extention "html"
+  "Html extention.
+Please select html or htm.
+Because only two are supported by hugo."
+  :group 'easy-hugo
+  :type 'string)
+
 (defvar easy-hugo--server-process nil)
 
 (defconst easy-hugo--buffer-name "*Hugo Server*")
 
 (defconst easy-hugo--preview-buffer "*Hugo Preview*")
 
-(defconst easy-hugo--formats '("md" "org" "ad" "rst"))
+(defconst easy-hugo--formats `(,easy-hugo-markdown-extention
+			       "org"
+			       ,easy-hugo-asciidoc-extention
+			       "rst"
+			       "mmark"
+			       ,easy-hugo-html-extention))
 
 (defface easy-hugo-help-face
   '((((class color) (background light)) (:bold t :foreground "#82c600" :background "#f0f8ff"))
@@ -146,11 +172,15 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst'."
   (let ((filename (concat "post/" post-file))
         (file-ext (file-name-extension post-file)))
     (when (not (member file-ext easy-hugo--formats))
-      (error "Please enter .md or .org or .ad or .rst file name"))
+      (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extention easy-hugo-asciidoc-extention easy-hugo-html-extention))
     (easy-hugo-with-env
      (when (file-exists-p (file-truename (concat "content/" filename)))
        (error "%s already exists!" (concat easy-hugo-basedir "content/" filename)))
-     (if (or (string-equal file-ext "md") (string-equal file-ext "ad") (string-equal file-ext "rst"))
+     (if (or (string-equal file-ext easy-hugo-markdown-extention)
+	     (string-equal file-ext easy-hugo-asciidoc-extention)
+	     (string-equal file-ext "rst")
+	     (string-equal file-ext "mmark")
+	     (string-equal file-ext easy-hugo-html-extention))
 	 (call-process "hugo" nil "*hugo*" t "new" filename))
      (find-file (concat "content/" filename))
      (if (string-equal file-ext "org")
@@ -324,27 +354,42 @@ Enjoy!
   "Open file."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1)) easy-hugo-basedir)))
-      (when (and (file-exists-p file) (not (file-directory-p file)))
+$" (thing-at-point 'line))
+	      (eq (point) (point-max))
+	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name
+		 (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		 easy-hugo-basedir)))
+      (when (and (file-exists-p file)
+		 (not (file-directory-p file)))
 	(find-file file)))))
 
 (defun easy-hugo-view ()
   "Open file with 'view-mode'."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1)) easy-hugo-basedir)))
-      (when (and (file-exists-p file) (not (file-directory-p file)))
+$" (thing-at-point 'line))
+	      (eq (point) (point-max))
+	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name
+		 (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		 easy-hugo-basedir)))
+      (when (and (file-exists-p file)
+		 (not (file-directory-p file)))
 	(view-file file)))))
 
 (defun easy-hugo-delete ()
   "Delete file."
   (interactive)
   (unless (or (string-match "^
-$" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1)) easy-hugo-basedir)))
-      (when (and (file-exists-p file) (not (file-directory-p file)))
+$" (thing-at-point 'line))
+	      (eq (point) (point-max))
+	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name
+		 (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		 easy-hugo-basedir)))
+      (when (and (file-exists-p file)
+		 (not (file-directory-p file)))
 	(when (y-or-n-p "Do you delete a file? ")
 	  (if easy-hugo-no-help
 	      (setq easy-hugo--line (- (line-number-at-pos) 2))
@@ -382,9 +427,12 @@ $" (thing-at-point 'line)) (eq (point) (point-max)) (> (+ 1 easy-hugo--forward-c
 	 (cond ((eq 1 easy-hugo--sort-char-flg) (setq files (reverse (sort files 'string<))))
 	       ((eq 2 easy-hugo--sort-char-flg) (setq files (sort files 'string<))))
 	 (while files
-	   (unless (or (string= (car files) ".") (string= (car files) ".."))
+	   (unless (or (string= (car files) ".")
+		       (string= (car files) ".."))
 	     (push
-	      (concat (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir)))) (car files))
+	      (concat
+	       (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes (expand-file-name (concat "content/post/" (car files)) easy-hugo-basedir))))
+	       (car files))
 	      lists))
 	   (pop files))
 	 (cond ((eq 1 easy-hugo--sort-time-flg) (setq lists (reverse (sort lists 'string<))))
