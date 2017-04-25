@@ -69,22 +69,22 @@
   :group 'easy-hugo
   :type 'integer)
 
-(defcustom easy-hugo-markdown-extention "md"
-  "Markdown extention.
+(defcustom easy-hugo-markdown-extension "md"
+  "Markdown extension.
 Please select md or markdown or mdown.
 Because only these three are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
-(defcustom easy-hugo-asciidoc-extention "ad"
-  "Asciidoc extention.
+(defcustom easy-hugo-asciidoc-extension "ad"
+  "Asciidoc extension.
 Please select ad or asciidoc or adoc.
 Because only these three are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
-(defcustom easy-hugo-html-extention "html"
-  "Html extention.
+(defcustom easy-hugo-html-extension "html"
+  "Html extension.
 Please select html or htm.
 Because only two are supported by hugo."
   :group 'easy-hugo
@@ -96,12 +96,12 @@ Because only two are supported by hugo."
 
 (defconst easy-hugo--preview-buffer "*Hugo Preview*")
 
-(defconst easy-hugo--formats `(,easy-hugo-markdown-extention
+(defconst easy-hugo--formats `(,easy-hugo-markdown-extension
 			       "org"
-			       ,easy-hugo-asciidoc-extention
+			       ,easy-hugo-asciidoc-extension
 			       "rst"
 			       "mmark"
-			       ,easy-hugo-html-extention))
+			       ,easy-hugo-html-extension))
 
 (defface easy-hugo-help-face
   '((((class color) (background light)) (:bold t :foreground "#82c600" :background "#f0f8ff"))
@@ -172,15 +172,15 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (let ((filename (concat "post/" post-file))
         (file-ext (file-name-extension post-file)))
     (when (not (member file-ext easy-hugo--formats))
-      (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extention easy-hugo-asciidoc-extention easy-hugo-html-extention))
+      (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
     (easy-hugo-with-env
      (when (file-exists-p (file-truename (concat "content/" filename)))
        (error "%s already exists!" (concat easy-hugo-basedir "content/" filename)))
-     (if (or (string-equal file-ext easy-hugo-markdown-extention)
-	     (string-equal file-ext easy-hugo-asciidoc-extention)
+     (if (or (string-equal file-ext easy-hugo-markdown-extension)
+	     (string-equal file-ext easy-hugo-asciidoc-extension)
 	     (string-equal file-ext "rst")
 	     (string-equal file-ext "mmark")
-	     (string-equal file-ext easy-hugo-html-extention))
+	     (string-equal file-ext easy-hugo-html-extension))
 	 (call-process "hugo" nil "*hugo*" t "new" filename))
      (find-file (concat "content/" filename))
      (if (string-equal file-ext "org")
