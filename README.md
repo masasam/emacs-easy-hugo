@@ -102,7 +102,7 @@ easy-hugo-root "Root directory of hugo at your server."
 
 easy-hugo-previewtime "Preview display time."
 
-If you want deploy hugo at Amazon S3, please set easy-hugo-amazon-s3-bucket-name.
+If you want deploy hugo at Amazon S3, please install AWS CLI and set easy-hugo-amazon-s3-bucket-name.
 
 	(setq easy-hugo-amazon-s3-bucket-name "your-amazon-s3-bucket-name")
 
