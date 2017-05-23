@@ -63,11 +63,15 @@ You can publish your blog to the server and the browser opens automatically.
 
 Open the list of articles you wrote with dired.
 
-	M-x easy-hugo-deploy
+	M-x easy-hugo-github-deploy
 
 Execute deploy.sh which exists in directory 'easy-hugo-basedir'.
 
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
+
+	M-x easy-hugo-amazon-s3-deploy
+
+Deploy hugo source at Amazon S3.
 
 ## Requirements
 
@@ -97,6 +101,10 @@ easy-hugo-sshdomain "Domain written in ~/.ssh/config."
 easy-hugo-root "Root directory of hugo at your server."
 
 easy-hugo-previewtime "Preview display time."
+
+If you want deploy hugo at Amazon S3, please set easy-hugo-amazon-s3-bucket-name.
+
+	(setq easy-hugo-amazon-s3-bucket-name "your-amazon-s3-bucket-name")
 
 When writing blog with rst-mode at .rst file or web-mode at .html file,
 "C-c C-e" keys are duplicated so please use other keys.
