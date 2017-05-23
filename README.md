@@ -73,6 +73,10 @@ It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pa
 
 Deploy hugo source at Amazon S3.
 
+	M-x easy-hugo-google-cloud-storage-deploy
+
+Deploy hugo source at Google Cloud Storage.
+
 ## Requirements
 
 - Emacs 24.4 or higher
@@ -105,6 +109,10 @@ easy-hugo-previewtime "Preview display time."
 If you want deploy hugo at Amazon S3, please install AWS CLI and set easy-hugo-amazon-s3-bucket-name.
 
 	(setq easy-hugo-amazon-s3-bucket-name "your-amazon-s3-bucket-name")
+
+If you want deploy hugo at Google Cloud Storage, please install Google Cloud SDK and set easy-hugo-google-cloud-storage-bucket-name.
+
+	(setq easy-hugo-google-cloud-storage-bucket-name "your-google-cloud-storage-bucket-name")
 
 When writing blog with rst-mode at .rst file or web-mode at .html file,
 "C-c C-e" keys are duplicated so please use other keys.
