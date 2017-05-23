@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.6.7
+;; Version: 0.7.7
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -58,6 +58,11 @@
   "Preview display time."
   :group 'easy-hugo
   :type 'integer)
+
+(defcustom easy-hugo-amazon-s3-bucket-name nil
+  "Amazon-S3-bucket-name."
+  :group 'easy-hugo
+  :type 'string)
 
 (defcustom easy-hugo-default-ext ".md"
   "Default extension when posting new articles."
@@ -213,7 +218,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (concat (substring x 0 3) ":" (substring x 3 5)))
 
 ;;;###autoload
-(defun easy-hugo-deploy ()
+(defun easy-hugo-github-deploy ()
   "Execute deploy.sh script locate at 'easy-hugo-basedir'."
   (interactive)
   (easy-hugo-with-env
@@ -225,11 +230,26 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
      (when easy-hugo-url
        (browse-url easy-hugo-url)))))
 
+;;;###autoload
+(defun easy-hugo-amazon-s3-deploy ()
+  "Deploy hugo source at Amazon S3."
+  (interactive)
+  (easy-hugo-with-env
+   (unless (executable-find "aws")
+     (error "'aws' is not installed"))
+   (when (file-directory-p "public")
+     (delete-directory "public" t nil))
+   (shell-command-to-string "hugo --destination public")
+   (shell-command-to-string (concat "aws s3 sync --delete public s3://" easy-hugo-amazon-s3-bucket-name "/"))
+   (message "Blog deployed")
+   (when easy-hugo-url
+     (browse-url easy-hugo-url))))
+
 (defconst easy-hugo--help
   "Easy-hugo
 
-n ... New blog post    G ... Deploy github-pages  S ... Sort character
-p ... Preview          g ... Refresh              r ... Refresh
+n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
+p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort time            D ... Dired
 d ... Delete post      j ... Next line            h ... Backword char
 P ... Publish server   k ... Previous line        l ... Forward char
@@ -275,7 +295,8 @@ Enjoy!
     (define-key map "g" 'easy-hugo-refresh)
     (define-key map "s" 'easy-hugo-sort-time)
     (define-key map "S" 'easy-hugo-sort-char)
-    (define-key map "G" 'easy-hugo-deploy)
+    (define-key map "G" 'easy-hugo-github-deploy)
+    (define-key map "A" 'easy-hugo-amazon-s3-deploy)
     (define-key map "q" 'easy-hugo-quit)
     map)
   "Keymap for easy-hugo major mode.")
