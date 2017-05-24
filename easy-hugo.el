@@ -237,6 +237,8 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (easy-hugo-with-env
    (unless (executable-find "aws")
      (error "'aws' is not installed"))
+   (unless easy-hugo-amazon-s3-bucket-name
+     (error "Please set 'easy-hugo-amazon-s3-bucket-name' variable"))
    (when (file-directory-p "public")
      (delete-directory "public" t nil))
    (shell-command-to-string "hugo --destination public")
