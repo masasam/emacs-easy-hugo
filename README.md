@@ -196,6 +196,8 @@ config.toml
 
 Let's build with a free trial of "google compute engine" or "amazon ec2".
 
+If you want deploy hugo at GitHub Pages or Amazon S3 or Google Cloud Storage, This paragraph is not necessary.
+
 I created my blog in google compute engine.
 
 Check if rsync is installed on the server.
