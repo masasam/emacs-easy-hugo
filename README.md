@@ -59,6 +59,12 @@ Since the process of hugo running in the PC disappears in 300 seconds,you do not
 
 You can publish your blog to the server and the browser opens automatically.
 
+	M-x easy-hugo-helm-ag
+
+![easy-hugo-helm-ag](image/easy-hugo-helm-ag.png)
+
+You can search blog article with helm-ag.
+
     M-x easy-hugo-article
 
 Open the list of articles you wrote with dired.
