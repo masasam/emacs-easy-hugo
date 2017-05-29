@@ -37,7 +37,7 @@
   "Faces used in `easy-hugo'"
   :group 'easy-hugo :group 'faces)
 
-(defcustom easy-hugo-postdir "content/blog" 
+(defcustom easy-hugo-postdir "content/post" 
   "Directory where the theme store it's posts"
   :group 'easy-hugo
   :type 'string)
