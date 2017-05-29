@@ -283,6 +283,15 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
 
+;;;###autoload
+(defun easy-hugo-helm-ag ()
+"Search for blog article with helm-ag."
+(interactive)
+(easy-hugo-with-env
+ (if (featurep 'helm-ag)
+     (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+   (error "'helm-ag' is not installed"))))
+
 (defconst easy-hugo--help
   (concat "Easy-hugo  " easy-hugo-basedir "
 
@@ -291,8 +300,8 @@ p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort time            D ... Dired
 d ... Delete post      j ... Next line            h ... Backword char
 P ... Publish server   k ... Previous line        l ... Forward char
-r ... Refresh          C ... Deploy GCP Storage   N ... No help-mode
-? ... Help easy-hugo   q ... Quit easy-hugo
+r ... Refresh          C ... Deploy GCP Storage   a ... Search with helm-ag
+N ... No help-mode     ? ... Help easy-hugo       q ... Quit easy-hugo
 
 ")
   "Help of easy-hugo.")
@@ -313,6 +322,7 @@ Enjoy!
 (defvar easy-hugo-mode-map
   (let ((map (make-keymap)))
     (define-key map "n" 'easy-hugo-newpost)
+    (define-key map "a" 'easy-hugo-helm-ag)
     (define-key map "D" 'easy-hugo-article)
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)
