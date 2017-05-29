@@ -37,6 +37,11 @@
   "Faces used in `easy-hugo'"
   :group 'easy-hugo :group 'faces)
 
+(defcustom easy-hugo-postdir "content/post" 
+  "Directory where the theme store it's posts"
+  :group 'easy-hugo
+  :type 'string)
+
 (defcustom easy-hugo-basedir nil
   "Directory where hugo html source code is placed."
   :group 'easy-hugo
@@ -407,7 +412,7 @@ Enjoy!
 	      (eq (point) (point-max))
 	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
     (let ((file (expand-file-name
-		 (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
 		 easy-hugo-basedir)))
       (when (and (file-exists-p file)
 		 (not (file-directory-p file)))
@@ -420,7 +425,7 @@ Enjoy!
 	      (eq (point) (point-max))
 	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
     (let ((file (expand-file-name
-		 (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
 		 easy-hugo-basedir)))
       (when (and (file-exists-p file)
 		 (not (file-directory-p file)))
@@ -433,7 +438,7 @@ Enjoy!
 	      (eq (point) (point-max))
 	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
     (let ((file (expand-file-name
-		 (concat "content/post/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
 		 easy-hugo-basedir)))
       (when (and (file-exists-p file)
 		 (not (file-directory-p file)))
@@ -452,7 +457,7 @@ Enjoy!
   "Easy hugo."
   (interactive)
   (easy-hugo-with-env
-   (unless (file-directory-p (expand-file-name "content/post" easy-hugo-basedir))
+   (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
      (error "Did you execute hugo new site bookshelf?"))
    (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
    (switch-to-buffer easy-hugo--mode-buffer)
@@ -463,7 +468,7 @@ Enjoy!
      (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
      (setq easy-hugo--cursor (point)))
-   (let ((files (directory-files (expand-file-name "content/post" easy-hugo-basedir)))
+   (let ((files (directory-files (expand-file-name easy-hugo-postdir easy-hugo-basedir)))
 	 (lists (list)))
      (if (eq 2 (length files))
 	 (progn
@@ -480,7 +485,7 @@ Enjoy!
 	      (concat
 	       (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes
 								(expand-file-name
-								 (concat "content/post/" (car files))
+								 (concat easy-hugo-postdir "/" (car files))
 								 easy-hugo-basedir))))
 	       (car files))
 	      lists))
