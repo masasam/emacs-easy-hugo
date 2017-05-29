@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.8.7
+;; Version: 0.9.7
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -36,11 +36,6 @@
 (defgroup easy-hugo-faces nil
   "Faces used in `easy-hugo'"
   :group 'easy-hugo :group 'faces)
-
-(defcustom easy-hugo-postdir "content/post" 
-  "Directory where the theme store it's posts"
-  :group 'easy-hugo
-  :type 'string)
 
 (defcustom easy-hugo-basedir nil
   "Directory where hugo html source code is placed."
@@ -108,11 +103,22 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
-(defvar easy-hugo--server-process nil)
+(defcustom easy-hugo-postdir "content/post"
+  "Directory where the theme store it's posts."
+  :group 'easy-hugo
+  :type 'string)
 
-(defconst easy-hugo--buffer-name "*Hugo Server*")
+(defvar easy-hugo--server-process nil
+  "Hugo process.")
 
-(defconst easy-hugo--preview-buffer "*Hugo Preview*")
+(defconst easy-hugo--delete-line 12
+  "Easy-hugo-delete line number.")
+
+(defconst easy-hugo--buffer-name "*Hugo Server*"
+  "Easy-hugo buffer name.")
+
+(defconst easy-hugo--preview-buffer "*Hugo Preview*"
+  "Easy-hugo preview buffer name.")
 
 (defconst easy-hugo--formats `(,easy-hugo-markdown-extension
 			       "org"
@@ -133,7 +139,7 @@ Because only two are supported by hugo."
   (interactive)
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
-  (find-file (expand-file-name "content/post" easy-hugo-basedir)))
+  (find-file (expand-file-name easy-hugo-postdir easy-hugo-basedir)))
 
 (defmacro easy-hugo-with-env (&rest body)
   "Evaluate BODY with `default-directory' set to `easy-hugo-basedir'.
@@ -277,18 +283,27 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
 
+;;;###autoload
+(defun easy-hugo-helm-ag ()
+"Search for blog article with helm-ag."
+(interactive)
+(easy-hugo-with-env
+ (if (featurep 'helm-ag)
+     (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+   (error "'helm-ag' is not installed"))))
+
 (defconst easy-hugo--help
-  "Easy-hugo
+  (concat "Easy-hugo  " easy-hugo-basedir "
 
 n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort time            D ... Dired
 d ... Delete post      j ... Next line            h ... Backword char
 P ... Publish server   k ... Previous line        l ... Forward char
-r ... Refresh          C ... Deploy GCP Storage   N ... No help-mode
-? ... Help easy-hugo   q ... Quit easy-hugo
+r ... Refresh          C ... Deploy GCP Storage   a ... Search with helm-ag
+N ... No help-mode     ? ... Help easy-hugo       q ... Quit easy-hugo
 
-"
+")
   "Help of easy-hugo.")
 
 (defconst easy-hugo--first-help
@@ -307,6 +322,7 @@ Enjoy!
 (defvar easy-hugo-mode-map
   (let ((map (make-keymap)))
     (define-key map "n" 'easy-hugo-newpost)
+    (define-key map "a" 'easy-hugo-helm-ag)
     (define-key map "D" 'easy-hugo-article)
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)
@@ -445,7 +461,7 @@ Enjoy!
 	(when (y-or-n-p (concat "Delete " file))
 	  (if easy-hugo-no-help
 	      (setq easy-hugo--line (- (line-number-at-pos) 2))
-	    (setq easy-hugo--line (- (line-number-at-pos) 12)))
+	    (setq easy-hugo--line (- (line-number-at-pos) easy-hugo--delete-line)))
 	  (delete-file file)
 	  (easy-hugo)
 	  (when (> easy-hugo--line 0)

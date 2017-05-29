@@ -59,6 +59,12 @@ Since the process of hugo running in the PC disappears in 300 seconds,you do not
 
 You can publish your blog to the server and the browser opens automatically.
 
+	M-x easy-hugo-helm-ag
+
+![easy-hugo-helm-ag](image/easy-hugo-helm-ag.png)
+
+You can search blog article with helm-ag.
+
     M-x easy-hugo-article
 
 Open the list of articles you wrote with dired.
@@ -158,6 +164,11 @@ If you want change html filename extension, please select html or htm.
 Because only these two are supported by hugo. If not set html filename extension will be 'html'.
 
 	(setq easy-hugo-asciidoc-extension "htm")
+
+Themes like https://github.com/nishanths/cocoa-hugo-theme store its posts under content/blog.
+Cocoa-hugo-theme user should add the following settings to init.el or .emacs.
+
+	(setq easy-hugo-postdir "content/blog")
 
 ## Preparation for useing this package
 
