@@ -284,7 +284,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
      (browse-url easy-hugo-url))))
 
 (defconst easy-hugo--help
-  "Easy-hugo
+  (concat "Easy-hugo  " easy-hugo-basedir "
 
 n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
@@ -294,7 +294,7 @@ P ... Publish server   k ... Previous line        l ... Forward char
 r ... Refresh          C ... Deploy GCP Storage   N ... No help-mode
 ? ... Help easy-hugo   q ... Quit easy-hugo
 
-"
+")
   "Help of easy-hugo.")
 
 (defconst easy-hugo--first-help
