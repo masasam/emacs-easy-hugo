@@ -159,6 +159,11 @@ Because only these two are supported by hugo. If not set html filename extension
 
 	(setq easy-hugo-asciidoc-extension "htm")
 
+Themes like https://github.com/nishanths/cocoa-hugo-theme store its posts under content/blog.
+Cocoa-hugo-theme user should add the following settings to init.el or .emacs.
+
+	(setq easy-hugo-postdir "content/blog")
+
 ## Preparation for useing this package
 
 Install hugo
