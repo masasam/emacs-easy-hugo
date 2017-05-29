@@ -37,11 +37,6 @@
   "Faces used in `easy-hugo'"
   :group 'easy-hugo :group 'faces)
 
-(defcustom easy-hugo-postdir "content/post"
-  "Directory where the theme store it's posts."
-  :group 'easy-hugo
-  :type 'string)
-
 (defcustom easy-hugo-basedir nil
   "Directory where hugo html source code is placed."
   :group 'easy-hugo
@@ -108,11 +103,22 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
-(defvar easy-hugo--server-process nil)
+(defcustom easy-hugo-postdir "content/post"
+  "Directory where the theme store it's posts."
+  :group 'easy-hugo
+  :type 'string)
 
-(defconst easy-hugo--buffer-name "*Hugo Server*")
+(defvar easy-hugo--server-process nil
+  "Hugo process.")
 
-(defconst easy-hugo--preview-buffer "*Hugo Preview*")
+(defconst easy-hugo--delete-line 12
+  "Easy-hugo-delete line number.")
+
+(defconst easy-hugo--buffer-name "*Hugo Server*"
+  "Easy-hugo buffer name.")
+
+(defconst easy-hugo--preview-buffer "*Hugo Preview*"
+  "Easy-hugo preview buffer name.")
 
 (defconst easy-hugo--formats `(,easy-hugo-markdown-extension
 			       "org"
@@ -445,7 +451,7 @@ Enjoy!
 	(when (y-or-n-p (concat "Delete " file))
 	  (if easy-hugo-no-help
 	      (setq easy-hugo--line (- (line-number-at-pos) 2))
-	    (setq easy-hugo--line (- (line-number-at-pos) 12)))
+	    (setq easy-hugo--line (- (line-number-at-pos) easy-hugo--delete-line)))
 	  (delete-file file)
 	  (easy-hugo)
 	  (when (> easy-hugo--line 0)
