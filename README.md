@@ -10,6 +10,8 @@ Emacs major mode for writing blogs made with hugo by markdown or org-mode or Asc
 
 You can manage blogs on easy-hugo-mode.
 
+If you manage multiple blogs You can switch blogs with the < or > key.
+
 ![easy-hugo-mode](image/easy-hugo-mode.png)
 
     M-x easy-hugo-newpost
