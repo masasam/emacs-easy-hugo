@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 0.9.7
+;; Version: 0.9.9
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -108,10 +108,285 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-blog-number nil
+  "Number of your blog which you managed."
+  :group 'easy-hugo
+  :type 'integer)
+
+(defcustom easy-hugo-basedir-1 nil
+  "Blog1 base directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-url-1 nil
+  "Blog1 url."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-root-1 nil
+  "Blog1 root."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-sshdomain-1 nil
+  "Blog1 sshdomain."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-amazon-s3-bucket-name-1 nil
+  "Blog1 amazon s3 bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-google-cloud-storage-bucket-name-1 nil
+  "Blog1 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-basedir-2 nil
+  "Blog2 base directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-url-2 nil
+  "Blog2 url."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-root-2 nil
+  "Blog2 root."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-sshdomain-2 nil
+  "Blog2 sshdomain."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-amazon-s3-bucket-name-2 nil
+  "Blog2 amazon s3 bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-google-cloud-storage-bucket-name-2 nil
+  "Blog2 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-basedir-3 nil
+  "Blog3 base directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-url-3 nil
+  "Blog3 url."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-root-3 nil
+  "Blog3 root."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-sshdomain-3 nil
+  "Blog3 sshdomain."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-amazon-s3-bucket-name-3 nil
+  "Blog3 amazon s3 bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-google-cloud-storage-bucket-name-3 nil
+  "Blog3 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-basedir-4 nil
+  "Blog1 base directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-url-4 nil
+  "Blog4 url."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-root-4 nil
+  "Blog4 root."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-sshdomain-4 nil
+  "Blog4 sshdomain."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-amazon-s3-bucket-name-4 nil
+  "Blog4 amazon s3 bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom  easy-hugo-google-cloud-storage-bucket-name-4 nil
+  "Blog4 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-basedir-5 nil
+  "Blog5 base directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-url-5 nil
+  "Blog5 url."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-root-5 nil
+  "Blog5 root."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-sshdomain-5 nil
+  "Blog5 sshdomain."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-amazon-s3-bucket-name-5 nil
+  "Blog5 amazon s3 bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-google-cloud-storage-bucket-name-5 nil
+  "Blog5 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-basedir-6 nil
+  "Blog6 base directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-url-6 nil
+  "Blog6 url."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-root-6 nil
+  "Blog6 root."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-sshdomain-6 nil
+  "Blog6 sshdomain."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-amazon-s3-bucket-name-6 nil
+  "Blog6 amazon s3 bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-google-cloud-storage-bucket-name-6 nil
+  "Blog6 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-basedir-7 nil
+  "Blog7 base directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-url-7 nil
+  "Blog7 url."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-root-7 nil
+  "Blog7 root."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-sshdomain-7 nil
+  "Blog7 sshdomain."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-amazon-s3-bucket-name-7 nil
+  "Blog7 amazon s3 bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-google-cloud-storage-bucket-name-7 nil
+  "Blog7 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-basedir-8 nil
+  "Blog8 base directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-url-8 nil
+  "Blog8 url."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-root-8 nil
+  "Blog8 root."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-sshdomain-8 nil
+  "Blog8 sshdomain."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom  easy-hugo-amazon-s3-bucket-name-8 nil
+  "Blog8 amazon s3 bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-google-cloud-storage-bucket-name-8 nil
+  "Blog8 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-basedir-9 nil
+  "Blog9 base directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-url-9 nil
+  "Blog9 url."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-root-9 nil
+  "Blog1 root."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-sshdomain-9 nil
+  "Blog9 sshdomain."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-amazon-s3-bucket-name-9 nil
+  "Blog9 amazon s3 bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-google-cloud-storage-bucket-name-9 nil
+  "Blog9 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
 (defvar easy-hugo--server-process nil
   "Hugo process.")
 
-(defconst easy-hugo--delete-line 12
+(defconst easy-hugo--delete-line 11
   "Easy-hugo-delete line number.")
 
 (defconst easy-hugo--buffer-name "*Hugo Server*"
@@ -193,7 +468,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Create a new post with hugo.
 POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mmark' or '.html'."
   (interactive (list (read-from-minibuffer "Filename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
-  (let ((filename (concat (replace-regexp-in-string (regexp-quote "content/") "" easy-hugo-postdir t t) post-file))
+  (let ((filename (concat (replace-regexp-in-string (regexp-quote "content/") "" easy-hugo-postdir t t) "/" post-file))
         (file-ext (file-name-extension post-file)))
     (when (not (member file-ext easy-hugo--formats))
       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
@@ -285,25 +560,23 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 
 ;;;###autoload
 (defun easy-hugo-helm-ag ()
-"Search for blog article with helm-ag."
-(interactive)
-(easy-hugo-with-env
- (if (featurep 'helm-ag)
-     (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-   (error "'helm-ag' is not installed"))))
+  "Search for blog article with helm-ag."
+  (interactive)
+  (easy-hugo-with-env
+   (if (featurep 'helm-ag)
+       (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+     (error "'helm-ag' is not installed"))))
 
 (defconst easy-hugo--help
-  (concat "Easy-hugo  " easy-hugo-basedir "
-
+  "
 n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort time            D ... Dired
-d ... Delete post      j ... Next line            h ... Backword char
-P ... Publish server   k ... Previous line        l ... Forward char
-r ... Refresh          C ... Deploy GCP Storage   a ... Search with helm-ag
-N ... No help-mode     ? ... Help easy-hugo       q ... Quit easy-hugo
+d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
+P ... Publish server   N ... No help-mode         a ... Search with helm-ag
+< ... Previous blog    > ... Next blog            q ... Quit easy-hugo
 
-")
+"
   "Help of easy-hugo.")
 
 (defconst easy-hugo--first-help
@@ -348,6 +621,8 @@ Enjoy!
     (define-key map "A" 'easy-hugo-amazon-s3-deploy)
     (define-key map "C" 'easy-hugo-google-cloud-storage-deploy)
     (define-key map "q" 'easy-hugo-quit)
+    (define-key map "<" 'easy-hugo-previous-blog)
+    (define-key map ">" 'easy-hugo-next-blog)
     map)
   "Keymap for easy-hugo major mode.")
 
@@ -368,6 +643,30 @@ Enjoy!
 
 (defvar easy-hugo--refresh nil
   "Refresh flg of easy-hugo.")
+
+(defvar easy-hugo--current-blog 0
+  "Current blog number.")
+
+(defconst easy-hugo--blog-maximum-number 10
+  "Maximum number of blogs.")
+
+(defconst easy-hugo-basedir-0 easy-hugo-basedir
+  "Default blog base directory.")
+
+(defconst easy-hugo-url-0 easy-hugo-url
+  "Default blog url.")
+
+(defconst easy-hugo-root-0 easy-hugo-root
+  "Default blog root.")
+
+(defconst easy-hugo-sshdomain-0 easy-hugo-sshdomain
+  "Default blog sshdomain.")
+
+(defconst easy-hugo-amazon-s3-bucket-name-0 easy-hugo-amazon-s3-bucket-name
+  "Default blog amazon s3 bucket name.")
+
+(defconst easy-hugo-google-cloud-storage-bucket-name-0 easy-hugo-google-cloud-storage-bucket-name
+  "Default blog google cloud storage bucket name.")
 
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
@@ -468,6 +767,260 @@ Enjoy!
 	    (forward-line easy-hugo--line)
 	    (forward-char easy-hugo--forward-char)))))))
 
+(defun easy-hugo-next-blog ()
+  "Go to next blog."
+  (interactive)
+  (if (eq easy-hugo--blog-maximum-number easy-hugo--current-blog)
+      (setq easy-hugo--current-blog 0)
+    (setq easy-hugo--current-blog (+ easy-hugo--current-blog 1)))
+  (cond ((eq easy-hugo--current-blog 1) (easy-hugo-1))
+	((eq easy-hugo--current-blog 2) (easy-hugo-2))
+	((eq easy-hugo--current-blog 3) (easy-hugo-3))
+	((eq easy-hugo--current-blog 4) (easy-hugo-4))
+	((eq easy-hugo--current-blog 5) (easy-hugo-5))
+	((eq easy-hugo--current-blog 6) (easy-hugo-6))
+	((eq easy-hugo--current-blog 7) (easy-hugo-7))
+	((eq easy-hugo--current-blog 8) (easy-hugo-8))
+	((eq easy-hugo--current-blog 9) (easy-hugo-9))
+	((eq easy-hugo--current-blog 0) (easy-hugo-0))))
+
+(defun easy-hugo-previous-blog ()
+  "Go to previous blog."
+  (interactive)
+  (if (> 0 (- easy-hugo--current-blog 1))
+      (when easy-hugo-blog-number
+	(setq easy-hugo--current-blog (- easy-hugo-blog-number 1)))
+    (setq easy-hugo--current-blog (- easy-hugo--current-blog 1)))
+  (cond ((eq easy-hugo--current-blog 1) (easy-hugo-1))
+	((eq easy-hugo--current-blog 2) (easy-hugo-2))
+	((eq easy-hugo--current-blog 3) (easy-hugo-3))
+	((eq easy-hugo--current-blog 4) (easy-hugo-4))
+	((eq easy-hugo--current-blog 5) (easy-hugo-5))
+	((eq easy-hugo--current-blog 6) (easy-hugo-6))
+	((eq easy-hugo--current-blog 7) (easy-hugo-7))
+	((eq easy-hugo--current-blog 8) (easy-hugo-8))
+	((eq easy-hugo--current-blog 9) (easy-hugo-9))
+	((eq easy-hugo--current-blog 0) (easy-hugo-0))))
+
+(defun easy-hugo-0 ()
+  "Default blog."
+  (interactive)
+  (setq easy-hugo-basedir easy-hugo-basedir-0
+        easy-hugo-url easy-hugo-url-0
+        easy-hugo-root easy-hugo-root-0
+	easy-hugo-sshdomain easy-hugo-sshdomain-0
+	easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
+	easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+  (easy-hugo--preview-end)
+  (easy-hugo))
+
+(defun easy-hugo-1 ()
+  "Blog1."
+  (interactive)
+  (if (or (null easy-hugo-basedir-1) (null easy-hugo-url-1))
+      (setq easy-hugo--current-blog 0)
+    (progn
+      (setq easy-hugo-basedir easy-hugo-basedir-1
+	    easy-hugo-url easy-hugo-url-1
+	    easy-hugo-root easy-hugo-root-1
+	    easy-hugo-sshdomain easy-hugo-sshdomain-1
+	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-1
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-1)
+      (easy-hugo--preview-end)
+      (easy-hugo))))
+
+(defun easy-hugo-2 ()
+  "Blog2."
+  (interactive)
+  (if (or (null easy-hugo-basedir-2) (null easy-hugo-url-2))
+      (progn
+	(setq easy-hugo--current-blog 0)
+	(setq easy-hugo-basedir easy-hugo-basedir-0
+	      easy-hugo-url easy-hugo-url-0
+	      easy-hugo-root easy-hugo-root-0
+	      easy-hugo-sshdomain easy-hugo-sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(easy-hugo--preview-end)
+	(easy-hugo))
+    (progn
+      (setq easy-hugo-basedir easy-hugo-basedir-2
+	    easy-hugo-url easy-hugo-url-2
+	    easy-hugo-root easy-hugo-root-2
+	    easy-hugo-sshdomain easy-hugo-sshdomain-2
+	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-2
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-2)
+      (easy-hugo--preview-end)
+      (easy-hugo))))
+
+(defun easy-hugo-3 ()
+  "Blog3."
+  (interactive)
+  (if (or (null easy-hugo-basedir-3) (null easy-hugo-url-3))
+      (progn
+	(setq easy-hugo--current-blog 0)
+	(setq easy-hugo-basedir easy-hugo-basedir-0
+	      easy-hugo-url easy-hugo-url-0
+	      easy-hugo-root easy-hugo-root-0
+	      easy-hugo-sshdomain easy-hugo-sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(easy-hugo--preview-end)
+	(easy-hugo))
+    (progn
+      (setq easy-hugo-basedir easy-hugo-basedir-3
+	    easy-hugo-url easy-hugo-url-3
+	    easy-hugo-root easy-hugo-root-3
+	    easy-hugo-sshdomain easy-hugo-sshdomain-3
+	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-3
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-3)
+      (easy-hugo--preview-end)
+      (easy-hugo))))
+
+(defun easy-hugo-4 ()
+  "Blog4."
+  (interactive)
+  (if (or (null easy-hugo-basedir-4) (null easy-hugo-url-4))
+      (progn
+	(setq easy-hugo--current-blog 0)
+	(setq easy-hugo-basedir easy-hugo-basedir-0
+	      easy-hugo-url easy-hugo-url-0
+	      easy-hugo-root easy-hugo-root-0
+	      easy-hugo-sshdomain easy-hugo-sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(easy-hugo--preview-end)
+	(easy-hugo))
+    (progn
+      (setq easy-hugo-basedir easy-hugo-basedir-4
+	    easy-hugo-url easy-hugo-url-4
+	    easy-hugo-root easy-hugo-root-4
+	    easy-hugo-sshdomain easy-hugo-sshdomain-4
+	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-4
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-4)
+      (easy-hugo--preview-end)
+      (easy-hugo))))
+
+(defun easy-hugo-5 ()
+  "Blog5."
+  (interactive)
+  (if (or (null easy-hugo-basedir-5) (null easy-hugo-url-5))
+      (progn
+	(setq easy-hugo--current-blog 0)
+	(setq easy-hugo-basedir easy-hugo-basedir-0
+	      easy-hugo-url easy-hugo-url-0
+	      easy-hugo-root easy-hugo-root-0
+	      easy-hugo-sshdomain easy-hugo-sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(easy-hugo--preview-end)
+	(easy-hugo))
+    (progn
+      (setq easy-hugo-basedir easy-hugo-basedir-5
+	    easy-hugo-url easy-hugo-url-5
+	    easy-hugo-root easy-hugo-root-5
+	    easy-hugo-sshdomain easy-hugo-sshdomain-5
+	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-5
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-5)
+      (easy-hugo--preview-end)
+      (easy-hugo))))
+
+(defun easy-hugo-6 ()
+  "Blog6."
+  (interactive)
+  (if (or (null easy-hugo-basedir-6) (null easy-hugo-url-6))
+      (progn
+	(setq easy-hugo--current-blog 0)
+	(setq easy-hugo-basedir easy-hugo-basedir-0
+	      easy-hugo-url easy-hugo-url-0
+	      easy-hugo-root easy-hugo-root-0
+	      easy-hugo-sshdomain easy-hugo-sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(easy-hugo--preview-end)
+	(easy-hugo))
+    (progn
+      (setq easy-hugo-basedir easy-hugo-basedir-6
+	    easy-hugo-url easy-hugo-url-6
+	    easy-hugo-root easy-hugo-root-6
+	    easy-hugo-sshdomain easy-hugo-sshdomain-6
+	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-6
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-6)
+      (easy-hugo--preview-end)
+      (easy-hugo))))
+
+(defun easy-hugo-7 ()
+  "Blog7."
+  (interactive)
+  (if (or (null easy-hugo-basedir-7) (null easy-hugo-url-7))
+      (progn
+	(setq easy-hugo--current-blog 0)
+	(setq easy-hugo-basedir easy-hugo-basedir-0
+	      easy-hugo-url easy-hugo-url-0
+	      easy-hugo-root easy-hugo-root-0
+	      easy-hugo-sshdomain easy-hugo-sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(easy-hugo--preview-end)
+	(easy-hugo))
+    (progn
+      (setq easy-hugo-basedir easy-hugo-basedir-7
+	    easy-hugo-url easy-hugo-url-7
+	    easy-hugo-root easy-hugo-root-7
+	    easy-hugo-sshdomain easy-hugo-sshdomain-7
+	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-7
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-7)
+      (easy-hugo--preview-end)
+      (easy-hugo))))
+
+(defun easy-hugo-8 ()
+  "Blog8."
+  (interactive)
+  (if (or (null easy-hugo-basedir-8) (null easy-hugo-url-8))
+      (progn
+	(setq easy-hugo--current-blog 0)
+	(setq easy-hugo-basedir easy-hugo-basedir-0
+	      easy-hugo-url easy-hugo-url-0
+	      easy-hugo-root easy-hugo-root-0
+	      easy-hugo-sshdomain easy-hugo-sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(easy-hugo--preview-end)
+	(easy-hugo))
+    (progn
+      (setq easy-hugo-basedir easy-hugo-basedir-8
+	    easy-hugo-url easy-hugo-url-8
+	    easy-hugo-root easy-hugo-root-8
+	    easy-hugo-sshdomain easy-hugo-sshdomain-8
+	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-8
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-8)
+      (easy-hugo--preview-end)
+      (easy-hugo))))
+
+(defun easy-hugo-9 ()
+  "Blog9."
+  (interactive)
+  (if (or (null easy-hugo-basedir-9) (null easy-hugo-url-9))
+      (progn
+	(setq easy-hugo--current-blog 0)
+	(setq easy-hugo-basedir easy-hugo-basedir-0
+	      easy-hugo-url easy-hugo-url-0
+	      easy-hugo-root easy-hugo-root-0
+	      easy-hugo-sshdomain easy-hugo-sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(easy-hugo--preview-end)
+	(easy-hugo))
+    (progn
+      (setq easy-hugo-basedir easy-hugo-basedir-9
+	    easy-hugo-url easy-hugo-url-9
+	    easy-hugo-root easy-hugo-root-9
+	    easy-hugo-sshdomain easy-hugo-sshdomain-9
+	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-9
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-9)
+      (easy-hugo--preview-end)
+      (easy-hugo))))
+
 ;;;###autoload
 (defun easy-hugo ()
   "Easy hugo."
@@ -481,6 +1034,7 @@ Enjoy!
    (setq buffer-read-only nil)
    (erase-buffer)
    (unless easy-hugo-no-help
+     (insert (propertize (concat "Easy-hugo  " easy-hugo-url "\n") 'face 'easy-hugo-help-face))
      (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
      (setq easy-hugo--cursor (point)))
