@@ -386,7 +386,7 @@ Because only two are supported by hugo."
 (defvar easy-hugo--server-process nil
   "Hugo process.")
 
-(defconst easy-hugo--delete-line 12
+(defconst easy-hugo--delete-line 11
   "Easy-hugo-delete line number.")
 
 (defconst easy-hugo--buffer-name "*Hugo Server*"
@@ -572,11 +572,10 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort time            D ... Dired
-d ... Delete post      j ... Next line            h ... Backword char
-P ... Publish server   k ... Previous line        l ... Forward char
-r ... Refresh          C ... Deploy GCP Storage   a ... Search with helm-ag
-N ... No help-mode     ? ... Help easy-hugo       q ... Quit easy-hugo
-              < ... Previous blog  |  Next blog ... >
+d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
+P ... Publish server   N ... No help-mode         a ... Search with helm-ag
+< ... Previous blog    > ... Next blog            q ... Quit easy-hugo
+
 "
   "Help of easy-hugo.")
 
