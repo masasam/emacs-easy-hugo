@@ -218,11 +218,11 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (interactive)
   (easy-hugo-with-env
    (if (process-live-p easy-hugo--server-process)
-       (browse-url "http://localhost:1313/")
+       (browse-url easy-hugo-url)
      (progn
        (setq easy-hugo--server-process
 	     (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server"))
-       (browse-url "http://localhost:1313/")
+       (browse-url easy-hugo-url)
        (run-at-time easy-hugo-previewtime nil 'easy-hugo--preview-end)))))
 
 (defun easy-hugo--preview-end ()
