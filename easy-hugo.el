@@ -789,7 +789,8 @@ Enjoy!
   "Go to previous blog."
   (interactive)
   (if (> 0 (- easy-hugo--current-blog 1))
-      (setq easy-hugo--current-blog (- easy-hugo-blog-number 1))
+      (when easy-hugo-blog-number
+	(setq easy-hugo--current-blog (- easy-hugo-blog-number 1)))
     (setq easy-hugo--current-blog (- easy-hugo--current-blog 1)))
   (cond ((eq easy-hugo--current-blog 1) (easy-hugo-1))
 	((eq easy-hugo--current-blog 2) (easy-hugo-2))
