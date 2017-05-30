@@ -150,6 +150,34 @@ If you want customise color, write the following in the init.el or .emacs.
 	""
 	:group 'easy-hugo-faces)
 
+If you want to manage multiple blogs.  
+Example of setting when adding two blogs and managing a total of three blogs.
+
+	(setq easy-hugo-blog-number 3)
+	(setq easy-hugo-basedir-1 "~/src/github.com/masasam/ppap1/")
+	(setq easy-hugo-url-1 "http://example1.com/")
+	(setq easy-hugo-basedir-2 "~/src/github.com/masasam/ppap2/")
+	(setq easy-hugo-url-2 "http://example2.com/")
+
+A total of until 10 blogs can be managed.  
+Please set necessary variables and use.
+
+	easy-hugo-basedir-1
+	easy-hugo-url-1
+	easy-hugo-root-1
+	easy-hugo-sshdomain-1
+	easy-hugo-amazon-s3-bucket-name-1
+	easy-hugo-google-cloud-storage-bucket-name-1
+
+	..............
+
+	easy-hugo-basedir-9
+	easy-hugo-url-9
+	easy-hugo-root-9
+	easy-hugo-sshdomain-9
+	easy-hugo-amazon-s3-bucket-name-9
+	easy-hugo-google-cloud-storage-bucket-name-9
+
 If you want change markdown filename extension, please select md or markdown or mdown.
 Because only these three are supported by hugo. If not set markdown filename extension will be 'md'.
 
