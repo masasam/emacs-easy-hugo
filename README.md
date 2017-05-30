@@ -158,8 +158,11 @@ Example of setting when adding two blogs and managing a total of three blogs.
 	(setq easy-hugo-blog-number 3)
 	(setq easy-hugo-basedir-1 "~/src/github.com/masasam/ppap1/")
 	(setq easy-hugo-url-1 "http://example1.com/")
+	(setq easy-hugo-root-1 "/home/blog/")
+	(setq easy-hugo-sshdomain-1 "blog1domain")
 	(setq easy-hugo-basedir-2 "~/src/github.com/masasam/ppap2/")
 	(setq easy-hugo-url-2 "http://example2.com/")
+	(setq easy-hugo-amazon-s3-bucket-name-2 "blogbucket")
 
 A total of until 10 blogs can be managed.  
 Please set necessary variables and use.
