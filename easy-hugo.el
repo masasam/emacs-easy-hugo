@@ -293,8 +293,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
      (error "'helm-ag' is not installed"))))
 
 (defconst easy-hugo--help
-  (concat "Easy-hugo  " easy-hugo-basedir "
-
+  "
 n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort time            D ... Dired
@@ -303,7 +302,7 @@ P ... Publish server   k ... Previous line        l ... Forward char
 r ... Refresh          C ... Deploy GCP Storage   a ... Search with helm-ag
 N ... No help-mode     ? ... Help easy-hugo       q ... Quit easy-hugo
 
-")
+"
   "Help of easy-hugo.")
 
 (defconst easy-hugo--first-help
@@ -481,6 +480,7 @@ Enjoy!
    (setq buffer-read-only nil)
    (erase-buffer)
    (unless easy-hugo-no-help
+     (insert (propertize (concat "Easy-hugo  " easy-hugo-url "\n") 'face 'easy-hugo-help-face))
      (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
      (setq easy-hugo--cursor (point)))
