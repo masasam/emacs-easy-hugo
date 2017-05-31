@@ -636,6 +636,7 @@ Enjoy!
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)
     (define-key map "o" 'easy-hugo-open)
+    (define-key map "O" 'easy-hugo-open-basedir)
     (define-key map "\C-m" 'easy-hugo-open)
     (put 'easy-hugo-open :advertised-binding "\C-m")
     (define-key map "d" 'easy-hugo-delete)
@@ -773,6 +774,11 @@ Enjoy!
       (when (and (file-exists-p file)
 		 (not (file-directory-p file)))
 	(find-file file)))))
+
+(defun easy-hugo-open-basedir ()
+  "Open easy-hugo-basedir."
+  (interactive)
+  (switch-to-buffer (find-file-noselect easy-hugo-basedir)))
 
 (defun easy-hugo-view ()
   "Open file with 'view-mode'."
