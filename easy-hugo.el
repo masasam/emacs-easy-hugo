@@ -577,12 +577,24 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
        (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
      (error "'helm-ag' is not installed"))))
 
+;;;###autoload
+(defun easy-hugo-open-config ()
+  "Open Hugo's config file"
+  (interactive)
+  (cond ((file-exists-p (concat easy-hugo-basedir "config.toml"))  
+	 (find-file (concat easy-hugo-basedir "config.toml")))
+	((file-exists-p (concat easy-hugo-basedir "config.yaml")) 
+	 (find-file (concat easy-hugo-basedir "config.yaml")))
+	((file-exists-p (concat easy-hugo-basedir "config.json")) 
+	 (find-file (concat easy-hugo-basedir "config.json")))
+	(t (error "Hugo config file not found at %s" easy-hugo-basedir))))
+
 (defconst easy-hugo--help
   (if (null easy-hugo-sort-default-char)
       (progn
 	"n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
-v ... Open view-mode   s ... Sort time            D ... Dired
+v ... Open view-mode   s ... Sort time            c ... Open config
 d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
 P ... Publish server   N ... No help-mode         a ... Search with helm-ag
 < ... Previous blog    > ... Next blog            q ... Quit easy-hugo
@@ -616,6 +628,7 @@ Enjoy!
   (let ((map (make-keymap)))
     (define-key map "n" 'easy-hugo-newpost)
     (define-key map "a" 'easy-hugo-helm-ag)
+    (define-key map "c" 'easy-hugo-open-config)
     (define-key map "D" 'easy-hugo-article)
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)
