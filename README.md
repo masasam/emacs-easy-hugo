@@ -144,6 +144,11 @@ If you want to change to No help-mode from startup
 
 	(setq easy-hugo-no-help t)
 
+If you want to set charactor-sort at s key.
+If not set the default s key will be sort time.
+
+	(setq easy-hugo-sort-default-char t)
+
 If you want customise color, write the following in the init.el or .emacs.
 
 	(defface easy-hugo-help-face
@@ -155,11 +160,21 @@ If you want customise color, write the following in the init.el or .emacs.
 If you want to manage multiple blogs.  
 Example of setting when adding two blogs and managing a total of three blogs.
 
+	;; Main blog
+	(setq easy-hugo-basedir "~/bookshelf/")
+	(setq easy-hugo-url "https://yourblogdomain")
+	(setq easy-hugo-sshdomain "blogdomain")
+	(setq easy-hugo-root "/home/blog/")
+	(setq easy-hugo-previewtime "300")
+	(define-key global-map (kbd "C-c C-e") 'easy-hugo)
+	;; Total number of blogs
 	(setq easy-hugo-blog-number 3)
+	;; Blog1
 	(setq easy-hugo-basedir-1 "~/src/github.com/masasam/ppap1/")
 	(setq easy-hugo-url-1 "http://example1.com/")
 	(setq easy-hugo-root-1 "/home/blog/")
 	(setq easy-hugo-sshdomain-1 "blog1domain")
+	;; Blog2
 	(setq easy-hugo-basedir-2 "~/src/github.com/masasam/ppap2/")
 	(setq easy-hugo-url-2 "http://example2.com/")
 	(setq easy-hugo-amazon-s3-bucket-name-2 "blogbucket")
