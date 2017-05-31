@@ -568,8 +568,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
      (error "'helm-ag' is not installed"))))
 
 (defconst easy-hugo--help
-  "
-n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
+  "n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort time            D ... Dired
 d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
@@ -759,7 +758,7 @@ Enjoy!
 		 (not (file-directory-p file)))
 	(when (y-or-n-p (concat "Delete " file))
 	  (if easy-hugo-no-help
-	      (setq easy-hugo--line (- (line-number-at-pos) 2))
+	      (setq easy-hugo--line (- (line-number-at-pos) 4))
 	    (setq easy-hugo--line (- (line-number-at-pos) easy-hugo--delete-line)))
 	  (delete-file file)
 	  (easy-hugo)
@@ -1033,8 +1032,8 @@ Enjoy!
    (setq-local default-directory easy-hugo-basedir)
    (setq buffer-read-only nil)
    (erase-buffer)
+   (insert (propertize (concat "Easy-hugo  " easy-hugo-url "\n\n") 'face 'easy-hugo-help-face))
    (unless easy-hugo-no-help
-     (insert (propertize (concat "Easy-hugo  " easy-hugo-url "\n") 'face 'easy-hugo-help-face))
      (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
      (setq easy-hugo--cursor (point)))
