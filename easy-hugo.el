@@ -42,6 +42,11 @@
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-preview-url "http://localhost:1313/"
+  "Preview url of easy-hugo."
+  :group 'easy-hugo
+  :type 'string)
+
 (defcustom easy-hugo-url nil
   "Url of the site operated by hugo."
   :group 'easy-hugo
@@ -498,11 +503,11 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (interactive)
   (easy-hugo-with-env
    (if (process-live-p easy-hugo--server-process)
-       (browse-url "http://localhost:1313/")
+       (browse-url easy-hugo-preview-url)
      (progn
        (setq easy-hugo--server-process
 	     (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server"))
-       (browse-url "http://localhost:1313/")
+       (browse-url easy-hugo-preview-url)
        (run-at-time easy-hugo-previewtime nil 'easy-hugo--preview-end)))))
 
 (defun easy-hugo--preview-end ()
