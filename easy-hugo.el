@@ -587,7 +587,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 	 (find-file (concat easy-hugo-basedir "config.yaml")))
 	((file-exists-p (concat easy-hugo-basedir "config.json")) 
 	 (find-file (concat easy-hugo-basedir "config.json")))
-	(t (message "There is no Hugo config file inside your easy-hugo-basedir"))))
+	(t (error "Hugo config file not found at %s" easy-hugo-basedir))))
 
 (defconst easy-hugo--help
   (if (null easy-hugo-sort-default-char)
