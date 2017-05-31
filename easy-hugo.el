@@ -576,22 +576,21 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 (defun easy-hugo-open-config ()
   "Open Hugo's config file"
   (interactive)
-  (if (file-exists-p (concat easy-hugo-basedir "config.toml"))
-      (find-file (concat  easy-hugo-basedir "config.toml"))
-    (if (file-exists-p (concat easy-hugo-basedir "config.yaml"))
-	(find-file (concat easy-hugo-basedir "config.yaml"))
-      (if (file-exists-p (concat easy-hugo-basedir "config.json"))
-	  (find-file (concat easy-hugo-basedir "config.json"))
-	(message "There is no Hugo config file inside your easy-hugo-basedir")))))
+  (cond ((file-exists-p (concat easy-hugo-basedir "config.toml"))  
+	 (find-file (concat easy-hugo-basedir "config.toml")))
+	((file-exists-p (concat easy-hugo-basedir "config.yaml")) 
+	 (find-file (concat easy-hugo-basedir "config.yaml")))
+	((file-exists-p (concat easy-hugo-basedir "config.json")) 
+	 (find-file (concat easy-hugo-basedir "config.json")))
+	(t (message "There is no Hugo config file inside your easy-hugo-basedir"))))
 
 (defconst easy-hugo--help
   "
 n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
-v ... Open view-mode   s ... Sort time            D ... Dired
+v ... Open view-mode   s ... Sort time            c ... Open config
 d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
 P ... Publish server   N ... No help-mode         a ... Search with helm-ag
-c ... Open config
 < ... Previous blog    > ... Next blog            q ... Quit easy-hugo
 
 "
