@@ -82,6 +82,11 @@
   :group 'easy-hugo
   :type 'integer)
 
+(defcustom easy-hugo-sort-default-char nil
+  "Default setting to sort with charactor."
+  :group 'easy-hugo
+  :type 'integer)
+
 (defcustom easy-hugo-markdown-extension "md"
   "Markdown extension.
 Please select md or markdown or mdown.
@@ -568,14 +573,25 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
      (error "'helm-ag' is not installed"))))
 
 (defconst easy-hugo--help
-  "n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
+  (if (null easy-hugo-sort-default-char)
+      (progn
+	"n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort time            D ... Dired
 d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
 P ... Publish server   N ... No help-mode         a ... Search with helm-ag
 < ... Previous blog    > ... Next blog            q ... Quit easy-hugo
 
-"
+")
+    (progn
+      "n ... New blog post    G ... Deploy GitHub Pages  S ... Sort time
+p ... Preview          g ... Refresh              A ... Deploy Amazon S3
+v ... Open view-mode   s ... Sort character       D ... Dired
+d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
+P ... Publish server   N ... No help-mode         a ... Search with helm-ag
+< ... Previous blog    > ... Next blog            q ... Quit easy-hugo
+
+"))
   "Help of easy-hugo.")
 
 (defconst easy-hugo--first-help
@@ -614,8 +630,13 @@ Enjoy!
     (define-key map "v" 'easy-hugo-view)
     (define-key map "r" 'easy-hugo-refresh)
     (define-key map "g" 'easy-hugo-refresh)
-    (define-key map "s" 'easy-hugo-sort-time)
-    (define-key map "S" 'easy-hugo-sort-char)
+    (if (null easy-hugo-sort-default-char)
+	(progn
+	  (define-key map "s" 'easy-hugo-sort-time)
+	  (define-key map "S" 'easy-hugo-sort-char))
+      (progn
+	(define-key map "S" 'easy-hugo-sort-time)
+	(define-key map "s" 'easy-hugo-sort-char)))
     (define-key map "G" 'easy-hugo-github-deploy)
     (define-key map "A" 'easy-hugo-amazon-s3-deploy)
     (define-key map "C" 'easy-hugo-google-cloud-storage-deploy)

@@ -144,6 +144,11 @@ If you want to change to No help-mode from startup
 
 	(setq easy-hugo-no-help t)
 
+If you want to set charactor-sort at s key.
+If not set the default s key will be sort time.
+
+	(setq easy-hugo-sort-default-char t)
+
 If you want customise color, write the following in the init.el or .emacs.
 
 	(defface easy-hugo-help-face
