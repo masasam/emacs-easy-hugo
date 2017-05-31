@@ -42,8 +42,8 @@
   :group 'easy-hugo
   :type 'string)
 
-(defcustom easy-hugo-url nil
-  "Url of the site operated by hugo."
+(defcustom easy-hugo-url "http://localhost:1313/"
+  "Preview url of easy-hugo."
   :group 'easy-hugo
   :type 'string)
 
