@@ -670,22 +670,22 @@ Enjoy!
 (defconst easy-hugo--blog-maximum-number 10
   "Maximum number of blogs.")
 
-(defconst easy-hugo-basedir-0 easy-hugo-basedir
+(defconst easy-hugo--basedir-0 easy-hugo-basedir
   "Default blog base directory.")
 
-(defconst easy-hugo-url-0 easy-hugo-url
+(defconst easy-hugo--url-0 easy-hugo-url
   "Default blog url.")
 
-(defconst easy-hugo-root-0 easy-hugo-root
+(defconst easy-hugo--root-0 easy-hugo-root
   "Default blog root.")
 
-(defconst easy-hugo-sshdomain-0 easy-hugo-sshdomain
+(defconst easy-hugo--sshdomain-0 easy-hugo-sshdomain
   "Default blog sshdomain.")
 
-(defconst easy-hugo-amazon-s3-bucket-name-0 easy-hugo-amazon-s3-bucket-name
+(defconst easy-hugo--amazon-s3-bucket-name-0 easy-hugo-amazon-s3-bucket-name
   "Default blog amazon s3 bucket name.")
 
-(defconst easy-hugo-google-cloud-storage-bucket-name-0 easy-hugo-google-cloud-storage-bucket-name
+(defconst easy-hugo--google-cloud-storage-bucket-name-0 easy-hugo-google-cloud-storage-bucket-name
   "Default blog google cloud storage bucket name.")
 
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
@@ -825,12 +825,12 @@ Enjoy!
 (defun easy-hugo-0 ()
   "Default blog."
   (interactive)
-  (setq easy-hugo-basedir easy-hugo-basedir-0
-        easy-hugo-url easy-hugo-url-0
-        easy-hugo-root easy-hugo-root-0
-	easy-hugo-sshdomain easy-hugo-sshdomain-0
-	easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
-	easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+  (setq easy-hugo-basedir easy-hugo--basedir-0
+        easy-hugo-url easy-hugo--url-0
+        easy-hugo-root easy-hugo--root-0
+	easy-hugo-sshdomain easy-hugo--sshdomain-0
+	easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
+	easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
   (easy-hugo--preview-end)
   (easy-hugo))
 
@@ -855,12 +855,12 @@ Enjoy!
   (if (or (null easy-hugo-basedir-2) (null easy-hugo-url-2))
       (progn
 	(setq easy-hugo--current-blog 0)
-	(setq easy-hugo-basedir easy-hugo-basedir-0
-	      easy-hugo-url easy-hugo-url-0
-	      easy-hugo-root easy-hugo-root-0
-	      easy-hugo-sshdomain easy-hugo-sshdomain-0
-	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(setq easy-hugo-basedir easy-hugo--basedir-0
+	      easy-hugo-url easy-hugo--url-0
+	      easy-hugo-root easy-hugo--root-0
+	      easy-hugo-sshdomain easy-hugo--sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -879,12 +879,12 @@ Enjoy!
   (if (or (null easy-hugo-basedir-3) (null easy-hugo-url-3))
       (progn
 	(setq easy-hugo--current-blog 0)
-	(setq easy-hugo-basedir easy-hugo-basedir-0
-	      easy-hugo-url easy-hugo-url-0
-	      easy-hugo-root easy-hugo-root-0
-	      easy-hugo-sshdomain easy-hugo-sshdomain-0
-	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(setq easy-hugo-basedir easy-hugo--basedir-0
+	      easy-hugo-url easy-hugo--url-0
+	      easy-hugo-root easy-hugo--root-0
+	      easy-hugo-sshdomain easy-hugo--sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -903,12 +903,12 @@ Enjoy!
   (if (or (null easy-hugo-basedir-4) (null easy-hugo-url-4))
       (progn
 	(setq easy-hugo--current-blog 0)
-	(setq easy-hugo-basedir easy-hugo-basedir-0
-	      easy-hugo-url easy-hugo-url-0
-	      easy-hugo-root easy-hugo-root-0
-	      easy-hugo-sshdomain easy-hugo-sshdomain-0
-	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(setq easy-hugo-basedir easy-hugo--basedir-0
+	      easy-hugo-url easy-hugo--url-0
+	      easy-hugo-root easy-hugo--root-0
+	      easy-hugo-sshdomain easy-hugo--sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -927,12 +927,12 @@ Enjoy!
   (if (or (null easy-hugo-basedir-5) (null easy-hugo-url-5))
       (progn
 	(setq easy-hugo--current-blog 0)
-	(setq easy-hugo-basedir easy-hugo-basedir-0
-	      easy-hugo-url easy-hugo-url-0
-	      easy-hugo-root easy-hugo-root-0
-	      easy-hugo-sshdomain easy-hugo-sshdomain-0
-	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(setq easy-hugo-basedir easy-hugo--basedir-0
+	      easy-hugo-url easy-hugo--url-0
+	      easy-hugo-root easy-hugo--root-0
+	      easy-hugo-sshdomain easy-hugo--sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -951,12 +951,12 @@ Enjoy!
   (if (or (null easy-hugo-basedir-6) (null easy-hugo-url-6))
       (progn
 	(setq easy-hugo--current-blog 0)
-	(setq easy-hugo-basedir easy-hugo-basedir-0
-	      easy-hugo-url easy-hugo-url-0
-	      easy-hugo-root easy-hugo-root-0
-	      easy-hugo-sshdomain easy-hugo-sshdomain-0
-	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(setq easy-hugo-basedir easy-hugo--basedir-0
+	      easy-hugo-url easy-hugo--url-0
+	      easy-hugo-root easy-hugo--root-0
+	      easy-hugo-sshdomain easy-hugo--sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -975,12 +975,12 @@ Enjoy!
   (if (or (null easy-hugo-basedir-7) (null easy-hugo-url-7))
       (progn
 	(setq easy-hugo--current-blog 0)
-	(setq easy-hugo-basedir easy-hugo-basedir-0
-	      easy-hugo-url easy-hugo-url-0
-	      easy-hugo-root easy-hugo-root-0
-	      easy-hugo-sshdomain easy-hugo-sshdomain-0
-	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(setq easy-hugo-basedir easy-hugo--basedir-0
+	      easy-hugo-url easy-hugo--url-0
+	      easy-hugo-root easy-hugo--root-0
+	      easy-hugo-sshdomain easy-hugo--sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -999,12 +999,12 @@ Enjoy!
   (if (or (null easy-hugo-basedir-8) (null easy-hugo-url-8))
       (progn
 	(setq easy-hugo--current-blog 0)
-	(setq easy-hugo-basedir easy-hugo-basedir-0
-	      easy-hugo-url easy-hugo-url-0
-	      easy-hugo-root easy-hugo-root-0
-	      easy-hugo-sshdomain easy-hugo-sshdomain-0
-	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(setq easy-hugo-basedir easy-hugo--basedir-0
+	      easy-hugo-url easy-hugo--url-0
+	      easy-hugo-root easy-hugo--root-0
+	      easy-hugo-sshdomain easy-hugo--sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -1023,12 +1023,12 @@ Enjoy!
   (if (or (null easy-hugo-basedir-9) (null easy-hugo-url-9))
       (progn
 	(setq easy-hugo--current-blog 0)
-	(setq easy-hugo-basedir easy-hugo-basedir-0
-	      easy-hugo-url easy-hugo-url-0
-	      easy-hugo-root easy-hugo-root-0
-	      easy-hugo-sshdomain easy-hugo-sshdomain-0
-	      easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-0)
+	(setq easy-hugo-basedir easy-hugo--basedir-0
+	      easy-hugo-url easy-hugo--url-0
+	      easy-hugo-root easy-hugo--root-0
+	      easy-hugo-sshdomain easy-hugo--sshdomain-0
+	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
