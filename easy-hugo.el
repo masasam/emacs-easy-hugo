@@ -581,13 +581,16 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 (defun easy-hugo-open-config ()
   "Open Hugo's config file."
   (interactive)
-  (cond ((file-exists-p (concat easy-hugo-basedir "config.toml"))
-	 (find-file (concat easy-hugo-basedir "config.toml")))
-	((file-exists-p (concat easy-hugo-basedir "config.yaml"))
-	 (find-file (concat easy-hugo-basedir "config.yaml")))
-	((file-exists-p (concat easy-hugo-basedir "config.json"))
-	 (find-file (concat easy-hugo-basedir "config.json")))
-	(t (error "Hugo config file not found at %s" easy-hugo-basedir))))
+  (easy-hugo-with-env
+   (unless easy-hugo-basedir
+     (error "Please set easy-hugo-basedir variable"))
+   (cond ((file-exists-p (concat easy-hugo-basedir "config.toml"))
+	  (find-file (concat easy-hugo-basedir "config.toml")))
+	 ((file-exists-p (concat easy-hugo-basedir "config.yaml"))
+	  (find-file (concat easy-hugo-basedir "config.yaml")))
+	 ((file-exists-p (concat easy-hugo-basedir "config.json"))
+	  (find-file (concat easy-hugo-basedir "config.json")))
+	 (t (error "Hugo config file not found at %s" easy-hugo-basedir)))))
 
 (defconst easy-hugo--help
   (if (null easy-hugo-sort-default-char)
