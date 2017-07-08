@@ -584,7 +584,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   "Search for blog article with helm-ag."
   (interactive)
   (easy-hugo-with-env
-   (if (featurep 'helm-ag)
+   (if (package-installed-p 'helm-ag)
        (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
      (error "'helm-ag' is not installed"))))
 
