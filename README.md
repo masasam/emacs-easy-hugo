@@ -48,6 +48,10 @@ If you enter '.html' file name in the minibuffer, html file is automatically gen
 
     M-x easy-hugo-preview
 
+![screencast](image/screencast2.gif)
+
+If your hugo version 0.25 or higher, you can preview by following the edited part.
+
 ![easy-hugo6](image/easy-hugo6.png)
 (The picture of the header is http://www.pixiv.net/member_illust.php?mode=medium&illust_id=60674880)
 
