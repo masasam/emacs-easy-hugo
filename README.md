@@ -10,7 +10,7 @@ Emacs major mode for writing blogs made with hugo by markdown or org-mode or Asc
 
 You can manage blogs on easy-hugo-mode.
 
-If you manage multiple blogs You can switch blogs with the < or > key.
+If you manage multiple blogs, you can switch blogs with the < or > key.
 
 ![easy-hugo-mode](image/easy-hugo-mode.png)
 
@@ -50,7 +50,7 @@ If you enter '.html' file name in the minibuffer, html file is automatically gen
 
 ![screencast](image/screencast2.gif)
 
-If your hugo version 0.25 or higher, you can preview by following the edited part.
+If your hugo version is 0.25 or higher, you can preview by following the edited part.
 
 ![easy-hugo6](image/easy-hugo6.png)
 (The picture of the header is http://www.pixiv.net/member_illust.php?mode=medium&illust_id=60674880)
@@ -59,7 +59,7 @@ The browser opens automatically and you can preview the blog on your PC.
 
 Even if you run the easy-hugo-preview command many times, only one hugo process will run so do not mind it.
 
-Since the process of hugo running in the PC disappears in 300 seconds,you do not have to worry about killing hugo process.
+Since the process of hugo running in the PC disappears in 300 seconds, you do not have to worry about killing hugo process.
 
     M-x easy-hugo-publish
 
@@ -77,7 +77,7 @@ Open the list of articles you wrote with dired.
 
 	M-x easy-hugo-github-deploy
 
-Execute deploy.sh which exists in directory 'easy-hugo-basedir'.
+Execute deploy.sh which exists in directory `easy-hugo-basedir`.
 
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 
@@ -272,7 +272,7 @@ Write at ~/.ssh/config on your PC
                         User "Your server's ssh login username"
 
 Because blog is generated under /home/blog/ on the server, set it to reference it with nginx.
-Ssl uses certbot.
+SSL uses certbot (Let's encrypt).
 
 sample nginx.conf
 
@@ -300,7 +300,9 @@ sample nginx.conf
 
 Confirm that PATH passes from emacs to go.
 
-For example
+I recommend you [exec-path-from-shell]( https://github.com/purcell/exec-path-from-shell).
+
+Example without exec-path-from-shell
 
 	(setenv "GOPATH" "~/go")
 	(add-to-list 'exec-path (expand-file-name "~/go/bin"))
