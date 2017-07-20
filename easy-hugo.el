@@ -756,8 +756,7 @@ Enjoy!
 	(setq easy-hugo--unmovable-line easy-hugo--unmovable-line-default))
     (progn
       (setq easy-hugo-no-help 1)
-      (setq easy-hugo--unmovable-line 3)
-      ))
+      (setq easy-hugo--unmovable-line 3)))
   (easy-hugo))
 
 (defun easy-hugo-refresh ()
@@ -803,7 +802,7 @@ Optional prefix ARG says how many lines to move; default is one line."
   "Move up lines then position at filename.
 Optional prefix ARG says how many lines to move; default is one line."
   (interactive "^p")
-  (when (> (line-number-at-pos) easy-hugo--unmovable-line)
+  (when (>= (- (line-number-at-pos) arg) easy-hugo--unmovable-line)
     (easy-hugo-next-line (- (or arg 1)))))
 
 (defun easy-hugo-open ()
