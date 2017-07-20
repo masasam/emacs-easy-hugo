@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.0.0
+;; Version: 1.0.1
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -396,6 +396,12 @@ Because only two are supported by hugo."
 (defvar easy-hugo--server-process nil
   "Hugo process.")
 
+(defvar easy-hugo--unmovable-line 10
+  "Impossible to move below this line.")
+
+(defconst easy-hugo--unmovable-line-default easy-hugo--unmovable-line
+  "Default value of impossible to move below this line.")
+
 (defconst easy-hugo--delete-line 11
   "Easy-hugo-delete line number.")
 
@@ -654,12 +660,14 @@ Enjoy!
     (define-key map "e" 'easy-hugo-open)
     (define-key map "f" 'easy-hugo-open)
     (define-key map "N" 'easy-hugo-no-help)
-    (define-key map "j" 'next-line)
-    (define-key map "k" 'previous-line)
+    (define-key map "j" 'easy-hugo-next-line)
+    (define-key map "k" 'easy-hugo-previous-line)
     (define-key map "h" 'backward-char)
     (define-key map "l" 'forward-char)
-    (define-key map " " 'next-line)
-    (define-key map [?\S-\ ] 'previous-line)
+    (define-key map " " 'easy-hugo-next-line)
+    (define-key map [?\S-\ ] 'easy-hugo-previous-line)
+    (define-key map [remap next-line] 'easy-hugo-next-line)
+    (define-key map [remap previous-line] 'easy-hugo-previous-line)
     (define-key map "v" 'easy-hugo-view)
     (define-key map "r" 'easy-hugo-refresh)
     (define-key map "g" 'easy-hugo-refresh)
@@ -743,8 +751,13 @@ Enjoy!
   "No help easy hugo."
   (interactive)
   (if easy-hugo-no-help
-      (setq easy-hugo-no-help nil)
-    (setq easy-hugo-no-help 1))
+      (progn
+	(setq easy-hugo-no-help nil)
+	(setq easy-hugo--unmovable-line easy-hugo--unmovable-line-default))
+    (progn
+      (setq easy-hugo-no-help 1)
+      (setq easy-hugo--unmovable-line 3)
+      ))
   (easy-hugo))
 
 (defun easy-hugo-refresh ()
@@ -772,6 +785,26 @@ Enjoy!
       (setq easy-hugo--sort-char-flg 2)
     (setq easy-hugo--sort-char-flg 1))
   (easy-hugo))
+
+(defun easy-hugo-next-line (arg)
+  "Move down lines then position at filename.
+Optional prefix ARG says how many lines to move; default is one line."
+  (interactive "^p")
+  (let ((line-move-visual)
+	(goal-column))
+    (line-move arg t))
+  (while (and (invisible-p (point))
+	      (not (if (and arg (< arg 0)) (bobp) (eobp))))
+    (forward-char (if (and arg (< arg 0)) -1 1)))
+  (beginning-of-line)
+  (forward-char easy-hugo--forward-char))
+
+(defun easy-hugo-previous-line (arg)
+  "Move up lines then position at filename.
+Optional prefix ARG says how many lines to move; default is one line."
+  (interactive "^p")
+  (when (> (line-number-at-pos) easy-hugo--unmovable-line)
+    (easy-hugo-next-line (- (or arg 1)))))
 
 (defun easy-hugo-open ()
   "Open the file on the pointer."
@@ -1124,7 +1157,13 @@ Enjoy!
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
 	 (goto-char easy-hugo--cursor)
-	 (unless easy-hugo--refresh
+	 (if easy-hugo--refresh
+	     (progn
+	       (when (< (line-number-at-pos) easy-hugo--unmovable-line)
+		 (goto-char (point-min))
+		 (forward-line (- easy-hugo--unmovable-line 1)))
+	       (beginning-of-line)
+	       (forward-char easy-hugo--forward-char))
 	   (forward-char easy-hugo--forward-char))
 	 (easy-hugo-mode))))))
 
