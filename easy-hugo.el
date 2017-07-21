@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.1.1
+;; Version: 1.2.1
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -612,7 +612,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 (defconst easy-hugo--help
   (if (null easy-hugo-sort-default-char)
       (progn
-	"n ... New blog post    G ... Deploy GitHub Pages  S ... Sort character
+	"n ... New blog post    G ... Deploy GitHub Pages  R ... Rename file
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort time            c ... Open config
 d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
@@ -621,7 +621,7 @@ P ... Publish server   N ... No help-mode         a ... Search with helm-ag
 
 ")
     (progn
-      "n ... New blog post    G ... Deploy GitHub Pages  S ... Sort time
+      "n ... New blog post    G ... Deploy GitHub Pages  R ... Rename file
 p ... Preview          g ... Refresh              A ... Deploy Amazon S3
 v ... Open view-mode   s ... Sort character       c ... Open config
 d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
@@ -654,6 +654,7 @@ Enjoy!
     (define-key map "P" 'easy-hugo-publish)
     (define-key map "o" 'easy-hugo-open)
     (define-key map "O" 'easy-hugo-open-basedir)
+    (define-key map "R" 'easy-hugo-rename)
     (define-key map "\C-m" 'easy-hugo-open)
     (put 'easy-hugo-open :advertised-binding "\C-m")
     (define-key map "d" 'easy-hugo-delete)
@@ -838,6 +839,25 @@ Optional prefix ARG says how many lines to move; default is one line."
   (interactive "^p")
   (when (>= (- (line-number-at-pos) arg) easy-hugo--unmovable-line)
     (easy-hugo-next-line (- (or arg 1)))))
+
+(defun easy-hugo-rename (post-file)
+  "Renames file on the pointer to POST-FILE."
+  (interactive (list (read-from-minibuffer "Rename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
+  (let ((filename (concat (replace-regexp-in-string (regexp-quote "content/") "" easy-hugo-postdir t t) "/" post-file))
+        (file-ext (file-name-extension post-file)))
+    (when (not (member file-ext easy-hugo--formats))
+      (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
+    (easy-hugo-with-env
+     (when (file-exists-p (file-truename (concat "content/" filename)))
+       (error "%s already exists!" (concat easy-hugo-basedir "content/" filename)))
+     (unless (or (string-match "^$" (thing-at-point 'line))
+		 (eq (point) (point-max))
+		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+       (let ((name (expand-file-name
+		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		    easy-hugo-basedir)))
+	 (rename-file name (concat "content/" filename) 1)
+	 (easy-hugo))))))
 
 (defun easy-hugo-open ()
   "Open the file on the pointer."
