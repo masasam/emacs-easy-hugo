@@ -399,6 +399,33 @@ Because only two are supported by hugo."
 (defvar easy-hugo--unmovable-line 10
   "Impossible to move below this line.")
 
+(defvar easy-hugo-publish-timer nil
+  "Easy-hugo-publish-timer.")
+
+(defvar easy-hugo-basedir-timer nil
+  "Easy-hugo-basedir-timer.")
+
+(defvar easy-hugo-sshdomain-timer nil
+  "Easy-hugo-sshdomain-timer.")
+
+(defvar easy-hugo-root-timer nil
+  "Easy-hugo-root-timer.")
+
+(defvar easy-hugo-url-timer nil
+  "Easy-hugo-url-timer.")
+
+(defvar easy-hugo-publish-basedir nil
+  "Easy-hugo-publish-var.")
+
+(defvar easy-hugo-publish-sshdomain nil
+  "Easy-hugo-publish-var.")
+
+(defvar easy-hugo-publish-root nil
+  "Easy-hugo-publish-var.")
+
+(defvar easy-hugo-publish-url nil
+  "Easy-hugo-publish-var.")
+
 (defconst easy-hugo--unmovable-line-default easy-hugo--unmovable-line
   "Default value of impossible to move below this line.")
 
@@ -463,6 +490,57 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
    (message "Blog published")
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
+
+;;;###autoload
+(defun easy-hugo-publish-timer(n)
+  "A timer that publish after the specified number of minutes has elapsed."
+  (interactive "nMinute:")
+  (setq easy-hugo-basedir-timer easy-hugo-basedir)
+  (setq easy-hugo-sshdomain-timer easy-hugo-sshdomain)
+  (setq easy-hugo-root-timer easy-hugo-root)
+  (setq easy-hugo-url-timer easy-hugo-url)
+  (setq easy-hugo-publish-timer
+	(run-at-time (* n 60) nil #'easy-hugo-publish-on-timer)))
+
+;;;###autoload
+(defun easy-hugo-cancel-publish-timer()
+  "Cancel timer that publish after the specified number of minutes has elapsed."
+  (interactive)
+  (when easy-hugo-publish-timer
+    (cancel-timer easy-hugo-publish-timer)
+    (setq easy-hugo-publish-timer nil)
+    (message "Easy-hugo-publish-timer canceled")))
+
+(defun easy-hugo-publish-on-timer ()
+  "Adapt local change to the server with hugo on timer."
+  (setq easy-hugo-publish-basedir easy-hugo-basedir)
+  (setq easy-hugo-basedir easy-hugo-basedir-timer)
+  (setq easy-hugo-publish-sshdomain easy-hugo-sshdomain)
+  (setq easy-hugo-sshdomain easy-hugo-sshdomain-timer)
+  (setq easy-hugo-publish-root easy-hugo-root)
+  (setq easy-hugo-root easy-hugo-root-timer)
+  (setq easy-hugo-publish-url easy-hugo-url)
+  (setq easy-hugo-url easy-hugo-url-timer)
+  (unless easy-hugo-sshdomain
+    (error "Please set easy-hugo-sshdomain variable"))
+  (unless easy-hugo-root
+    (error "Please set easy-hugo-root variable"))
+  (unless (executable-find "rsync")
+    (error "'rsync' is not installed"))
+  (unless (file-exists-p "~/.ssh/config")
+    (error "There is no ~/.ssh/config"))
+  (easy-hugo-with-env
+   (when (file-directory-p "public")
+     (delete-directory "public" t nil))
+   (shell-command-to-string "hugo --destination public")
+   (shell-command-to-string (concat "rsync -rtpl --delete public/ " easy-hugo-sshdomain ":" (shell-quote-argument easy-hugo-root)))
+   (message "Blog published")
+   (when easy-hugo-url
+     (browse-url easy-hugo-url)
+     (setq easy-hugo-basedir easy-hugo-publish-basedir)
+     (setq easy-hugo-sshdomain easy-hugo-publish-sshdomain)
+     (setq easy-hugo-root easy-hugo-publish-root)
+     (setq easy-hugo-url easy-hugo-publish-url))))
 
 (defun easy-hugo--org-headers (file)
   "Return a draft org mode header string for a new article as FILE."
@@ -612,21 +690,21 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 (defconst easy-hugo--help
   (if (null easy-hugo-sort-default-char)
       (progn
-	"n ... New blog post    G ... Deploy GitHub Pages  R ... Rename file
-p ... Preview          g ... Refresh              A ... Deploy Amazon S3
-v ... Open view-mode   s ... Sort time            c ... Open config
-d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
-P ... Publish server   N ... No help-mode         a ... Search with helm-ag
-< ... Previous blog    > ... Next blog            q ... Quit easy-hugo
+	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    O .. Open basedir
+p .. Preview          g .. Refresh       A .. Deploy Aws S3    t .. Cancel timer
+v .. Open view-mode   s .. Sort time     T .. Publish timer    S .. Sort character
+d .. Delete post      c .. Open config   ? .. Help easy-hugo   N .. No help-mode
+P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   r .. Refresh
+< .. Previous blog    > .. Next blog     q .. Quit easy-hugo   Enter Open file
 
 ")
     (progn
-      "n ... New blog post    G ... Deploy GitHub Pages  R ... Rename file
-p ... Preview          g ... Refresh              A ... Deploy Amazon S3
-v ... Open view-mode   s ... Sort character       c ... Open config
-d ... Delete post      C ... Deploy GCP Storage   ? ... Help easy-hugo
-P ... Publish server   N ... No help-mode         a ... Search with helm-ag
-< ... Previous blog    > ... Next blog            q ... Quit easy-hugo
+      "n .. New blog post    R .. Rename file   G .. Deploy GitHub    O .. Open basedir
+p .. Preview          g .. Refresh       A .. Deploy Aws S3    t .. Cancel timer
+v .. Open view-mode   S .. Sort time     T .. Publish timer    s .. Sort character
+d .. Delete post      c .. Open config   ? .. Help easy-hugo   N .. No help-mode
+P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   r .. Refresh
+< .. Previous blog    > .. Next blog     q .. Quit easy-hugo   Enter Open file
 
 "))
   "Help of easy-hugo.")
@@ -652,6 +730,8 @@ Enjoy!
     (define-key map "D" 'easy-hugo-article)
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)
+    (define-key map "T" 'easy-hugo-publish-timer)
+    (define-key map "t" 'easy-hugo-cancel-publish-timer)
     (define-key map "o" 'easy-hugo-open)
     (define-key map "O" 'easy-hugo-open-basedir)
     (define-key map "R" 'easy-hugo-rename)
