@@ -399,31 +399,31 @@ Because only two are supported by hugo."
 (defvar easy-hugo--unmovable-line 10
   "Impossible to move below this line.")
 
-(defvar easy-hugo-publish-timer nil
+(defvar easy-hugo--publish-timer nil
   "Easy-hugo-publish-timer.")
 
-(defvar easy-hugo-basedir-timer nil
+(defvar easy-hugo--basedir-timer nil
   "Easy-hugo-basedir-timer.")
 
-(defvar easy-hugo-sshdomain-timer nil
+(defvar easy-hugo--sshdomain-timer nil
   "Easy-hugo-sshdomain-timer.")
 
-(defvar easy-hugo-root-timer nil
+(defvar easy-hugo--root-timer nil
   "Easy-hugo-root-timer.")
 
-(defvar easy-hugo-url-timer nil
+(defvar easy-hugo--url-timer nil
   "Easy-hugo-url-timer.")
 
-(defvar easy-hugo-publish-basedir nil
+(defvar easy-hugo--publish-basedir nil
   "Easy-hugo-publish-var.")
 
-(defvar easy-hugo-publish-sshdomain nil
+(defvar easy-hugo--publish-sshdomain nil
   "Easy-hugo-publish-var.")
 
-(defvar easy-hugo-publish-root nil
+(defvar easy-hugo--publish-root nil
   "Easy-hugo-publish-var.")
 
-(defvar easy-hugo-publish-url nil
+(defvar easy-hugo--publish-url nil
   "Easy-hugo-publish-var.")
 
 (defconst easy-hugo--unmovable-line-default easy-hugo--unmovable-line
@@ -495,32 +495,32 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 (defun easy-hugo-publish-timer(n)
   "A timer that publish after the specified number of minutes has elapsed."
   (interactive "nMinute:")
-  (setq easy-hugo-basedir-timer easy-hugo-basedir)
-  (setq easy-hugo-sshdomain-timer easy-hugo-sshdomain)
-  (setq easy-hugo-root-timer easy-hugo-root)
-  (setq easy-hugo-url-timer easy-hugo-url)
-  (setq easy-hugo-publish-timer
+  (setq easy-hugo--basedir-timer easy-hugo-basedir)
+  (setq easy-hugo--sshdomain-timer easy-hugo-sshdomain)
+  (setq easy-hugo--root-timer easy-hugo-root)
+  (setq easy-hugo--url-timer easy-hugo-url)
+  (setq easy-hugo--publish-timer
 	(run-at-time (* n 60) nil #'easy-hugo-publish-on-timer)))
 
 ;;;###autoload
 (defun easy-hugo-cancel-publish-timer()
   "Cancel timer that publish after the specified number of minutes has elapsed."
   (interactive)
-  (when easy-hugo-publish-timer
-    (cancel-timer easy-hugo-publish-timer)
-    (setq easy-hugo-publish-timer nil)
+  (when easy-hugo--publish-timer
+    (cancel-timer easy-hugo--publish-timer)
+    (setq easy-hugo--publish-timer nil)
     (message "Easy-hugo-publish-timer canceled")))
 
 (defun easy-hugo-publish-on-timer ()
   "Adapt local change to the server with hugo on timer."
-  (setq easy-hugo-publish-basedir easy-hugo-basedir)
-  (setq easy-hugo-basedir easy-hugo-basedir-timer)
-  (setq easy-hugo-publish-sshdomain easy-hugo-sshdomain)
-  (setq easy-hugo-sshdomain easy-hugo-sshdomain-timer)
-  (setq easy-hugo-publish-root easy-hugo-root)
-  (setq easy-hugo-root easy-hugo-root-timer)
-  (setq easy-hugo-publish-url easy-hugo-url)
-  (setq easy-hugo-url easy-hugo-url-timer)
+  (setq easy-hugo--publish-basedir easy-hugo-basedir)
+  (setq easy-hugo-basedir easy-hugo--basedir-timer)
+  (setq easy-hugo--publish-sshdomain easy-hugo-sshdomain)
+  (setq easy-hugo-sshdomain easy-hugo--sshdomain-timer)
+  (setq easy-hugo--publish-root easy-hugo-root)
+  (setq easy-hugo-root easy-hugo--root-timer)
+  (setq easy-hugo--publish-url easy-hugo-url)
+  (setq easy-hugo-url easy-hugo--url-timer)
   (unless easy-hugo-sshdomain
     (error "Please set easy-hugo-sshdomain variable"))
   (unless easy-hugo-root
@@ -537,10 +537,10 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
    (message "Blog published")
    (when easy-hugo-url
      (browse-url easy-hugo-url)
-     (setq easy-hugo-basedir easy-hugo-publish-basedir)
-     (setq easy-hugo-sshdomain easy-hugo-publish-sshdomain)
-     (setq easy-hugo-root easy-hugo-publish-root)
-     (setq easy-hugo-url easy-hugo-publish-url))))
+     (setq easy-hugo-basedir easy-hugo--publish-basedir)
+     (setq easy-hugo-sshdomain easy-hugo--publish-sshdomain)
+     (setq easy-hugo-root easy-hugo--publish-root)
+     (setq easy-hugo-url easy-hugo--publish-url))))
 
 (defun easy-hugo--org-headers (file)
   "Return a draft org mode header string for a new article as FILE."
