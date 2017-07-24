@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.2.1
+;; Version: 1.3.1
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -435,6 +435,18 @@ Because only two are supported by hugo."
 (defvar easy-hugo--amazon-s3-bucket-name-timer nil
   "Easy-hugo-amazon-s3-bucket-name-timer.")
 
+(defvar easy-hugo--google-cloud-storage-timer nil
+  "Easy-hugo-google-cloud-storage-timer.")
+
+(defvar easy-hugo--google-cloud-storage-basedir-timer nil
+  "Easy-hugo-google-cloud-storage-basedir-timer.")
+
+(defvar easy-hugo--google-cloud-storage-url-timer nil
+  "Easy-hugo-google-cloud-storage-url-timer.")
+
+(defvar easy-hugo--google-cloud-storage-bucket-name-timer nil
+  "Easy-hugo-google-cloud-storage-bucket-name-timer.")
+
 (defvar easy-hugo--publish-basedir nil
   "Easy-hugo-publish-var.")
 
@@ -461,6 +473,15 @@ Because only two are supported by hugo."
 
 (defvar easy-hugo--amazon-s3-bucket-name nil
   "Easy-hugo-amazon-s3-var.")
+
+(defvar easy-hugo--google-cloud-storage-basedir nil
+  "Easy-hugo-google-cloud-storage-var.")
+
+(defvar easy-hugo--google-cloud-storage-url nil
+  "Easy-hugo-google-cloud-storage-var.")
+
+(defvar easy-hugo--google-cloud-storage-bucket-name nil
+  "Easy-hugo-google-cloud-storage-var.")
 
 (defconst easy-hugo--unmovable-line-default easy-hugo--unmovable-line
   "Default value of impossible to move below this line.")
@@ -778,6 +799,49 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
      (browse-url easy-hugo-url))))
 
 ;;;###autoload
+(defun easy-hugo-google-cloud-storage-deploy-timer(n)
+  "A timer that google-cloud-storage-deploy after the specified number of minutes has elapsed."
+  (interactive "nMinute:")
+  (setq easy-hugo--google-cloud-storage-basedir-timer easy-hugo-basedir)
+  (setq easy-hugo--google-cloud-storage-url-timer easy-hugo-url)
+  (setq easy-hugo--google-cloud-storage-bucket-name-timer easy-hugo-google-cloud-storage-bucket-name)
+  (setq easy-hugo--google-cloud-storage-timer
+	(run-at-time (* n 60) nil #'easy-hugo-google-cloud-storage-deploy-on-timer)))
+
+;;;###autoload
+(defun easy-hugo-cancel-google-cloud-storage-deploy-timer()
+  "Cancel timer that google-cloud-storage-deploy after the specified number of minutes has elapsed."
+  (interactive)
+  (when easy-hugo--google-cloud-storage-timer
+    (cancel-timer easy-hugo--google-cloud-storage-timer)
+    (setq easy-hugo--google-cloud-storage-timer nil)
+    (message "Easy-hugo-google-cloud-storage-deploy-timer canceled")))
+
+(defun easy-hugo-google-cloud-storage-deploy-on-timer ()
+  "Deploy hugo source at Google Cloud Storage on timer."
+  (setq easy-hugo--google-cloud-storage-basedir easy-hugo-basedir)
+  (setq easy-hugo-basedir easy-hugo--google-cloud-storage-basedir-timer)
+  (setq easy-hugo--google-cloud-storage-url easy-hugo-url)
+  (setq easy-hugo-url easy-hugo--google-cloud-storage-url-timer)
+  (setq easy-hugo--google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name)
+  (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-timer)
+  (easy-hugo-with-env
+   (unless (executable-find "gsutil")
+     (error "'Google Cloud SDK' is not installed"))
+   (unless easy-hugo-google-cloud-storage-bucket-name
+     (error "Please set 'easy-hugo-google-cloud-storage-bucket-name' variable"))
+   (when (file-directory-p "public")
+     (delete-directory "public" t nil))
+   (shell-command-to-string "hugo --destination public")
+   (shell-command-to-string (concat "gsutil -m rsync -d -r public gs://" easy-hugo-google-cloud-storage-bucket-name "/"))
+   (message "Blog deployed")
+   (when easy-hugo-url
+     (browse-url easy-hugo-url))
+   (setq easy-hugo-basedir easy-hugo--google-cloud-storage-basedir)
+   (setq easy-hugo-url easy-hugo--google-cloud-storage-url)
+   (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name)))
+
+;;;###autoload
 (defun easy-hugo-helm-ag ()
   "Search for blog article with helm-ag."
   (interactive)
@@ -805,18 +869,18 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (if (null easy-hugo-sort-default-char)
       (progn
 	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    O .. Open basedir
-p .. Preview          g .. Refresh       A .. Deploy Aws S3    t .. Cancel timer
-v .. Open view-mode   s .. Sort time     T .. Publish timer    S .. Sort character
-d .. Delete post      c .. Open config   ? .. Help easy-hugo   N .. No help-mode
+p .. Preview          g .. Refresh       A .. Deploy AWS S3    S .. Sort character
+v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
+d .. Delete post      c .. Open config   ? .. Help easy-hugo   L .. Deploy GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHub timer
 < .. Previous blog    > .. Next blog     q .. Quit easy-hugo   W .. Deploy AWS S3 timer
 
 ")
     (progn
       "n .. New blog post    R .. Rename file   G .. Deploy GitHub    O .. Open basedir
-p .. Preview          g .. Refresh       A .. Deploy Aws S3    t .. Cancel timer
-v .. Open view-mode   S .. Sort time     T .. Publish timer    s .. Sort character
-d .. Delete post      c .. Open config   ? .. Help easy-hugo   N .. No help-mode
+p .. Preview          g .. Refresh       A .. Deploy AWS S3    s .. Sort character
+v .. Open view-mode   S .. Sort time     T .. Publish timer    N .. No help-mode
+d .. Delete post      c .. Open config   ? .. Help easy-hugo   L .. Deploy GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHub timer
 < .. Previous blog    > .. Next blog     q .. Quit easy-hugo   W .. Deploy AWS S3 timer
 
@@ -882,9 +946,12 @@ Enjoy!
 	(define-key map "s" 'easy-hugo-sort-char)))
     (define-key map "G" 'easy-hugo-github-deploy)
     (define-key map "H" 'easy-hugo-github-deploy-timer)
-    (define-key map "m" 'easy-hugo-cancel-github-deploy-timer)
+    (define-key map "b" 'easy-hugo-cancel-github-deploy-timer)
     (define-key map "A" 'easy-hugo-amazon-s3-deploy)
+    (define-key map "m" 'easy-hugo-cancel-amazon-s3-deploy-timer)
     (define-key map "C" 'easy-hugo-google-cloud-storage-deploy)
+    (define-key map "L" 'easy-hugo-google-cloud-storage-deploy-timer)
+    (define-key map "i" 'easy-hugo-cancel-google-cloud-storage-deploy-timer)
     (define-key map "q" 'easy-hugo-quit)
     (define-key map "<" 'easy-hugo-previous-blog)
     (define-key map ">" 'easy-hugo-next-blog)
