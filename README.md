@@ -69,7 +69,7 @@ You can publish your blog to the server and the browser opens automatically.
 
 ![easy-hugo-helm-ag](image/easy-hugo-helm-ag.png)
 
-You can search blog article with helm-ag.
+You can search blog article with [helm-ag](https://github.com/syohex/emacs-helm-ag).
 
     M-x easy-hugo-article
 
@@ -126,7 +126,7 @@ If you want deploy hugo at Google Cloud Storage, please install Google Cloud SDK
 
 	(setq easy-hugo-google-cloud-storage-bucket-name "your-google-cloud-storage-bucket-name")
 
-When writing blog with rst-mode at .rst file or web-mode at .html file,
+When writing blog with org-mode at .org file or rst-mode at .rst file or web-mode at .html file,
 "C-c C-e" keys are duplicated so please use other keys.
 
 If you want the default extension to be '.org'.  
@@ -217,7 +217,7 @@ Because only these two are supported by hugo. If not set html filename extension
 
 	(setq easy-hugo-asciidoc-extension "htm")
 
-Themes like https://github.com/nishanths/cocoa-hugo-theme store its posts under content/blog.
+Themes like [Cocoa-hugo-theme](https://github.com/nishanths/cocoa-hugo-theme) store its posts under content/blog.
 Cocoa-hugo-theme user should add the following settings to init.el or .emacs.
 
 	(setq easy-hugo-postdir "content/blog")
