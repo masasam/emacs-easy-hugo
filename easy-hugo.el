@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.3.2
+;; Version: 1.3.3
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -631,15 +631,19 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
     (easy-hugo-with-env
      (when (file-exists-p (file-truename (concat "content/" filename)))
        (error "%s already exists!" (concat easy-hugo-basedir "content/" filename)))
-     (if (or (string-equal file-ext easy-hugo-markdown-extension)
-	     (string-equal file-ext easy-hugo-asciidoc-extension)
-	     (string-equal file-ext "rst")
-	     (string-equal file-ext "mmark")
-	     (string-equal file-ext easy-hugo-html-extension))
-	 (call-process "hugo" nil "*hugo*" t "new" filename))
+     (if (<= 0.25 (string-to-number (easy-hugo--version)))
+	 (call-process "hugo" nil "*hugo*" t "new" filename)
+       (progn
+	 (if (or (string-equal file-ext easy-hugo-markdown-extension)
+		 (string-equal file-ext easy-hugo-asciidoc-extension)
+		 (string-equal file-ext "rst")
+		 (string-equal file-ext "mmark")
+		 (string-equal file-ext easy-hugo-html-extension))
+	     (call-process "hugo" nil "*hugo*" t "new" filename))))
      (find-file (concat "content/" filename))
-     (if (string-equal file-ext "org")
-         (insert (easy-hugo--org-headers (file-name-base post-file))))
+     (when (and (> 0.25 (string-to-number (easy-hugo--version)))
+		(string-equal file-ext "org"))
+       (insert (easy-hugo--org-headers (file-name-base post-file))))
      (goto-char (point-max))
      (save-buffer))))
 
