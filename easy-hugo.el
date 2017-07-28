@@ -869,8 +869,6 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   "Open Hugo's config file."
   (interactive)
   (easy-hugo-with-env
-   (unless easy-hugo-basedir
-     (error "Please set easy-hugo-basedir variable"))
    (cond ((file-exists-p (expand-file-name "config.toml" easy-hugo-basedir))
 	  (find-file (expand-file-name "config.toml" easy-hugo-basedir)))
 	 ((file-exists-p (expand-file-name "config.yaml" easy-hugo-basedir))
@@ -1153,7 +1151,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-open-basedir ()
   "Open `easy-hugo-basedir' with dired."
   (interactive)
-  (switch-to-buffer (find-file-noselect easy-hugo-basedir)))
+  (easy-hugo-with-env
+   (switch-to-buffer (find-file-noselect easy-hugo-basedir))))
 
 (defun easy-hugo-view ()
   "Open the file on the pointer with 'view-mode'."
