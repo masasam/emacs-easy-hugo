@@ -305,7 +305,7 @@ archetypes/default.mmark
     draft = false
 	---
 
-archetypes/default.html'
+archetypes/default.html
 
 	---
 	categories = [""]
