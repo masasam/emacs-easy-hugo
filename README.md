@@ -255,6 +255,66 @@ config.toml
 	[permalinks]
 	post = "/:year/:month/:day/:title/"
 
+archetypes/default.md
+
+	---
+	categories = [""]
+	tags = [""]
+	title = "{{ replace .TranslationBaseName "-" " " | title }}"
+	date = "{{ .Date }}"
+    draft = false
+	---
+
+archetypes/default.org
+
+	---
+	categories = [""]
+	tags = [""]
+	title = "{{ replace .TranslationBaseName "-" " " | title }}"
+	date = "{{ .Date }}"
+    draft = false
+	---
+
+archetypes/default.ad
+
+	---
+	categories = [""]
+	tags = [""]
+	title = "{{ replace .TranslationBaseName "-" " " | title }}"
+	date = "{{ .Date }}"
+    draft = false
+	---
+
+archetypes/default.rst
+
+	---
+	categories = [""]
+	tags = [""]
+	title = "{{ replace .TranslationBaseName "-" " " | title }}"
+	date = "{{ .Date }}"
+    draft = false
+	---
+
+archetypes/default.mmark
+
+	---
+	categories = [""]
+	tags = [""]
+	title = "{{ replace .TranslationBaseName "-" " " | title }}"
+	date = "{{ .Date }}"
+    draft = false
+	---
+
+archetypes/default.html'
+
+	---
+	categories = [""]
+	tags = [""]
+	title = "{{ replace .TranslationBaseName "-" " " | title }}"
+	date = "{{ .Date }}"
+    draft = false
+	---
+
 ### Prepare the server
 
 Let's build with a free trial of "google compute engine" or "amazon ec2".
