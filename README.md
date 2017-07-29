@@ -265,7 +265,7 @@ archetypes/default.md
     draft = false
 	---
 
-archetypes/default.org
+archetypes/default.org (If your hugo version is 0.25 or higher)
 
 	---
 	categories = [""]
