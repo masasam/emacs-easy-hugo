@@ -257,63 +257,63 @@ config.toml
 
 archetypes/default.md
 
-	---
+	+++
 	categories = [""]
 	tags = [""]
 	title = "{{ replace .TranslationBaseName "-" " " | title }}"
 	date = "{{ .Date }}"
     draft = false
-	---
+	+++
 
 archetypes/default.org (If your hugo version is 0.25 or higher)
 
-	---
+	+++
 	categories = [""]
 	tags = [""]
 	title = "{{ replace .TranslationBaseName "-" " " | title }}"
 	date = "{{ .Date }}"
     draft = false
-	---
+	+++
 
 archetypes/default.ad
 
-	---
+	+++
 	categories = [""]
 	tags = [""]
 	title = "{{ replace .TranslationBaseName "-" " " | title }}"
 	date = "{{ .Date }}"
     draft = false
-	---
+	+++
 
 archetypes/default.rst
 
-	---
+	+++
 	categories = [""]
 	tags = [""]
 	title = "{{ replace .TranslationBaseName "-" " " | title }}"
 	date = "{{ .Date }}"
     draft = false
-	---
+	+++
 
 archetypes/default.mmark
 
-	---
+	+++
 	categories = [""]
 	tags = [""]
 	title = "{{ replace .TranslationBaseName "-" " " | title }}"
 	date = "{{ .Date }}"
     draft = false
-	---
+	+++
 
 archetypes/default.html
 
-	---
+	+++
 	categories = [""]
 	tags = [""]
 	title = "{{ replace .TranslationBaseName "-" " " | title }}"
 	date = "{{ .Date }}"
     draft = false
-	---
+	+++
 
 ### Prepare the server
 
