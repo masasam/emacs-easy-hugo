@@ -417,6 +417,9 @@ Because only two are supported by hugo."
 (defvar easy-hugo--draft-mode nil
   "Display draft-mode.")
 
+(defvar easy-hugo--draft-refresh nil
+  "Draft-refresh flg.")
+
 (defvar easy-hugo--publish-timer nil
   "Easy-hugo-publish-timer.")
 
@@ -1069,7 +1072,9 @@ Enjoy!
   (interactive)
   (setq easy-hugo--cursor (point))
   (setq easy-hugo--refresh 1)
-  (easy-hugo)
+  (if easy-hugo--draft-list
+      (easy-hugo-draft-list)
+    (easy-hugo))
   (setq easy-hugo--refresh nil))
 
 (defun easy-hugo-sort-time ()
@@ -1487,6 +1492,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-draft-list ()
   "List drafts."
   (easy-hugo-with-env
+   (when (> 0.25 (easy-hugo--version))
+     (error "'List draft' requires hugo 0.25 or higher"))
    (let ((source (split-string
 		  (with-temp-buffer
 		    (let ((ret (call-process-shell-command "hugo list drafts" nil t)))
@@ -1527,6 +1534,10 @@ Optional prefix ARG says how many lines to move; default is one line."
        (insert (concat (car lists) "\n"))
        (pop lists))
      (goto-char easy-hugo--cursor)
+     (when (< (line-number-at-pos) easy-hugo--unmovable-line)
+       (goto-char (point-min))
+       (forward-line (- easy-hugo--unmovable-line 1)))
+     (beginning-of-line)
      (forward-char easy-hugo--forward-char)
      (easy-hugo-mode))))
 
