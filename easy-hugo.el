@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.3.4
+;; Version: 1.4.5
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -28,6 +28,8 @@
 ;; or Amazon S3 or Google Cloud Storage.
 
 ;;; Code:
+
+(require 'cl-lib)
 
 (defgroup easy-hugo nil
   "Writing blogs made with hugo."
@@ -408,6 +410,12 @@ Because only two are supported by hugo."
 
 (defvar easy-hugo--unmovable-line 10
   "Impossible to move below this line.")
+
+(defvar easy-hugo--draft-list nil
+  "Draft list flg.")
+
+(defvar easy-hugo--draft-mode nil
+  "Display draft-mode.")
 
 (defvar easy-hugo--publish-timer nil
   "Easy-hugo-publish-timer.")
@@ -880,19 +888,19 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 (defconst easy-hugo--help
   (if (null easy-hugo-sort-default-char)
       (progn
-	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    O .. Open basedir
+	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    L .. List draft
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    S .. Sort character
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
-d .. Delete post      c .. Open config   ? .. Help easy-hugo   L .. Deploy GCS timer
+d .. Delete post      c .. Open config   ? .. Help easy-hugo   I .. Deploy GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHub timer
 < .. Previous blog    > .. Next blog     q .. Quit easy-hugo   W .. Deploy AWS S3 timer
 
 ")
     (progn
-      "n .. New blog post    R .. Rename file   G .. Deploy GitHub    O .. Open basedir
+      "n .. New blog post    R .. Rename file   G .. Deploy GitHub    L .. List draft
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    s .. Sort character
 v .. Open view-mode   S .. Sort time     T .. Publish timer    N .. No help-mode
-d .. Delete post      c .. Open config   ? .. Help easy-hugo   L .. Deploy GCS timer
+d .. Delete post      c .. Open config   ? .. Help easy-hugo   I .. Deploy GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHub timer
 < .. Previous blog    > .. Next blog     q .. Quit easy-hugo   W .. Deploy AWS S3 timer
 
@@ -962,8 +970,9 @@ Enjoy!
     (define-key map "A" 'easy-hugo-amazon-s3-deploy)
     (define-key map "m" 'easy-hugo-cancel-amazon-s3-deploy-timer)
     (define-key map "C" 'easy-hugo-google-cloud-storage-deploy)
-    (define-key map "L" 'easy-hugo-google-cloud-storage-deploy-timer)
+    (define-key map "I" 'easy-hugo-google-cloud-storage-deploy-timer)
     (define-key map "i" 'easy-hugo-cancel-google-cloud-storage-deploy-timer)
+    (define-key map "L" 'easy-hugo-list-draft)
     (define-key map "q" 'easy-hugo-quit)
     (define-key map "<" 'easy-hugo-previous-blog)
     (define-key map ">" 'easy-hugo-next-blog)
@@ -1042,6 +1051,19 @@ Enjoy!
       (setq easy-hugo--unmovable-line 3)))
   (easy-hugo))
 
+(defun easy-hugo-list-draft ()
+  "List drafts."
+  (interactive)
+  (if easy-hugo--draft-list
+      (progn
+	(setq easy-hugo--draft-list nil)
+	(setq easy-hugo--draft-mode nil)
+	(easy-hugo))
+    (progn
+      (setq easy-hugo--draft-list 1)
+      (setq easy-hugo--draft-mode "  Draft")
+      (easy-hugo-draft-list))))
+
 (defun easy-hugo-refresh ()
   "Refresh easy hugo."
   (interactive)
@@ -1053,20 +1075,36 @@ Enjoy!
 (defun easy-hugo-sort-time ()
   "Sort time easy hugo."
   (interactive)
-  (setq easy-hugo--sort-char-flg nil)
-  (if (eq 1 easy-hugo--sort-time-flg)
-      (setq easy-hugo--sort-time-flg 2)
-    (setq easy-hugo--sort-time-flg 1))
-  (easy-hugo))
+  (if easy-hugo--draft-list
+      (progn
+	(setq easy-hugo--sort-char-flg nil)
+	(if (eq 1 easy-hugo--sort-time-flg)
+	    (setq easy-hugo--sort-time-flg 2)
+	  (setq easy-hugo--sort-time-flg 1))
+	(easy-hugo-draft-list))
+    (progn
+      (setq easy-hugo--sort-char-flg nil)
+      (if (eq 1 easy-hugo--sort-time-flg)
+	  (setq easy-hugo--sort-time-flg 2)
+	(setq easy-hugo--sort-time-flg 1))
+      (easy-hugo))))
 
 (defun easy-hugo-sort-char ()
   "Sort char easy hugo."
   (interactive)
-  (setq easy-hugo--sort-time-flg nil)
-  (if (eq 1 easy-hugo--sort-char-flg)
-      (setq easy-hugo--sort-char-flg 2)
-    (setq easy-hugo--sort-char-flg 1))
-  (easy-hugo))
+  (if easy-hugo--draft-list
+      (progn
+	(setq easy-hugo--sort-time-flg nil)
+	(if (eq 1 easy-hugo--sort-char-flg)
+	    (setq easy-hugo--sort-char-flg 2)
+	  (setq easy-hugo--sort-char-flg 1))
+	(easy-hugo-draft-list))
+    (progn
+      (setq easy-hugo--sort-time-flg nil)
+      (if (eq 1 easy-hugo--sort-char-flg)
+	  (setq easy-hugo--sort-char-flg 2)
+	(setq easy-hugo--sort-char-flg 1))
+      (easy-hugo))))
 
 (defun easy-hugo-forward-char (arg)
   "Forward-char as ARG."
@@ -1133,7 +1171,9 @@ Optional prefix ARG says how many lines to move; default is one line."
 		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
 		    easy-hugo-basedir)))
 	 (rename-file name (concat "content/" filename) 1)
-	 (easy-hugo-refresh))))))
+	 (if easy-hugo--draft-list
+	     (easy-hugo-draft-list)
+	   (easy-hugo-refresh)))))))
 
 (defun easy-hugo-open ()
   "Open the file on the pointer."
@@ -1183,7 +1223,9 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      (setq easy-hugo--line (- (line-number-at-pos) 4))
 	    (setq easy-hugo--line (- (line-number-at-pos) easy-hugo--delete-line)))
 	  (delete-file file)
-	  (easy-hugo)
+	  (if easy-hugo--draft-list
+	      (easy-hugo-draft-list)
+	    (easy-hugo))
 	  (when (> easy-hugo--line 0)
 	    (forward-line easy-hugo--line)
 	    (forward-char easy-hugo--forward-char)))))))
@@ -1442,6 +1484,52 @@ Optional prefix ARG says how many lines to move; default is one line."
       (easy-hugo--preview-end)
       (easy-hugo))))
 
+(defun easy-hugo-draft-list ()
+  "List drafts."
+  (easy-hugo-with-env
+   (let ((source (split-string
+		  (with-temp-buffer
+		    (let ((ret (call-process-shell-command "hugo list drafts" nil t)))
+		      (unless (zerop ret)
+			(error "'Hugo list drafts' comaand does not end normally"))
+		      (buffer-string)))
+		  "\n"))
+	 (lists (list))
+	 (files (list)))
+     (dolist (file source)
+       (when (string-match ".*/\\(.+?\\)$" file)
+	 (push (match-string 1 file) files)))
+     (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+       (error "Did you execute hugo new site bookshelf?"))
+     (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
+     (switch-to-buffer easy-hugo--mode-buffer)
+     (setq-local default-directory easy-hugo-basedir)
+     (setq buffer-read-only nil)
+     (erase-buffer)
+     (insert (propertize (concat "Easy-hugo  " easy-hugo-url easy-hugo--draft-mode "\n\n") 'face 'easy-hugo-help-face))
+     (unless easy-hugo-no-help
+       (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
+     (cond ((eq 1 easy-hugo--sort-char-flg) (setq files (reverse (sort files 'string<))))
+	   ((eq 2 easy-hugo--sort-char-flg) (setq files (sort files 'string<))))
+     (while files
+       (push
+	(concat
+	 (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes
+							  (expand-file-name
+							   (concat easy-hugo-postdir "/" (car files))
+							   easy-hugo-basedir))))
+	 (car files))
+	lists)
+       (pop files))
+     (cond ((eq 1 easy-hugo--sort-time-flg) (setq lists (reverse (sort lists 'string<))))
+	   ((eq 2 easy-hugo--sort-time-flg) (setq lists (sort lists 'string<))))
+     (while lists
+       (insert (concat (car lists) "\n"))
+       (pop lists))
+     (goto-char easy-hugo--cursor)
+     (forward-char easy-hugo--forward-char)
+     (easy-hugo-mode))))
+
 ;;;###autoload
 (defun easy-hugo ()
   "Easy hugo."
@@ -1450,6 +1538,7 @@ Optional prefix ARG says how many lines to move; default is one line."
    (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
      (error "Did you execute hugo new site bookshelf?"))
    (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
+   (setq easy-hugo--draft-list nil)
    (switch-to-buffer easy-hugo--mode-buffer)
    (setq-local default-directory easy-hugo-basedir)
    (setq buffer-read-only nil)
