@@ -417,9 +417,6 @@ Because only two are supported by hugo."
 (defvar easy-hugo--draft-mode nil
   "Display draft-mode.")
 
-(defvar easy-hugo--draft-refresh nil
-  "Draft-refresh flg.")
-
 (defvar easy-hugo--publish-timer nil
   "Easy-hugo-publish-timer.")
 
@@ -1052,7 +1049,9 @@ Enjoy!
     (progn
       (setq easy-hugo-no-help 1)
       (setq easy-hugo--unmovable-line 3)))
-  (easy-hugo))
+  (if easy-hugo--draft-list
+      (easy-hugo-draft-list)
+    (easy-hugo)))
 
 (defun easy-hugo-list-draft ()
   "List drafts."
@@ -1516,6 +1515,8 @@ Optional prefix ARG says how many lines to move; default is one line."
      (insert (propertize (concat "Easy-hugo  " easy-hugo-url easy-hugo--draft-mode "\n\n") 'face 'easy-hugo-help-face))
      (unless easy-hugo-no-help
        (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
+     (unless easy-hugo--refresh
+       (setq easy-hugo--cursor (point)))
      (cond ((eq 1 easy-hugo--sort-char-flg) (setq files (reverse (sort files 'string<))))
 	   ((eq 2 easy-hugo--sort-char-flg) (setq files (sort files 'string<))))
      (while files
@@ -1534,11 +1535,14 @@ Optional prefix ARG says how many lines to move; default is one line."
        (insert (concat (car lists) "\n"))
        (pop lists))
      (goto-char easy-hugo--cursor)
-     (when (< (line-number-at-pos) easy-hugo--unmovable-line)
-       (goto-char (point-min))
-       (forward-line (- easy-hugo--unmovable-line 1)))
-     (beginning-of-line)
-     (forward-char easy-hugo--forward-char)
+     (if easy-hugo--refresh
+	 (progn
+	   (when (< (line-number-at-pos) easy-hugo--unmovable-line)
+	     (goto-char (point-min))
+	     (forward-line (- easy-hugo--unmovable-line 1)))
+	   (beginning-of-line)
+	   (forward-char easy-hugo--forward-char))
+       (forward-char easy-hugo--forward-char))
      (easy-hugo-mode))))
 
 ;;;###autoload
