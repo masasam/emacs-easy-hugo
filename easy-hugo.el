@@ -888,7 +888,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 (defconst easy-hugo--help
   (if (null easy-hugo-sort-default-char)
       (progn
-	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    L .. List draft
+	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    S .. Sort character
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   ? .. Help easy-hugo   I .. Deploy GCS timer
@@ -897,7 +897,7 @@ P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHu
 
 ")
     (progn
-      "n .. New blog post    R .. Rename file   G .. Deploy GitHub    L .. List draft
+      "n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    s .. Sort character
 v .. Open view-mode   S .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   ? .. Help easy-hugo   I .. Deploy GCS timer
@@ -925,7 +925,6 @@ Enjoy!
     (define-key map "n" 'easy-hugo-newpost)
     (define-key map "a" 'easy-hugo-helm-ag)
     (define-key map "c" 'easy-hugo-open-config)
-    (define-key map "D" 'easy-hugo-article)
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)
     (define-key map "T" 'easy-hugo-publish-timer)
@@ -972,7 +971,7 @@ Enjoy!
     (define-key map "C" 'easy-hugo-google-cloud-storage-deploy)
     (define-key map "I" 'easy-hugo-google-cloud-storage-deploy-timer)
     (define-key map "i" 'easy-hugo-cancel-google-cloud-storage-deploy-timer)
-    (define-key map "L" 'easy-hugo-list-draft)
+    (define-key map "D" 'easy-hugo-list-draft)
     (define-key map "q" 'easy-hugo-quit)
     (define-key map "<" 'easy-hugo-previous-blog)
     (define-key map ">" 'easy-hugo-next-blog)
