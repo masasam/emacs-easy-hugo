@@ -1175,9 +1175,7 @@ Optional prefix ARG says how many lines to move; default is one line."
 		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
 		    easy-hugo-basedir)))
 	 (rename-file name (concat "content/" filename) 1)
-	 (if easy-hugo--draft-list
-	     (easy-hugo-draft-list)
-	   (easy-hugo-refresh)))))))
+	 (easy-hugo-refresh))))))
 
 (defun easy-hugo-open ()
   "Open the file on the pointer."
