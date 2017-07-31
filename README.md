@@ -12,6 +12,60 @@ You can manage blogs on easy-hugo-mode.
 
 If you manage multiple blogs, you can switch blogs with the < or > key.
 
+## Commands for easy-hugo-mode
+
+|key    |function      |
+|-------|--------------|
+|o		|easy-hugo-open|
+|e      |easy-hugo-open|
+|f		|easy-hugo-open|
+|RET	|easy-hugo-open|
+|<		|easy-hugo-previous-blog|
+|>		|easy-hugo-next-blog|
+|?		|describe-mode|
+|A		|easy-hugo-amazon-s3-deploy|
+|C		|easy-hugo-google-cloud-storage-deploy|
+|D		|easy-hugo-list-draft|
+|G		|easy-hugo-github-deploy|
+|H		|easy-hugo-github-deploy-timer|
+|I		|easy-hugo-google-cloud-storage-deploy-timer|
+|i		|easy-hugo-cancel-google-cloud-storage-deploy-timer|
+|N		|easy-hugo-no-help|
+|O		|easy-hugo-open-basedir|
+|P		|easy-hugo-publish|
+|R		|easy-hugo-rename|
+|S		|easy-hugo-sort-char|
+|T		|easy-hugo-publish-timer|
+|W		|easy-hugo-amazon-s3-deploy-timer|
+|a		|easy-hugo-helm-ag|
+|b		|easy-hugo-cancel-github-deploy-timer|
+|c		|easy-hugo-open-config|
+|d		|easy-hugo-delete|
+|g		|easy-hugo-refresh|
+|h		|easy-hugo-backward-char|
+|j		|easy-hugo-next-line|
+|k		|easy-hugo-previous-line|
+|l		|easy-hugo-forward-char|
+|m		|easy-hugo-cancel-amazon-s3-deploy-timer|
+|n		|easy-hugo-newpost|
+|p		|easy-hugo-preview|
+|q		|easy-hugo-quit|
+|r		|easy-hugo-refresh|
+|s		|easy-hugo-sort-time|
+|t		|easy-hugo-cancel-publish-timer|
+|u		|easy-hugo-undraft|
+|v		|easy-hugo-view|
+|SPC	|easy-hugo-next-line|
+|S-SPC	|easy-hugo-previous-line|
+|←	    |easy-hugo-backward-char|
+|→     |easy-hugo-forward-char|
+|C-b	|easy-hugo-backward-char|
+|C-f	|easy-hugo-forward-char|
+|C-n	|easy-hugo-next-line|
+|C-p	|easy-hugo-previous-line|
+|M-b	|easy-hugo-backward-word|
+|M-<	|easy-hugo-beginning-of-buffer|
+
 ![easy-hugo-mode](image/easy-hugo-mode.png)
 
     M-x easy-hugo-newpost
@@ -88,60 +142,6 @@ Deploy hugo source at Amazon S3.
 	M-x easy-hugo-google-cloud-storage-deploy
 
 Deploy hugo source at Google Cloud Storage.
-
-## Commands for easy-hugo-mode
-
-|key    |function      |
-|-------|--------------|
-|o		|easy-hugo-open|
-|e      |easy-hugo-open|
-|f		|easy-hugo-open|
-|RET	|easy-hugo-open|
-|<		|easy-hugo-previous-blog|
-|>		|easy-hugo-next-blog|
-|?		|describe-mode|
-|A		|easy-hugo-amazon-s3-deploy|
-|C		|easy-hugo-google-cloud-storage-deploy|
-|D		|easy-hugo-list-draft|
-|G		|easy-hugo-github-deploy|
-|H		|easy-hugo-github-deploy-timer|
-|I		|easy-hugo-google-cloud-storage-deploy-timer|
-|i		|easy-hugo-cancel-google-cloud-storage-deploy-timer|
-|N		|easy-hugo-no-help|
-|O		|easy-hugo-open-basedir|
-|P		|easy-hugo-publish|
-|R		|easy-hugo-rename|
-|S		|easy-hugo-sort-char|
-|T		|easy-hugo-publish-timer|
-|W		|easy-hugo-amazon-s3-deploy-timer|
-|a		|easy-hugo-helm-ag|
-|b		|easy-hugo-cancel-github-deploy-timer|
-|c		|easy-hugo-open-config|
-|d		|easy-hugo-delete|
-|g		|easy-hugo-refresh|
-|h		|easy-hugo-backward-char|
-|j		|easy-hugo-next-line|
-|k		|easy-hugo-previous-line|
-|l		|easy-hugo-forward-char|
-|m		|easy-hugo-cancel-amazon-s3-deploy-timer|
-|n		|easy-hugo-newpost|
-|p		|easy-hugo-preview|
-|q		|easy-hugo-quit|
-|r		|easy-hugo-refresh|
-|s		|easy-hugo-sort-time|
-|t		|easy-hugo-cancel-publish-timer|
-|u		|easy-hugo-undraft|
-|v		|easy-hugo-view|
-|SPC	|easy-hugo-next-line|
-|S-SPC	|easy-hugo-previous-line|
-|<left>	|easy-hugo-backward-char|
-|<right>|easy-hugo-forward-char|
-|C-b	|easy-hugo-backward-char|
-|C-f	|easy-hugo-forward-char|
-|C-n	|easy-hugo-next-line|
-|C-p	|easy-hugo-previous-line|
-|M-b	|easy-hugo-backward-word|
-|M-<	|easy-hugo-beginning-of-buffer|
 
 ## Requirements
 
