@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.4.5
+;; Version: 1.5.5
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -889,7 +889,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (if (null easy-hugo-sort-default-char)
       (progn
 	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
-p .. Preview          g .. Refresh       A .. Deploy AWS S3    S .. Sort character
+p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Undraft file
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   ? .. Help easy-hugo   I .. Deploy GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHub timer
@@ -899,7 +899,7 @@ P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHu
     (progn
       "n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    s .. Sort character
-v .. Open view-mode   S .. Sort time     T .. Publish timer    N .. No help-mode
+v .. Open view-mode   u .. Undraft file  T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   ? .. Help easy-hugo   I .. Deploy GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHub timer
 < .. Previous blog    > .. Next blog     q .. Quit easy-hugo   W .. Deploy AWS S3 timer
@@ -972,6 +972,7 @@ Enjoy!
     (define-key map "I" 'easy-hugo-google-cloud-storage-deploy-timer)
     (define-key map "i" 'easy-hugo-cancel-google-cloud-storage-deploy-timer)
     (define-key map "D" 'easy-hugo-list-draft)
+    (define-key map "u" 'easy-hugo-undraft)
     (define-key map "q" 'easy-hugo-quit)
     (define-key map "<" 'easy-hugo-previous-blog)
     (define-key map ">" 'easy-hugo-next-blog)
@@ -1174,6 +1175,23 @@ Optional prefix ARG says how many lines to move; default is one line."
 		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
 		    easy-hugo-basedir)))
 	 (rename-file name (concat "content/" filename) 1)
+	 (easy-hugo-refresh))))))
+
+(defun easy-hugo-undraft ()
+  "Undraft file on the pointer."
+  (interactive)
+  (easy-hugo-with-env
+   (when (> 0.25 (easy-hugo--version))
+     (error "'easy-hugo-undraft' requires hugo 0.25 or higher"))
+   (unless (or (string-match "^$" (thing-at-point 'line))
+	       (eq (point) (point-max))
+	       (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+     (let ((file (expand-file-name
+		  (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		  easy-hugo-basedir)))
+       (when (and (file-exists-p file)
+		  (not (file-directory-p file)))
+	 (shell-command-to-string (concat "hugo undraft " file))
 	 (easy-hugo-refresh))))))
 
 (defun easy-hugo-open ()
