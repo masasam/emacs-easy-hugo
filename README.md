@@ -132,6 +132,7 @@ Deploy hugo source at Google Cloud Storage.
 |t		|easy-hugo-cancel-publish-timer|
 |u		|easy-hugo-undraft|
 |v		|easy-hugo-view|
+|w		|easy-hugo-newpost|
 |SPC	|easy-hugo-next-line|
 |S-SPC	|easy-hugo-previous-line|
 |←	    |easy-hugo-backward-char|
