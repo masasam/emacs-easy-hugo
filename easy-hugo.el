@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.5.6
+;; Version: 1.5.7
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -596,26 +596,11 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (setq easy-hugo-root easy-hugo--root-timer)
   (setq easy-hugo--publish-url easy-hugo-url)
   (setq easy-hugo-url easy-hugo--url-timer)
-  (unless easy-hugo-sshdomain
-    (error "Please set easy-hugo-sshdomain variable"))
-  (unless easy-hugo-root
-    (error "Please set easy-hugo-root variable"))
-  (unless (executable-find "rsync")
-    (error "'rsync' is not installed"))
-  (unless (file-exists-p "~/.ssh/config")
-    (error "There is no ~/.ssh/config"))
-  (easy-hugo-with-env
-   (when (file-directory-p "public")
-     (delete-directory "public" t nil))
-   (shell-command-to-string "hugo --destination public")
-   (shell-command-to-string (concat "rsync -rtpl --chmod=" easy-hugo-publish-chmod " --delete public/ " easy-hugo-sshdomain ":" (shell-quote-argument easy-hugo-root)))
-   (message "Blog published")
-   (when easy-hugo-url
-     (browse-url easy-hugo-url))
-   (setq easy-hugo-basedir easy-hugo--publish-basedir)
-   (setq easy-hugo-sshdomain easy-hugo--publish-sshdomain)
-   (setq easy-hugo-root easy-hugo--publish-root)
-   (setq easy-hugo-url easy-hugo--publish-url)))
+  (easy-hugo-publish)
+  (setq easy-hugo-basedir easy-hugo--publish-basedir)
+  (setq easy-hugo-sshdomain easy-hugo--publish-sshdomain)
+  (setq easy-hugo-root easy-hugo--publish-root)
+  (setq easy-hugo-url easy-hugo--publish-url))
 
 (defun easy-hugo--org-headers (file)
   "Return a draft org mode header string for a new article as FILE."
@@ -732,16 +717,9 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (setq easy-hugo-basedir easy-hugo--github-deploy-basedir-timer)
   (setq easy-hugo--github-deploy-url easy-hugo-url)
   (setq easy-hugo-url easy-hugo--github-deploy-url-timer)
-  (easy-hugo-with-env
-   (let ((deployscript (file-truename (concat easy-hugo-basedir easy-hugo-github-deploy-script))))
-     (unless (executable-find deployscript)
-       (error "%s do not execute" deployscript))
-     (shell-command-to-string (shell-quote-argument deployscript))
-     (message "Blog deployed")
-     (when easy-hugo-url
-       (browse-url easy-hugo-url))
-     (setq easy-hugo-basedir easy-hugo--github-deploy-basedir)
-     (setq easy-hugo-url easy-hugo--github-deploy-url))))
+  (easy-hugo-github-deploy)
+  (setq easy-hugo-basedir easy-hugo--github-deploy-basedir)
+  (setq easy-hugo-url easy-hugo--github-deploy-url))
 
 ;;;###autoload
 (defun easy-hugo-amazon-s3-deploy ()
@@ -787,21 +765,10 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (setq easy-hugo-url easy-hugo--amazon-s3-url-timer)
   (setq easy-hugo--amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name)
   (setq easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-timer)
-  (easy-hugo-with-env
-   (unless (executable-find "aws")
-     (error "'aws' is not installed"))
-   (unless easy-hugo-amazon-s3-bucket-name
-     (error "Please set 'easy-hugo-amazon-s3-bucket-name' variable"))
-   (when (file-directory-p "public")
-     (delete-directory "public" t nil))
-   (shell-command-to-string "hugo --destination public")
-   (shell-command-to-string (concat "aws s3 sync --delete public s3://" easy-hugo-amazon-s3-bucket-name "/"))
-   (message "Blog deployed")
-   (when easy-hugo-url
-     (browse-url easy-hugo-url))
-   (setq easy-hugo-basedir easy-hugo--amazon-s3-basedir)
-   (setq easy-hugo-url easy-hugo--amazon-s3-url)
-   (setq easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name)))
+  (easy-hugo-amazon-s3-deploy)
+  (setq easy-hugo-basedir easy-hugo--amazon-s3-basedir)
+  (setq easy-hugo-url easy-hugo--amazon-s3-url)
+  (setq easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name))
 
 ;;;###autoload
 (defun easy-hugo-google-cloud-storage-deploy ()
@@ -847,21 +814,10 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (setq easy-hugo-url easy-hugo--google-cloud-storage-url-timer)
   (setq easy-hugo--google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name)
   (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-timer)
-  (easy-hugo-with-env
-   (unless (executable-find "gsutil")
-     (error "'Google Cloud SDK' is not installed"))
-   (unless easy-hugo-google-cloud-storage-bucket-name
-     (error "Please set 'easy-hugo-google-cloud-storage-bucket-name' variable"))
-   (when (file-directory-p "public")
-     (delete-directory "public" t nil))
-   (shell-command-to-string "hugo --destination public")
-   (shell-command-to-string (concat "gsutil -m rsync -d -r public gs://" easy-hugo-google-cloud-storage-bucket-name "/"))
-   (message "Blog deployed")
-   (when easy-hugo-url
-     (browse-url easy-hugo-url))
-   (setq easy-hugo-basedir easy-hugo--google-cloud-storage-basedir)
-   (setq easy-hugo-url easy-hugo--google-cloud-storage-url)
-   (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name)))
+  (easy-hugo-google-cloud-storage-deploy)
+  (setq easy-hugo-basedir easy-hugo--google-cloud-storage-basedir)
+  (setq easy-hugo-url easy-hugo--google-cloud-storage-url)
+  (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name))
 
 ;;;###autoload
 (defun easy-hugo-helm-ag ()
