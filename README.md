@@ -89,6 +89,16 @@ Deploy hugo source at Amazon S3.
 
 Deploy hugo source at Google Cloud Storage.
 
+	M-x easy-hugo-image
+
+Generate link of image from image file directory under 'static' directory.
+
+![easy-hugo-image1](image/easy-hugo-image1.png)
+
+When you select the image file you want to use, a link will be inserted.
+
+![easy-hugo-image2](image/easy-hugo-image2.png)
+
 ## Commands for easy-hugo-mode
 
 |key    |function      |
@@ -184,17 +194,20 @@ If you want deploy hugo at Google Cloud Storage, please install Google Cloud SDK
 When writing blog with org-mode at .org file or rst-mode at .rst file or web-mode at .html file,
 "C-c C-e" keys are duplicated so please use other keys.
 
-If you want the default extension to be '.org'.  
+If you want the default extension to be '.org'.
+
 If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".org")
 
-If you want the default extension to be '.ad'.  
+If you want the default extension to be '.ad'.
+
 If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".ad")
 
-If you want the default extension to be '.rst'.  
+If you want the default extension to be '.rst'.
+
 If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".rst")
@@ -216,7 +229,16 @@ If you want customise color, write the following in the init.el or .emacs.
 	""
 	:group 'easy-hugo-faces)
 
-If you want to manage multiple blogs.  
+In order to generate link of image from image file directory under 'static' directory,
+
+If you want to change image file directory under 'static' directory.
+
+If not set the default image file directory will be 'images'.
+
+	(setq easy-hugo-image-dirctory "img")
+
+If you want to manage multiple blogs.
+
 Example of setting when adding two blogs and managing a total of three blogs.
 
 	;; Main blog
@@ -230,15 +252,16 @@ Example of setting when adding two blogs and managing a total of three blogs.
 	(setq easy-hugo-blog-number 3)
 	;; Blog1
 	(setq easy-hugo-basedir-1 "~/src/github.com/masasam/ppap1/")
-	(setq easy-hugo-url-1 "http://example1.com/")
+	(setq easy-hugo-url-1 "http://example1.com")
 	(setq easy-hugo-root-1 "/home/blog/")
 	(setq easy-hugo-sshdomain-1 "blog1domain")
 	;; Blog2
 	(setq easy-hugo-basedir-2 "~/src/github.com/masasam/ppap2/")
-	(setq easy-hugo-url-2 "http://example2.com/")
+	(setq easy-hugo-url-2 "http://example2.com")
 	(setq easy-hugo-amazon-s3-bucket-name-2 "blogbucket")
 
-A total of until 10 blogs can be managed.  
+A total of until 10 blogs can be managed.
+
 Please set necessary variables and use.
 
 	easy-hugo-basedir-1
@@ -247,6 +270,7 @@ Please set necessary variables and use.
 	easy-hugo-sshdomain-1
 	easy-hugo-amazon-s3-bucket-name-1
 	easy-hugo-google-cloud-storage-bucket-name-1
+	easy-hugo-image-dirctory-1
 
 	..............
 
@@ -256,6 +280,7 @@ Please set necessary variables and use.
 	easy-hugo-sshdomain-9
 	easy-hugo-amazon-s3-bucket-name-9
 	easy-hugo-google-cloud-storage-bucket-name-9
+	easy-hugo-image-dirctory-9
 
 If you want change markdown filename extension, please select md or markdown or mdown.
 Because only these three are supported by hugo. If not set markdown filename extension will be 'md'.

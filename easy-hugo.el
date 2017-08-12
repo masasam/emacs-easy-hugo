@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.5.7
+;; Version: 1.6.7
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -68,6 +68,11 @@
   "Preview display time."
   :group 'easy-hugo
   :type 'integer)
+
+(defcustom easy-hugo-image-dirctory "images"
+  "Image file directory under 'static' directory."
+  :group 'easy-hugo
+  :type 'string)
 
 (defcustom easy-hugo-amazon-s3-bucket-name nil
   "Amazon S3 bucket name."
@@ -165,6 +170,11 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-image-dirctory-1 "images"
+  "Blog1 image file directory under 'static' directory."
+  :group 'easy-hugo
+  :type 'string)
+
 (defcustom easy-hugo-basedir-2 nil
   "Blog2 base directory."
   :group 'easy-hugo
@@ -192,6 +202,11 @@ Because only two are supported by hugo."
 
 (defcustom easy-hugo-google-cloud-storage-bucket-name-2 nil
   "Blog2 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-image-dirctory-2 "images"
+  "Blog2 image file directory under 'static' directory."
   :group 'easy-hugo
   :type 'string)
 
@@ -225,6 +240,11 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-image-dirctory-3 "images"
+  "Blog3 image file directory under 'static' directory."
+  :group 'easy-hugo
+  :type 'string)
+
 (defcustom easy-hugo-basedir-4 nil
   "Blog1 base directory."
   :group 'easy-hugo
@@ -252,6 +272,11 @@ Because only two are supported by hugo."
 
 (defcustom  easy-hugo-google-cloud-storage-bucket-name-4 nil
   "Blog4 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-image-dirctory-4 "images"
+  "Blog4 image file directory under 'static' directory."
   :group 'easy-hugo
   :type 'string)
 
@@ -285,6 +310,11 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-image-dirctory-5 "images"
+  "Blog5 image file directory under 'static' directory."
+  :group 'easy-hugo
+  :type 'string)
+
 (defcustom easy-hugo-basedir-6 nil
   "Blog6 base directory."
   :group 'easy-hugo
@@ -312,6 +342,11 @@ Because only two are supported by hugo."
 
 (defcustom easy-hugo-google-cloud-storage-bucket-name-6 nil
   "Blog6 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-image-dirctory-6 "images"
+  "Blog6 image file directory under 'static' directory."
   :group 'easy-hugo
   :type 'string)
 
@@ -345,6 +380,11 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-image-dirctory-7 "images"
+  "Blog7 image file directory under 'static' directory."
+  :group 'easy-hugo
+  :type 'string)
+
 (defcustom easy-hugo-basedir-8 nil
   "Blog8 base directory."
   :group 'easy-hugo
@@ -375,6 +415,11 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-image-dirctory-8 "images"
+  "Blog8 image file directory under 'static' directory."
+  :group 'easy-hugo
+  :type 'string)
+
 (defcustom easy-hugo-basedir-9 nil
   "Blog9 base directory."
   :group 'easy-hugo
@@ -402,6 +447,11 @@ Because only two are supported by hugo."
 
 (defcustom easy-hugo-google-cloud-storage-bucket-name-9 nil
   "Blog9 google cloud storage bucket name."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-image-dirctory-9 "images"
+  "Blog9 image file directory under 'static' directory."
   :group 'easy-hugo
   :type 'string)
 
@@ -544,6 +594,21 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
        (error "'hugo' is not installed"))
      (let ((default-directory easy-hugo-basedir))
        ,@body)))
+
+;;;###autoload
+(defun easy-hugo-image ()
+  "Generate image link."
+  (interactive
+   (let ((file (read-file-name "Image file: " nil
+			       (expand-file-name
+				(concat easy-hugo-basedir "static/" easy-hugo-image-dirctory "/"))
+			       nil
+			       (expand-file-name
+				(concat easy-hugo-basedir "static/" easy-hugo-image-dirctory "/")))))
+     (insert (concat (format "<img src=\"%s%s\""
+			     easy-hugo-url
+			     (replace-regexp-in-string ".*/static/\\(.*\\)" "/\\1" file))
+		     " alt=\"\" width=\"100%\"/>")))))
 
 ;;;###autoload
 (defun easy-hugo-publish ()
@@ -978,6 +1043,9 @@ Enjoy!
 (defconst easy-hugo--google-cloud-storage-bucket-name-0 easy-hugo-google-cloud-storage-bucket-name
   "Default blog google cloud storage bucket name.")
 
+(defconst easy-hugo--image-dirctory-0 easy-hugo-image-dirctory
+  "Default image file directory under 'static' directory.")
+
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
 
@@ -1249,7 +1317,8 @@ Optional prefix ARG says how many lines to move; default is one line."
         easy-hugo-root easy-hugo--root-0
 	easy-hugo-sshdomain easy-hugo--sshdomain-0
 	easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
-	easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
+	easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0
+	easy-hugo-image-dirctory easy-hugo--image-dirctory-0)
   (easy-hugo--preview-end)
   (easy-hugo))
 
@@ -1264,7 +1333,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-root easy-hugo-root-1
 	    easy-hugo-sshdomain easy-hugo-sshdomain-1
 	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-1
-	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-1)
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-1
+	    easy-hugo-image-dirctory easy-hugo-image-dirctory-1)
       (easy-hugo--preview-end)
       (easy-hugo))))
 
@@ -1279,7 +1349,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      easy-hugo-root easy-hugo--root-0
 	      easy-hugo-sshdomain easy-hugo--sshdomain-0
 	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0
+	      easy-hugo-image-dirctory easy-hugo--image-dirctory-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -1288,7 +1359,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-root easy-hugo-root-2
 	    easy-hugo-sshdomain easy-hugo-sshdomain-2
 	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-2
-	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-2)
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-2
+	    easy-hugo-image-dirctory easy-hugo-image-dirctory-2)
       (easy-hugo--preview-end)
       (easy-hugo))))
 
@@ -1303,7 +1375,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      easy-hugo-root easy-hugo--root-0
 	      easy-hugo-sshdomain easy-hugo--sshdomain-0
 	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0
+	      easy-hugo-image-dirctory easy-hugo--image-dirctory-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -1312,7 +1385,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-root easy-hugo-root-3
 	    easy-hugo-sshdomain easy-hugo-sshdomain-3
 	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-3
-	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-3)
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-3
+	    easy-hugo-image-dirctory easy-hugo-image-dirctory-3)
       (easy-hugo--preview-end)
       (easy-hugo))))
 
@@ -1327,7 +1401,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      easy-hugo-root easy-hugo--root-0
 	      easy-hugo-sshdomain easy-hugo--sshdomain-0
 	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0
+	      easy-hugo-image-dirctory easy-hugo--image-dirctory-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -1336,7 +1411,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-root easy-hugo-root-4
 	    easy-hugo-sshdomain easy-hugo-sshdomain-4
 	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-4
-	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-4)
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-4
+	    easy-hugo-image-dirctory easy-hugo-image-dirctory-4)
       (easy-hugo--preview-end)
       (easy-hugo))))
 
@@ -1351,7 +1427,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      easy-hugo-root easy-hugo--root-0
 	      easy-hugo-sshdomain easy-hugo--sshdomain-0
 	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0
+	      easy-hugo-image-dirctory easy-hugo--image-dirctory-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -1360,7 +1437,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-root easy-hugo-root-5
 	    easy-hugo-sshdomain easy-hugo-sshdomain-5
 	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-5
-	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-5)
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-5
+	    easy-hugo-image-dirctory easy-hugo-image-dirctory-5)
       (easy-hugo--preview-end)
       (easy-hugo))))
 
@@ -1375,7 +1453,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      easy-hugo-root easy-hugo--root-0
 	      easy-hugo-sshdomain easy-hugo--sshdomain-0
 	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0
+	      easy-hugo-image-dirctory easy-hugo--image-dirctory-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -1384,7 +1463,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-root easy-hugo-root-6
 	    easy-hugo-sshdomain easy-hugo-sshdomain-6
 	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-6
-	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-6)
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-6
+	    easy-hugo-image-dirctory easy-hugo-image-dirctory-6)
       (easy-hugo--preview-end)
       (easy-hugo))))
 
@@ -1399,7 +1479,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      easy-hugo-root easy-hugo--root-0
 	      easy-hugo-sshdomain easy-hugo--sshdomain-0
 	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0
+	      easy-hugo-image-dirctory easy-hugo--image-dirctory-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -1408,7 +1489,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-root easy-hugo-root-7
 	    easy-hugo-sshdomain easy-hugo-sshdomain-7
 	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-7
-	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-7)
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-7
+	    easy-hugo-image-dirctory easy-hugo-image-dirctory-7)
       (easy-hugo--preview-end)
       (easy-hugo))))
 
@@ -1423,7 +1505,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      easy-hugo-root easy-hugo--root-0
 	      easy-hugo-sshdomain easy-hugo--sshdomain-0
 	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0
+	      easy-hugo-image-dirctory easy-hugo--image-dirctory-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -1432,7 +1515,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-root easy-hugo-root-8
 	    easy-hugo-sshdomain easy-hugo-sshdomain-8
 	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-8
-	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-8)
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-8
+	    easy-hugo-image-dirctory easy-hugo-image-dirctory-8)
       (easy-hugo--preview-end)
       (easy-hugo))))
 
@@ -1447,7 +1531,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      easy-hugo-root easy-hugo--root-0
 	      easy-hugo-sshdomain easy-hugo--sshdomain-0
 	      easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-0
-	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0)
+	      easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-0
+	      easy-hugo-image-dirctory easy-hugo--image-dirctory-0)
 	(easy-hugo--preview-end)
 	(easy-hugo))
     (progn
@@ -1456,7 +1541,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-root easy-hugo-root-9
 	    easy-hugo-sshdomain easy-hugo-sshdomain-9
 	    easy-hugo-amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name-9
-	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-9)
+	    easy-hugo-google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name-9
+	    easy-hugo-image-dirctory easy-hugo-image-dirctory-9)
       (easy-hugo--preview-end)
       (easy-hugo))))
 
