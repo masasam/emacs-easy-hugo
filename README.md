@@ -265,6 +265,10 @@ If not set the default image file directory will be 'images'.
 
 	(setq easy-hugo-image-dirctory "img")
 
+Setting the picture directory of your PC, it is easy to execute M-x easy-hugo-put-image
+
+	(setq easy-hugo-default-picture-directory "~/Pictures")
+
 If you want to manage multiple blogs.
 
 Example of setting when adding two blogs and managing a total of three blogs.
