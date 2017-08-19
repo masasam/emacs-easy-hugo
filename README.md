@@ -99,6 +99,34 @@ When you select the image file you want to use, a link will be inserted.
 
 ![easy-hugo-image2](image/easy-hugo-image2.png)
 
+	M-x easy-hugo-put-image
+
+Move image to 'easy-hugo-image-dirctory' and generate image link.
+
+You can change the initial launch position with 'easy-hugo-default-picture-directory'.
+
+![easy-hugo-put-image](image/easy-hugo-put-image.png)
+
+	M-x easy-hugo-pull-image
+
+Pull image from internet to image directory and generate image link.
+
+Copy the URL of the image you want to download with your browser.
+
+Execute M-x easy-hugo-pull-image.
+
+![easy-hugo-pull-image](image/easy-hugo-pull-image.png)
+
+Decide file name.
+
+If you press enter without deciding the file name, the file name can be used as it is.
+
+![easy-hugo-pull-image1](image/easy-hugo-pull-image1.png)
+
+The file is saved in 'easy-hugo-image-dirctory' and generate image link.
+
+![easy-hugo-pull-image2](image/easy-hugo-pull-image2.png)
+
 ## Commands for easy-hugo-mode
 
 |key    |function      |

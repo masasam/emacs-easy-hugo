@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.6.7
+;; Version: 1.7.7
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -71,6 +71,11 @@
 
 (defcustom easy-hugo-image-dirctory "images"
   "Image file directory under 'static' directory."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-default-picture-directory "~"
+  "Default directory for selecting images with `easy-hugo-put-image'."
   :group 'easy-hugo
   :type 'string)
 
@@ -602,12 +607,41 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
    (let ((file (read-file-name "Image file: " nil
 			       (expand-file-name
 				(concat easy-hugo-basedir "static/" easy-hugo-image-dirctory "/"))
-			       nil
+			       t
 			       (expand-file-name
 				(concat easy-hugo-basedir "static/" easy-hugo-image-dirctory "/")))))
      (insert (concat (format "<img src=\"%s%s\""
 			     easy-hugo-url
 			     (replace-regexp-in-string ".*/static/\\(.*\\)" "/\\1" file))
+		     " alt=\"\" width=\"100%\"/>")))))
+
+;;;###autoload
+(defun easy-hugo-put-image ()
+  "Move image to image directory and generate image link."
+  (interactive
+   (let ((file (read-file-name "Image file: " nil
+			       (expand-file-name easy-hugo-default-picture-directory)
+			       t
+			       (expand-file-name easy-hugo-default-picture-directory))))
+     (copy-file file (concat easy-hugo-basedir "static/" easy-hugo-image-dirctory "/" (file-name-nondirectory file)))
+     (insert (concat (format "<img src=\"%s%s\""
+			     easy-hugo-url
+			     (concat "/" (file-name-nondirectory file)))
+		     " alt=\"\" width=\"100%\"/>")))))
+
+;;;###autoload
+(defun easy-hugo-pull-image ()
+  "Pull image from internet to image directory and generate image link."
+  (interactive
+   (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection) (gui-get-selection))))
+	 (file (read-file-name "Save as: "
+			       (concat easy-hugo-basedir "static/" easy-hugo-image-dirctory "/")
+			       (car (last (split-string (substring-no-properties (gui-get-selection)) "/")))
+			       nil)))
+     (url-copy-file url file t)
+     (insert (concat (format "<img src=\"%s%s\""
+			     easy-hugo-url
+			     (concat "/" (file-name-nondirectory file)))
 		     " alt=\"\" width=\"100%\"/>")))))
 
 ;;;###autoload
