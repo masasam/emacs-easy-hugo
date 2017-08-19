@@ -334,7 +334,7 @@ Cocoa-hugo-theme user should add the following settings to init.el or .emacs.
 
 	(setq easy-hugo-postdir "content/blog")
 
-## Preparation for useing this package
+## Preparation for using this package
 
 Install hugo
 
