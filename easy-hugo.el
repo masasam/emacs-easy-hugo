@@ -768,6 +768,19 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
        (browse-url easy-hugo-preview-url)
        (run-at-time easy-hugo-previewtime nil 'easy-hugo--preview-end)))))
 
+(defun easy-hugo--preview-http-status-code (url)
+  "Return the http status code of the preview url as URL."
+  (nth 1
+       (split-string
+	(nth 0
+	     (split-string
+	      (with-current-buffer (url-retrieve-synchronously (concat "http://127.0.0.1:1313/post/" url))
+		(prog1
+		    (buffer-string)
+		  (kill-buffer)))
+	      "\n"))
+	" ")))
+
 (defun easy-hugo--preview-end ()
   "Finish previewing hugo at localhost."
   (unless (null easy-hugo--server-process)
