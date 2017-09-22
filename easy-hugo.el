@@ -816,6 +816,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 		 (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server" "--navigateToChanged"))
 	 (setq easy-hugo--server-process
 	       (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server")))
+       (sleep-for 1)
        (easy-hugo--preview-open)
        (run-at-time easy-hugo-previewtime nil 'easy-hugo--preview-end)))))
 
