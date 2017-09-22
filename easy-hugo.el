@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.7.7
+;; Version: 1.8.7
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -581,6 +581,57 @@ Because only two are supported by hugo."
   ""
   :group 'easy-hugo-faces)
 
+(defvar easy-hugo--mode-buffer nil
+  "Main buffer of easy-hugo.")
+
+(defvar easy-hugo--cursor nil
+  "Cursor of easy-hugo.")
+
+(defvar easy-hugo--line nil
+  "Line of easy-hugo.")
+
+(defvar easy-hugo--sort-time-flg 1
+  "Sort time flg of easy-hugo.")
+
+(defvar easy-hugo--sort-char-flg nil
+  "Sort char flg of easy-hugo.")
+
+(defvar easy-hugo--refresh nil
+  "Refresh flg of easy-hugo.")
+
+(defvar easy-hugo--current-blog 0
+  "Current blog number.")
+
+(defconst easy-hugo--blog-maximum-number 10
+  "Maximum number of blogs.")
+
+(defconst easy-hugo--basedir-0 easy-hugo-basedir
+  "Default blog base directory.")
+
+(defconst easy-hugo--url-0 easy-hugo-url
+  "Default blog url.")
+
+(defconst easy-hugo--root-0 easy-hugo-root
+  "Default blog root.")
+
+(defconst easy-hugo--sshdomain-0 easy-hugo-sshdomain
+  "Default blog sshdomain.")
+
+(defconst easy-hugo--amazon-s3-bucket-name-0 easy-hugo-amazon-s3-bucket-name
+  "Default blog amazon s3 bucket name.")
+
+(defconst easy-hugo--google-cloud-storage-bucket-name-0 easy-hugo-google-cloud-storage-bucket-name
+  "Default blog google cloud storage bucket name.")
+
+(defconst easy-hugo--image-dirctory-0 easy-hugo-image-dirctory
+  "Default image file directory under 'static' directory.")
+
+(defconst easy-hugo--buffer-name "*Easy-hugo*"
+  "Buffer name of easy-hugo.")
+
+(defconst easy-hugo--forward-char 20
+  "Forward-char of easy-hugo.")
+
 ;;;###autoload
 (defun easy-hugo-article ()
   "Open a list of articles written in hugo with dired."
@@ -758,15 +809,30 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   (interactive)
   (easy-hugo-with-env
    (if (process-live-p easy-hugo--server-process)
-       (browse-url easy-hugo-preview-url)
+       (easy-hugo--preview-open)
      (progn
        (if (<= 0.25 (easy-hugo--version))
 	   (setq easy-hugo--server-process
-	   	 (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server" "--navigateToChanged"))
+		 (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server" "--navigateToChanged"))
 	 (setq easy-hugo--server-process
 	       (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server")))
-       (browse-url easy-hugo-preview-url)
+       (easy-hugo--preview-open)
        (run-at-time easy-hugo-previewtime nil 'easy-hugo--preview-end)))))
+
+(defun easy-hugo--preview-open ()
+  "Open preview at the file name on the pointer.
+If not applicable, return the default preview."
+  (unless (or (string-match "^$" (thing-at-point 'line))
+	      (eq (point) (point-max))
+	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+    (let ((file (expand-file-name
+		 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		 easy-hugo-basedir)))
+      (when (and (file-exists-p file)
+		 (not (file-directory-p file)))
+	(if (equal (easy-hugo--preview-http-status-code (file-name-base file)) "200")
+	    (browse-url (concat easy-hugo-preview-url "post/" (file-name-base file)))
+	  (browse-url easy-hugo-preview-url))))))
 
 (defun easy-hugo--preview-http-status-code (url)
   "Return the http status code of the preview url as URL."
@@ -1047,57 +1113,6 @@ Enjoy!
     (define-key map ">" 'easy-hugo-next-blog)
     map)
   "Keymap for easy-hugo major mode.")
-
-(defvar easy-hugo--mode-buffer nil
-  "Main buffer of easy-hugo.")
-
-(defvar easy-hugo--cursor nil
-  "Cursor of easy-hugo.")
-
-(defvar easy-hugo--line nil
-  "Line of easy-hugo.")
-
-(defvar easy-hugo--sort-time-flg 1
-  "Sort time flg of easy-hugo.")
-
-(defvar easy-hugo--sort-char-flg nil
-  "Sort char flg of easy-hugo.")
-
-(defvar easy-hugo--refresh nil
-  "Refresh flg of easy-hugo.")
-
-(defvar easy-hugo--current-blog 0
-  "Current blog number.")
-
-(defconst easy-hugo--blog-maximum-number 10
-  "Maximum number of blogs.")
-
-(defconst easy-hugo--basedir-0 easy-hugo-basedir
-  "Default blog base directory.")
-
-(defconst easy-hugo--url-0 easy-hugo-url
-  "Default blog url.")
-
-(defconst easy-hugo--root-0 easy-hugo-root
-  "Default blog root.")
-
-(defconst easy-hugo--sshdomain-0 easy-hugo-sshdomain
-  "Default blog sshdomain.")
-
-(defconst easy-hugo--amazon-s3-bucket-name-0 easy-hugo-amazon-s3-bucket-name
-  "Default blog amazon s3 bucket name.")
-
-(defconst easy-hugo--google-cloud-storage-bucket-name-0 easy-hugo-google-cloud-storage-bucket-name
-  "Default blog google cloud storage bucket name.")
-
-(defconst easy-hugo--image-dirctory-0 easy-hugo-image-dirctory
-  "Default image file directory under 'static' directory.")
-
-(defconst easy-hugo--buffer-name "*Easy-hugo*"
-  "Buffer name of easy-hugo.")
-
-(defconst easy-hugo--forward-char 20
-  "Forward-char of easy-hugo.")
 
 (define-derived-mode easy-hugo-mode special-mode "Easy-hugo"
   "Major mode for easy hugo.")
