@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.8.7
+;; Version: 1.8.8
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -717,8 +717,8 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
      (browse-url easy-hugo-url))))
 
 ;;;###autoload
-(defun easy-hugo-publish-timer(n)
-  "A timer that publish after the specified number of minutes has elapsed."
+(defun easy-hugo-publish-timer (n)
+  "A timer that publish after the N number of minutes has elapsed."
   (interactive "nMinute:")
   (setq easy-hugo--basedir-timer easy-hugo-basedir)
   (setq easy-hugo--sshdomain-timer easy-hugo-sshdomain)
@@ -728,7 +728,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 	(run-at-time (* n 60) nil #'easy-hugo-publish-on-timer)))
 
 ;;;###autoload
-(defun easy-hugo-cancel-publish-timer()
+(defun easy-hugo-cancel-publish-timer ()
   "Cancel timer that publish after the specified number of minutes has elapsed."
   (interactive)
   (when easy-hugo--publish-timer
@@ -836,7 +836,7 @@ If not applicable, return the default preview."
 	  (browse-url easy-hugo-preview-url))))))
 
 (defun easy-hugo--preview-http-status-code (url)
-  "Return the http status code of the preview url as URL."
+  "Return the http status code of the preview URL."
   (nth 1
        (split-string
 	(nth 0
@@ -873,8 +873,8 @@ If not applicable, return the default preview."
        (browse-url easy-hugo-url)))))
 
 ;;;###autoload
-(defun easy-hugo-github-deploy-timer(n)
-  "A timer that github-deploy after the specified number of minutes has elapsed."
+(defun easy-hugo-github-deploy-timer (n)
+  "A timer that github-deploy after the N number of minutes has elapsed."
   (interactive "nMinute:")
   (setq easy-hugo--github-deploy-basedir-timer easy-hugo-basedir)
   (setq easy-hugo--github-deploy-url-timer easy-hugo-url)
@@ -882,7 +882,7 @@ If not applicable, return the default preview."
 	(run-at-time (* n 60) nil #'easy-hugo-github-deploy-on-timer)))
 
 ;;;###autoload
-(defun easy-hugo-cancel-github-deploy-timer()
+(defun easy-hugo-cancel-github-deploy-timer ()
   "Cancel timer that github-deploy after the specified number of minutes has elapsed."
   (interactive)
   (when easy-hugo--github-deploy-timer
@@ -918,8 +918,8 @@ If not applicable, return the default preview."
      (browse-url easy-hugo-url))))
 
 ;;;###autoload
-(defun easy-hugo-amazon-s3-deploy-timer(n)
-  "A timer that amazon-s3-deploy after the specified number of minutes has elapsed."
+(defun easy-hugo-amazon-s3-deploy-timer (n)
+  "A timer that amazon-s3-deploy after the N number of minutes has elapsed."
   (interactive "nMinute:")
   (setq easy-hugo--amazon-s3-basedir-timer easy-hugo-basedir)
   (setq easy-hugo--amazon-s3-url-timer easy-hugo-url)
@@ -928,7 +928,7 @@ If not applicable, return the default preview."
 	(run-at-time (* n 60) nil #'easy-hugo-amazon-s3-deploy-on-timer)))
 
 ;;;###autoload
-(defun easy-hugo-cancel-amazon-s3-deploy-timer()
+(defun easy-hugo-cancel-amazon-s3-deploy-timer ()
   "Cancel timer that amazon-s3-deploy after the specified number of minutes has elapsed."
   (interactive)
   (when easy-hugo--amazon-s3-timer
@@ -967,8 +967,8 @@ If not applicable, return the default preview."
      (browse-url easy-hugo-url))))
 
 ;;;###autoload
-(defun easy-hugo-google-cloud-storage-deploy-timer(n)
-  "A timer that google-cloud-storage-deploy after the specified number of minutes has elapsed."
+(defun easy-hugo-google-cloud-storage-deploy-timer (n)
+  "A timer that google-cloud-storage-deploy after the N number of minutes has elapsed."
   (interactive "nMinute:")
   (setq easy-hugo--google-cloud-storage-basedir-timer easy-hugo-basedir)
   (setq easy-hugo--google-cloud-storage-url-timer easy-hugo-url)
@@ -977,7 +977,7 @@ If not applicable, return the default preview."
 	(run-at-time (* n 60) nil #'easy-hugo-google-cloud-storage-deploy-on-timer)))
 
 ;;;###autoload
-(defun easy-hugo-cancel-google-cloud-storage-deploy-timer()
+(defun easy-hugo-cancel-google-cloud-storage-deploy-timer ()
   "Cancel timer that google-cloud-storage-deploy after the specified number of minutes has elapsed."
   (interactive)
   (when easy-hugo--google-cloud-storage-timer
