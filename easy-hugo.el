@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.9.8
+;; Version: 1.9.9
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -824,7 +824,12 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 	     (progn
 	       (setq easy-hugo--preview-loop nil)
 	       (easy-hugo--preview-open)))
-	 (sleep-for 0 100))
+	 (sleep-for 0 100)
+	 (if (and (eq (process-status easy-hugo--server-process) 'exit)
+		  (equal (process-exit-status easy-hugo--server-process) 255))
+	     (progn
+	       (switch-to-buffer easy-hugo--preview-buffer)
+	       (error "Hugo error look at %s buffer" easy-hugo--preview-buffer))))
        (setq easy-hugo--preview-loop t)
        (run-at-time easy-hugo-previewtime nil 'easy-hugo--preview-end)))))
 
