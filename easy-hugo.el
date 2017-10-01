@@ -251,7 +251,7 @@ Because only two are supported by hugo."
   :type 'string)
 
 (defcustom easy-hugo-basedir-4 nil
-  "Blog1 base directory."
+  "Blog4 base directory."
   :group 'easy-hugo
   :type 'string)
 
@@ -436,7 +436,7 @@ Because only two are supported by hugo."
   :type 'string)
 
 (defcustom easy-hugo-root-9 nil
-  "Blog1 root."
+  "Blog9 root."
   :group 'easy-hugo
   :type 'string)
 
