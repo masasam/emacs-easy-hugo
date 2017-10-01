@@ -879,7 +879,9 @@ If not applicable, return the default preview."
   (unless (null easy-hugo--server-process)
     (delete-process easy-hugo--server-process))
   (when (get-buffer easy-hugo--preview-buffer)
-    (kill-buffer easy-hugo--preview-buffer)))
+    (kill-buffer easy-hugo--preview-buffer))
+  (when (get-buffer "*hugo*")
+    (kill-buffer "*hugo*")))
 
 (defun easy-hugo--orgtime-format (x)
   "Format orgtime as X."
