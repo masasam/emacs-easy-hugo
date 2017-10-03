@@ -474,12 +474,7 @@ Confirm that PATH passes from emacs to go.
 
 I recommend you [exec-path-from-shell]( https://github.com/purcell/exec-path-from-shell).
 
-Example without exec-path-from-shell
-
-	(setenv "GOPATH" "~/go")
-	(add-to-list 'exec-path (expand-file-name "~/go/bin"))
-
-PPAP source sample
+PPAP source sample for hugo
 
 https://github.com/masasam/PPAP
 
