@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.9.9
+;; Version: 1.9.10
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -692,6 +692,8 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 			       (concat easy-hugo-basedir "static/" easy-hugo-image-dirctory "/")
 			       (car (last (split-string (substring-no-properties (gui-get-selection)) "/")))
 			       nil)))
+     (when (file-exists-p (file-truename file))
+       (error "%s already exists!" (file-truename file)))
      (url-copy-file url file t)
      (insert (concat (format "<img src=\"%s%s\""
 			     easy-hugo-url
