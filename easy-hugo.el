@@ -902,7 +902,12 @@ If not applicable, return the default preview."
    (let ((deployscript (file-truename (concat easy-hugo-basedir easy-hugo-github-deploy-script))))
      (unless (executable-find deployscript)
        (error "%s do not execute" deployscript))
-     (shell-command-to-string (shell-quote-argument deployscript))
+     (let ((ret (call-process (shell-quote-argument deployscript) nil "*hugo-github-deploy*" t)))
+       (unless (zerop ret)
+	 (switch-to-buffer (get-buffer "*hugo-github-deploy*"))
+	 (error "%s comaand does not end normally" deployscript)))
+     (when (get-buffer "*hugo-github-deploy*")
+       (kill-buffer "*hugo-github-deploy*"))
      (message "Blog deployed")
      (when easy-hugo-url
        (browse-url easy-hugo-url)))))
