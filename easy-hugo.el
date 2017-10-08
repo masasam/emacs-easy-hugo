@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.9.10
+;; Version: 1.9.11
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -715,7 +715,12 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (easy-hugo-with-env
    (when (file-directory-p "public")
      (delete-directory "public" t nil))
-   (shell-command-to-string "hugo --destination public")
+   (let ((ret (call-process "hugo" nil "*hugo-publish*" t "--destination" "public")))
+     (unless (zerop ret)
+       (switch-to-buffer (get-buffer "*hugo-publish*"))
+       (error "'hugo --destination public' comaand does not end normally")))
+   (when (get-buffer "*hugo-publish*")
+     (kill-buffer "*hugo-publish*"))
    (shell-command-to-string (concat "rsync -rtpl --chmod=" easy-hugo-publish-chmod " --delete public/ " easy-hugo-sshdomain ":" (shell-quote-argument easy-hugo-root)))
    (message "Blog published")
    (when easy-hugo-url
