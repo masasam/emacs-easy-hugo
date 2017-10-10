@@ -1677,7 +1677,7 @@ Optional prefix ARG says how many lines to move; default is one line."
        (when (string-match ".*/\\(.+?\\)$" file)
 	 (push (match-string 1 file) files)))
      (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-       (error "Did you execute hugo new site bookshelf?"))
+       (error "%s%s doesn't exist!" easy-hugo-basedir easy-hugo-postdir))
      (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
      (switch-to-buffer easy-hugo--mode-buffer)
      (setq-local default-directory easy-hugo-basedir)
@@ -1722,7 +1722,7 @@ Optional prefix ARG says how many lines to move; default is one line."
   (interactive)
   (easy-hugo-with-env
    (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-     (error "Did you execute hugo new site bookshelf?"))
+     (error "%s%s doesn't exist!" easy-hugo-basedir easy-hugo-postdir))
    (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
    (setq easy-hugo--draft-list nil)
    (switch-to-buffer easy-hugo--mode-buffer)
