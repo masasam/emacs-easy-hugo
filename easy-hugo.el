@@ -136,12 +136,12 @@ Because only two are supported by hugo."
   :type 'string)
 
 (defcustom easy-hugo-postdir "content/post"
-  "Directory where the theme store it's posts."
+  "Directory where the theme stores its posts."
   :group 'easy-hugo
   :type 'string)
 
 (defcustom easy-hugo-blog-number nil
-  "Number of your blog which you managed."
+  "Number of blogs you want to manage."
   :group 'easy-hugo
   :type 'integer)
 
