@@ -641,6 +641,9 @@ Because only two are supported by hugo."
 (defconst easy-hugo--forward-char 20
   "Forward-char of easy-hugo.")
 
+(defconst easy-hugo--default-postdir easy-hugo-postdir
+  "Default easy-hugo-postdir.")
+
 ;;;###autoload
 (defun easy-hugo-article ()
   "Open a list of articles written in hugo with dired."
@@ -1403,6 +1406,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (if (eq easy-hugo--blog-maximum-number easy-hugo--current-blog)
       (setq easy-hugo--current-blog 0)
     (setq easy-hugo--current-blog (+ easy-hugo--current-blog 1)))
+  (setq easy-hugo-postdir easy-hugo--default-postdir)
+  (setq easy-hugo--current-postdir 0)
   (cond ((eq easy-hugo--current-blog 1) (easy-hugo-1))
 	((eq easy-hugo--current-blog 2) (easy-hugo-2))
 	((eq easy-hugo--current-blog 3) (easy-hugo-3))
@@ -1421,6 +1426,8 @@ Optional prefix ARG says how many lines to move; default is one line."
       (when easy-hugo-blog-number
 	(setq easy-hugo--current-blog (- easy-hugo-blog-number 1)))
     (setq easy-hugo--current-blog (- easy-hugo--current-blog 1)))
+  (setq easy-hugo-postdir easy-hugo--default-postdir)
+  (setq easy-hugo--current-postdir 0)
   (cond ((eq easy-hugo--current-blog 1) (easy-hugo-1))
 	((eq easy-hugo--current-blog 2) (easy-hugo-2))
 	((eq easy-hugo--current-blog 3) (easy-hugo-3))
@@ -1764,7 +1771,7 @@ output directories whose names match REGEXP."
      (setq-local default-directory easy-hugo-basedir)
      (setq buffer-read-only nil)
      (erase-buffer)
-     (insert (propertize (concat "Easy-hugo  " easy-hugo-url easy-hugo--draft-mode "\n\n") 'face 'easy-hugo-help-face))
+     (insert (propertize (concat "Easy-hugo  " easy-hugo-url "/" (file-relative-name easy-hugo-postdir "content") easy-hugo--draft-mode "\n\n") 'face 'easy-hugo-help-face))
      (unless easy-hugo-no-help
        (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
      (unless easy-hugo--refresh
@@ -1810,7 +1817,7 @@ output directories whose names match REGEXP."
    (setq-local default-directory easy-hugo-basedir)
    (setq buffer-read-only nil)
    (erase-buffer)
-   (insert (propertize (concat "Easy-hugo  " easy-hugo-url " " easy-hugo-postdir "\n\n") 'face 'easy-hugo-help-face))
+   (insert (propertize (concat "Easy-hugo  " easy-hugo-url "/" (file-relative-name easy-hugo-postdir "content") "\n\n") 'face 'easy-hugo-help-face))
    (unless easy-hugo-no-help
      (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
