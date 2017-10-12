@@ -1659,6 +1659,51 @@ Optional prefix ARG says how many lines to move; default is one line."
       (easy-hugo--preview-end)
       (easy-hugo))))
 
+(defun easy-hugo--directory-list (list)
+  "Return only directories in LIST."
+  (if list
+      (if (file-directory-p (car list))
+	  (cons (car list)
+		(easy-hugo--directory-list (cdr list)))
+	(easy-hugo--directory-list (cdr list)))))
+
+(defsubst easy-hugo--directory-name-p (name)
+  "Return non-nil if NAME ends with a directory separator character."
+  (let ((len (length name))
+        (lastc ?.))
+    (if (> len 0)
+        (setq lastc (aref name (1- len))))
+    (or (= lastc ?/)
+        (and (memq system-type '(windows-nt ms-dos))
+             (= lastc ?\\)))))
+
+(defun easy-hugo--directory-files-recursively (dir regexp &optional include-directories)
+  "Return list of all files under DIR that have file names matching REGEXP.
+This function works recursively.  Files are returned in \"depth first\"
+order, and files from each directory are sorted in alphabetical order.
+Each file name appears in the returned list in its absolute form.
+Optional argument INCLUDE-DIRECTORIES non-nil means also include in the
+output directories whose names match REGEXP."
+  (let ((result nil)
+	(files nil)
+	(tramp-mode (and tramp-mode (file-remote-p (expand-file-name dir)))))
+    (dolist (file (sort (file-name-all-completions "" dir)
+			'string<))
+      (unless (member file '("./" "../"))
+	(if (easy-hugo--directory-name-p file)
+	    (let* ((leaf (substring file 0 (1- (length file))))
+		   (full-file (expand-file-name leaf dir)))
+	      (unless (file-symlink-p full-file)
+		(setq result
+		      (nconc result (easy-hugo--directory-files-recursively
+				     full-file regexp include-directories))))
+	      (when (and include-directories
+			 (string-match regexp leaf))
+		(setq result (nconc result (list full-file)))))
+	  (when (string-match regexp file)
+	    (push (expand-file-name file dir) files)))))
+    (nconc result (nreverse files))))
+
 (defun easy-hugo-draft-list ()
   "List drafts."
   (easy-hugo-with-env
