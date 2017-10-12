@@ -1834,7 +1834,8 @@ output directories whose names match REGEXP."
 	       ((eq 2 easy-hugo--sort-char-flg) (setq files (sort files 'string<))))
 	 (while files
 	   (unless (or (string= (car files) ".")
-		       (string= (car files) ".."))
+		       (string= (car files) "..")
+		       (not (member (file-name-extension (car files)) easy-hugo--formats)))
 	     (push
 	      (concat
 	       (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes
