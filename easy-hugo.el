@@ -559,6 +559,12 @@ Because only two are supported by hugo."
 (defvar easy-hugo--google-cloud-storage-bucket-name nil
   "Easy-hugo-google-cloud-storage-var.")
 
+(defvar easy-hugo--current-postdir 0
+  "Easy-hugo current postdir.")
+
+(defvar easy-hugo--postdir-list nil
+  "Easy-hugo postdir list.")
+
 (defconst easy-hugo--unmovable-line-default easy-hugo--unmovable-line
   "Default value of impossible to move below this line.")
 
@@ -1658,6 +1664,19 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    easy-hugo-image-dirctory easy-hugo-image-dirctory-9)
       (easy-hugo--preview-end)
       (easy-hugo))))
+
+(defun easy-hugo-next-postdir ()
+  "Go to next postdir."
+  (interactive)
+  (setq easy-hugo--postdir-list (easy-hugo--directory-list (easy-hugo--directory-files-recursively (expand-file-name (concat easy-hugo-basedir "content")) "" t)))
+  (setq easy-hugo--postdir-list (delete (expand-file-name (concat easy-hugo-basedir "content/post")) easy-hugo--postdir-list))
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content")) t)
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content/post")) t)
+  (if (eq (length easy-hugo--postdir-list) easy-hugo--current-postdir)
+      (setq easy-hugo--current-postdir 0)
+    (setq easy-hugo--current-postdir (+ easy-hugo--current-postdir 1)))
+  (setq easy-hugo-postdir (file-relative-name (nth easy-hugo--current-postdir easy-hugo--postdir-list) easy-hugo-basedir))
+  (easy-hugo))
 
 (defun easy-hugo--directory-list (list)
   "Return only directories in LIST."
