@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 1.9.12
+;; Version: 2.0.12
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1113,6 +1113,7 @@ Enjoy!
 
 (defvar easy-hugo-mode-map
   (let ((map (make-keymap)))
+    (define-key map "." 'easy-hugo-next-postdir)
     (define-key map "n" 'easy-hugo-newpost)
     (define-key map "w" 'easy-hugo-newpost)
     (define-key map "a" 'easy-hugo-helm-ag)
@@ -1671,8 +1672,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (setq easy-hugo--postdir-list (easy-hugo--directory-list (easy-hugo--directory-files-recursively (expand-file-name (concat easy-hugo-basedir "content")) "" t)))
   (setq easy-hugo--postdir-list (delete (expand-file-name (concat easy-hugo-basedir "content/post")) easy-hugo--postdir-list))
   (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content")) t)
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content/post")) t)
-  (if (eq (length easy-hugo--postdir-list) easy-hugo--current-postdir)
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content/post")))
+  (if (eq (- (length easy-hugo--postdir-list) 1) easy-hugo--current-postdir)
       (setq easy-hugo--current-postdir 0)
     (setq easy-hugo--current-postdir (+ easy-hugo--current-postdir 1)))
   (setq easy-hugo-postdir (file-relative-name (nth easy-hugo--current-postdir easy-hugo--postdir-list) easy-hugo-basedir))
@@ -1793,7 +1794,7 @@ output directories whose names match REGEXP."
    (setq-local default-directory easy-hugo-basedir)
    (setq buffer-read-only nil)
    (erase-buffer)
-   (insert (propertize (concat "Easy-hugo  " easy-hugo-url "\n\n") 'face 'easy-hugo-help-face))
+   (insert (propertize (concat "Easy-hugo  " easy-hugo-url " " easy-hugo-postdir "\n\n") 'face 'easy-hugo-help-face))
    (unless easy-hugo-no-help
      (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
