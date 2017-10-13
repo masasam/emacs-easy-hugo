@@ -1774,7 +1774,17 @@ output directories whose names match REGEXP."
      (setq-local default-directory easy-hugo-basedir)
      (setq buffer-read-only nil)
      (erase-buffer)
-     (insert (propertize (concat "Easy-hugo  " easy-hugo-url "/" (file-relative-name easy-hugo-postdir "content") easy-hugo--draft-mode "\n\n") 'face 'easy-hugo-help-face))
+     (if (equal (file-relative-name easy-hugo-postdir "content") ".")
+	 (insert (propertize
+		  (concat "Easy-hugo  " easy-hugo-url "/" easy-hugo--draft-mode "\n\n")
+		  'face
+		  'easy-hugo-help-face))
+       (insert (propertize
+		(concat "Easy-hugo  " easy-hugo-url "/"
+			(file-relative-name easy-hugo-postdir "content")
+			easy-hugo--draft-mode "\n\n")
+		'face
+		'easy-hugo-help-face)))
      (unless easy-hugo-no-help
        (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
      (unless easy-hugo--refresh
@@ -1820,7 +1830,15 @@ output directories whose names match REGEXP."
    (setq-local default-directory easy-hugo-basedir)
    (setq buffer-read-only nil)
    (erase-buffer)
-   (insert (propertize (concat "Easy-hugo  " easy-hugo-url "/" (file-relative-name easy-hugo-postdir "content") "\n\n") 'face 'easy-hugo-help-face))
+   (if (equal (file-relative-name easy-hugo-postdir "content") ".")
+       (insert (propertize
+		(concat "Easy-hugo  " easy-hugo-url "/" "\n\n")
+		'face
+		'easy-hugo-help-face))
+     (insert (propertize
+	      (concat "Easy-hugo  " easy-hugo-url "/" (file-relative-name easy-hugo-postdir "content") "\n\n")
+	      'face
+	      'easy-hugo-help-face)))
    (unless easy-hugo-no-help
      (insert (propertize easy-hugo--help 'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
