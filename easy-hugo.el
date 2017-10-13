@@ -862,8 +862,8 @@ If not applicable, return the default preview."
 		 easy-hugo-basedir)))
       (when (and (file-exists-p file)
 		 (not (file-directory-p file)))
-	(if (equal (easy-hugo--preview-http-status-code (file-name-base file)) "200")
-	    (browse-url (concat easy-hugo-preview-url "post/" (file-name-base file)))
+	(if (equal (easy-hugo--preview-http-status-code (file-name-sans-extension (file-relative-name file (expand-file-name (concat easy-hugo-basedir "content"))))) "200")
+	    (browse-url (concat easy-hugo-preview-url (file-name-sans-extension (file-relative-name file (expand-file-name (concat easy-hugo-basedir "content"))))))
 	  (browse-url easy-hugo-preview-url))))))
 
 (defun easy-hugo--preview-http-status-code (url)
@@ -872,7 +872,7 @@ If not applicable, return the default preview."
        (split-string
 	(nth 0
 	     (split-string
-	      (with-current-buffer (url-retrieve-synchronously (concat "http://127.0.0.1:1313/post/" url))
+	      (with-current-buffer (url-retrieve-synchronously (concat "http://127.0.0.1:1313/" url))
 		(prog1
 		    (buffer-string)
 		  (kill-buffer)))
