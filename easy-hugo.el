@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.0.12
+;; Version: 2.0.13
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -791,25 +791,25 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Create a new post with hugo.
 POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mmark' or '.html'."
   (interactive (list (read-from-minibuffer "Filename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
-  (let ((filename (concat (replace-regexp-in-string (regexp-quote "content/") "" easy-hugo-postdir t t) "/" post-file))
+  (let ((filename (concat easy-hugo-postdir "/" post-file))
         (file-ext (file-name-extension post-file)))
     (when (not (member file-ext easy-hugo--formats))
       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
     (easy-hugo-with-env
-     (when (file-exists-p (file-truename (concat "content/" filename)))
-       (error "%s already exists!" (concat easy-hugo-basedir "content/" filename)))
+     (when (file-exists-p (file-truename filename))
+       (error "%s already exists!" (concat easy-hugo-basedir filename)))
      (if (<= 0.25 (easy-hugo--version))
-	 (call-process "hugo" nil "*hugo*" t "new" filename)
+	 (call-process "hugo" nil "*hugo*" t "new" (replace-regexp-in-string "^content/" "" filename t t))
        (progn
 	 (if (or (string-equal file-ext easy-hugo-markdown-extension)
 		 (string-equal file-ext easy-hugo-asciidoc-extension)
 		 (string-equal file-ext "rst")
 		 (string-equal file-ext "mmark")
 		 (string-equal file-ext easy-hugo-html-extension))
-	     (call-process "hugo" nil "*hugo*" t "new" filename))))
+	     (call-process "hugo" nil "*hugo*" t "new" (replace-regexp-in-string "^content/" "" filename t t)))))
      (when (get-buffer "*hugo*")
        (kill-buffer "*hugo*"))
-     (find-file (concat "content/" filename))
+     (find-file filename)
      (when (and (> 0.25 (easy-hugo--version))
 		(string-equal file-ext "org"))
        (insert (easy-hugo--org-headers (file-name-base post-file))))
