@@ -466,7 +466,7 @@ Because only two are supported by hugo."
 (defvar easy-hugo--server-process nil
   "Hugo process.")
 
-(defvar easy-hugo--unmovable-line 10
+(defvar easy-hugo--unmovable-line 11
   "Impossible to move below this line.")
 
 (defvar easy-hugo--draft-list nil
@@ -568,7 +568,7 @@ Because only two are supported by hugo."
 (defconst easy-hugo--unmovable-line-default easy-hugo--unmovable-line
   "Default value of impossible to move below this line.")
 
-(defconst easy-hugo--delete-line 11
+(defconst easy-hugo--delete-line 12
   "Easy-hugo-delete line number.")
 
 (defconst easy-hugo--buffer-name "*Hugo Server*"
@@ -1085,18 +1085,20 @@ If not applicable, return the default preview."
 	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Undraft file
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
-d .. Delete post      c .. Open config   ? .. Help easy-hugo   I .. Deploy GCS timer
-P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHub timer
-< .. Previous blog    > .. Next blog     q .. Quit easy-hugo   W .. Deploy AWS S3 timer
+d .. Delete post      c .. Open config   W .. AWS S3 timer     I .. GCS timer
+P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. GitHub timer
+< .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
+O .. Open basedir     S .. Sort char     ? .. Help easy-hugo   q .. Quit easy-hugo
 
 ")
     (progn
       "n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
-p .. Preview          g .. Refresh       A .. Deploy AWS S3    s .. Sort character
+p .. Preview          g .. Refresh       A .. Deploy AWS S3    s .. Sort char
 v .. Open view-mode   u .. Undraft file  T .. Publish timer    N .. No help-mode
-d .. Delete post      c .. Open config   ? .. Help easy-hugo   I .. Deploy GCS timer
-P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. Deploy GitHub timer
-< .. Previous blog    > .. Next blog     q .. Quit easy-hugo   W .. Deploy AWS S3 timer
+d .. Delete post      c .. Open config   S .. Sort time        I .. GCS timer
+P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. GitHub timer
+< .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
+O .. Open basedir     W .. AWS S3 timer  ? .. Help easy-hugo   q .. Quit easy-hugo
 
 "))
   "Help of easy-hugo.")

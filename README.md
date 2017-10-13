@@ -52,6 +52,8 @@ If you enter '.html' file name in the minibuffer, html file is automatically gen
 
 If your hugo version is 0.25 or higher, you can preview by following the edited part.
 
+When permalinks is hugo's default and English URL, if you press p with easy-hugo-mode, it displays a preview of the article on pointer.
+
 ![easy-hugo6](image/easy-hugo6.png)
 (The picture of the header is http://www.pixiv.net/member_illust.php?mode=medium&illust_id=60674880)
 
@@ -71,10 +73,6 @@ You can publish your blog to the server and the browser opens automatically.
 
 You can search blog article with [helm-ag](https://github.com/syohex/emacs-helm-ag).
 
-    M-x easy-hugo-article
-
-Open the list of articles you wrote with dired.
-
 	M-x easy-hugo-github-deploy
 
 Execute deploy.sh which exists in directory `easy-hugo-basedir`.
@@ -88,6 +86,11 @@ Deploy hugo source at Amazon S3.
 	M-x easy-hugo-google-cloud-storage-deploy
 
 Deploy hugo source at Google Cloud Storage.
+
+	easy-hugo-next-postdir
+	easy-hugo-previous-postdir
+
+With this you can go to a directory other than content/post
 
 	M-x easy-hugo-image
 
@@ -131,6 +134,10 @@ The file is saved in 'easy-hugo-image-dirctory' and generate image link.
 
 |key    |function      |
 |-------|--------------|
+|.      |easy-hugo-next-postdir|
+|,      |easy-hugo-previous-postdir|
+|+      |easy-hugo-next-postdir|
+|-      |easy-hugo-previous-postdir|
 |o		|easy-hugo-open|
 |e      |easy-hugo-open|
 |f		|easy-hugo-open|
@@ -329,11 +336,6 @@ Because only these two are supported by hugo. If not set html filename extension
 
 	(setq easy-hugo-asciidoc-extension "htm")
 
-Themes like [Cocoa-hugo-theme](https://github.com/nishanths/cocoa-hugo-theme) store its posts under content/blog.
-Cocoa-hugo-theme user should add the following settings to init.el or .emacs.
-
-	(setq easy-hugo-postdir "content/blog")
-
 ## Preparation for using this package
 
 Install hugo
@@ -363,9 +365,6 @@ config.toml
 	github = "your github user name"
 	twitter = "your twitter user name"
 	googleAnalyticsUserID = "UA-************"
-
-	[permalinks]
-	post = "/:year/:month/:day/:title/"
 
 archetypes/default.md
 
