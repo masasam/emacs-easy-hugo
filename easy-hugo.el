@@ -1312,20 +1312,20 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-rename (post-file)
   "Renames file on the pointer to POST-FILE."
   (interactive (list (read-from-minibuffer "Rename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
-  (let ((filename (concat (replace-regexp-in-string (regexp-quote "content/") "" easy-hugo-postdir t t) "/" post-file))
+  (let ((filename (concat easy-hugo-postdir "/" post-file))
         (file-ext (file-name-extension post-file)))
     (when (not (member file-ext easy-hugo--formats))
       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
     (easy-hugo-with-env
-     (when (file-exists-p (file-truename (concat "content/" filename)))
-       (error "%s already exists!" (concat easy-hugo-basedir "content/" filename)))
+     (when (file-exists-p (file-truename filename))
+       (error "%s already exists!" (concat easy-hugo-basedir filename)))
      (unless (or (string-match "^$" (thing-at-point 'line))
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((name (expand-file-name
 		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
 		    easy-hugo-basedir)))
-	 (rename-file name (concat "content/" filename) 1)
+	 (rename-file name filename 1)
 	 (easy-hugo-refresh))))))
 
 (defun easy-hugo-undraft ()
