@@ -104,7 +104,7 @@ When you select the image file you want to use, a link will be inserted.
 
 	M-x easy-hugo-put-image
 
-Move image to 'easy-hugo-image-dirctory' and generate image link.
+Move image to 'easy-hugo-image-directory' and generate image link.
 
 You can change the initial launch position with 'easy-hugo-default-picture-directory'.
 
@@ -126,7 +126,7 @@ If you press enter without deciding the file name, the file name can be used as 
 
 ![easy-hugo-pull-image1](image/easy-hugo-pull-image1.png)
 
-The file is saved in 'easy-hugo-image-dirctory' and generate image link.
+The file is saved in 'easy-hugo-image-directory' and generate image link.
 
 ![easy-hugo-pull-image2](image/easy-hugo-pull-image2.png)
 
@@ -270,7 +270,7 @@ If you want to change image file directory under 'static' directory.
 
 If not set the default image file directory will be 'images'.
 
-	(setq easy-hugo-image-dirctory "img")
+	(setq easy-hugo-image-directory "img")
 
 Setting the picture directory of your PC, it is easy to execute M-x easy-hugo-put-image
 
@@ -309,7 +309,7 @@ Please set necessary variables and use.
 	easy-hugo-sshdomain-1
 	easy-hugo-amazon-s3-bucket-name-1
 	easy-hugo-google-cloud-storage-bucket-name-1
-	easy-hugo-image-dirctory-1
+	easy-hugo-image-directory-1
 
 	..............
 
@@ -319,7 +319,7 @@ Please set necessary variables and use.
 	easy-hugo-sshdomain-9
 	easy-hugo-amazon-s3-bucket-name-9
 	easy-hugo-google-cloud-storage-bucket-name-9
-	easy-hugo-image-dirctory-9
+	easy-hugo-image-directory-9
 
 If you want change markdown filename extension, please select md or markdown or mdown.
 Because only these three are supported by hugo. If not set markdown filename extension will be 'md'.
