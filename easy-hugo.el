@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.0.13
+;; Version: 2.0.14
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -854,17 +854,27 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 (defun easy-hugo--preview-open ()
   "Open preview at the file name on the pointer.
 If not applicable, return the default preview."
-  (unless (or (string-match "^$" (thing-at-point 'line))
-	      (eq (point) (point-max))
-	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name
-		 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		 easy-hugo-basedir)))
-      (when (and (file-exists-p file)
-		 (not (file-directory-p file)))
-	(if (equal (easy-hugo--preview-http-status-code (file-name-sans-extension (file-relative-name file (expand-file-name (concat easy-hugo-basedir "content"))))) "200")
-	    (browse-url (concat easy-hugo-preview-url (file-name-sans-extension (file-relative-name file (expand-file-name (concat easy-hugo-basedir "content"))))))
-	  (browse-url easy-hugo-preview-url))))))
+  (if (not (or (string-match "^$" (thing-at-point 'line))
+	       (eq (point) (point-max))
+	       (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line)))))
+      (progn
+	(let ((file (expand-file-name
+		     (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		     easy-hugo-basedir)))
+	  (when (and (file-exists-p file)
+		     (not (file-directory-p file)))
+	    (if (equal (easy-hugo--preview-http-status-code
+			(file-name-sans-extension
+			 (file-relative-name file (expand-file-name
+						   (concat easy-hugo-basedir "content")))))
+		       "200")
+		(browse-url (concat easy-hugo-preview-url
+				    (file-name-sans-extension
+				     (file-relative-name file
+							 (expand-file-name
+							  (concat easy-hugo-basedir "content"))))))
+	      (browse-url easy-hugo-preview-url)))))
+    (browse-url easy-hugo-preview-url)))
 
 (defun easy-hugo--preview-http-status-code (url)
   "Return the http status code of the preview URL."
