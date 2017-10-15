@@ -571,9 +571,6 @@ Because only two are supported by hugo."
 (defconst easy-hugo--delete-line 12
   "Easy-hugo-delete line number.")
 
-(defconst easy-hugo--buffer-name "*Hugo Server*"
-  "Easy-hugo buffer name.")
-
 (defconst easy-hugo--preview-buffer "*Hugo Preview*"
   "Easy-hugo preview buffer name.")
 
