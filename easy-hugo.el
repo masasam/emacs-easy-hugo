@@ -854,26 +854,28 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 (defun easy-hugo--preview-open ()
   "Open preview at the file name on the pointer.
 If not applicable, return the default preview."
-  (if (not (or (string-match "^$" (thing-at-point 'line))
-	       (eq (point) (point-max))
-	       (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line)))))
-      (progn
-	(let ((file (expand-file-name
-		     (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		     easy-hugo-basedir)))
-	  (when (and (file-exists-p file)
-		     (not (file-directory-p file)))
-	    (if (equal (easy-hugo--preview-http-status-code
-			(file-name-sans-extension
-			 (file-relative-name file (expand-file-name
-						   (concat easy-hugo-basedir "content")))))
-		       "200")
-		(browse-url (concat easy-hugo-preview-url
-				    (file-name-sans-extension
-				     (file-relative-name file
-							 (expand-file-name
-							  (concat easy-hugo-basedir "content"))))))
-	      (browse-url easy-hugo-preview-url)))))
+  (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
+      (if (not (or (string-match "^$" (thing-at-point 'line))
+		   (eq (point) (point-max))
+		   (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line)))))
+	  (progn
+	    (let ((file (expand-file-name
+			 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+			 easy-hugo-basedir)))
+	      (when (and (file-exists-p file)
+			 (not (file-directory-p file)))
+		(if (equal (easy-hugo--preview-http-status-code
+			    (file-name-sans-extension
+			     (file-relative-name file (expand-file-name
+						       (concat easy-hugo-basedir "content")))))
+			   "200")
+		    (browse-url (concat easy-hugo-preview-url
+					(file-name-sans-extension
+					 (file-relative-name file
+							     (expand-file-name
+							      (concat easy-hugo-basedir "content"))))))
+		  (browse-url easy-hugo-preview-url)))))
+	(browse-url easy-hugo-preview-url))
     (browse-url easy-hugo-preview-url)))
 
 (defun easy-hugo--preview-http-status-code (url)
