@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.0.14
+;; Version: 2.0.15
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1691,9 +1691,9 @@ Optional prefix ARG says how many lines to move; default is one line."
   "Go to next postdir."
   (interactive)
   (setq easy-hugo--postdir-list (easy-hugo--directory-list (easy-hugo--directory-files-recursively (expand-file-name (concat easy-hugo-basedir "content")) "" t)))
-  (setq easy-hugo--postdir-list (delete (expand-file-name (concat easy-hugo-basedir "content/post")) easy-hugo--postdir-list))
+  (setq easy-hugo--postdir-list (delete (expand-file-name (concat easy-hugo-basedir easy-hugo-postdir)) easy-hugo--postdir-list))
   (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content")) t)
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content/post")))
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir easy-hugo-postdir)))
   (if (eq (- (length easy-hugo--postdir-list) 1) easy-hugo--current-postdir)
       (setq easy-hugo--current-postdir 0)
     (setq easy-hugo--current-postdir (+ easy-hugo--current-postdir 1)))
