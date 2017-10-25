@@ -797,13 +797,13 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Create a new post with hugo.
 POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mmark' or '.html'."
   (interactive (list (read-from-minibuffer "Filename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
-  (let ((filename (expand-file-name (concat easy-hugo-postdir "/" post-file)))
-        (file-ext (file-name-extension post-file)))
-    (when (not (member file-ext easy-hugo--formats))
-      (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
-    (easy-hugo-with-env
+  (easy-hugo-with-env
+   (let ((filename (expand-file-name post-file easy-hugo-postdir))
+	 (file-ext (file-name-extension post-file)))
+     (when (not (member file-ext easy-hugo--formats))
+       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
      (when (file-exists-p (file-truename filename))
-       (error "%s already exists!" (concat easy-hugo-basedir filename)))
+       (error "%s already exists!" filename))
      (if (<= 0.25 (easy-hugo--version))
 	 (call-process "hugo" nil "*hugo*" t "new" (file-relative-name filename (expand-file-name "content" easy-hugo-basedir)))
        (progn
