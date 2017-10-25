@@ -1343,19 +1343,20 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-undraft ()
   "Undraft file on the pointer."
   (interactive)
-  (easy-hugo-with-env
-   (when (> 0.25 (easy-hugo--version))
-     (error "'easy-hugo-undraft' requires hugo 0.25 or higher"))
-   (unless (or (string-match "^$" (thing-at-point 'line))
-	       (eq (point) (point-max))
-	       (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
-     (let ((file (expand-file-name
-		  (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		  easy-hugo-basedir)))
-       (when (and (file-exists-p file)
-		  (not (file-directory-p file)))
-	 (shell-command-to-string (concat "hugo undraft " file))
-	 (easy-hugo-refresh))))))
+  (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
+    (easy-hugo-with-env
+     (when (> 0.25 (easy-hugo--version))
+       (error "'easy-hugo-undraft' requires hugo 0.25 or higher"))
+     (unless (or (string-match "^$" (thing-at-point 'line))
+		 (eq (point) (point-max))
+		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+       (let ((file (expand-file-name
+		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		    easy-hugo-basedir)))
+	 (when (and (file-exists-p file)
+		    (not (file-directory-p file)))
+	   (shell-command-to-string (concat "hugo undraft " file))
+	   (easy-hugo-refresh)))))))
 
 (defun easy-hugo-open ()
   "Open the file on the pointer."
