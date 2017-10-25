@@ -1339,7 +1339,7 @@ Optional prefix ARG says how many lines to move; default is one line."
     (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
       (easy-hugo-with-env
        (when (file-exists-p (file-truename filename))
-	 (error "%s already exists!" (concat easy-hugo-basedir filename)))
+	 (error "%s already exists!" filename))
        (unless (or (string-match "^$" (thing-at-point 'line))
 		   (eq (point) (point-max))
 		   (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
