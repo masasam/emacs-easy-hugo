@@ -917,7 +917,7 @@ If not applicable, return the default preview."
   "Execute `easy-hugo-github-deploy-script' script locate at `easy-hugo-basedir'."
   (interactive)
   (easy-hugo-with-env
-   (let ((deployscript (file-truename (concat easy-hugo-basedir easy-hugo-github-deploy-script))))
+   (let ((deployscript (file-truename (expand-file-name easy-hugo-github-deploy-script easy-hugo-basedir))))
      (unless (executable-find deployscript)
        (error "%s do not execute" deployscript))
      (let ((ret (call-process (shell-quote-argument deployscript) nil "*hugo-github-deploy*" t)))
