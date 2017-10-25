@@ -683,7 +683,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 			       (expand-file-name easy-hugo-default-picture-directory)
 			       t
 			       (expand-file-name easy-hugo-default-picture-directory))))
-     (copy-file file (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
+     (copy-file file (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/" (file-name-nondirectory file))))
      (insert (concat (format "<img src=\"%s%s\""
 			     easy-hugo-url
 			     (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
