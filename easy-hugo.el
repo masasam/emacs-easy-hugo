@@ -672,7 +672,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 				(concat easy-hugo-basedir "static/" easy-hugo-image-directory "/")))))
      (insert (concat (format "<img src=\"%s%s\""
 			     easy-hugo-url
-			     (replace-regexp-in-string ".*/static/\\(.*\\)" "/\\1" file))
+			     (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
 		     " alt=\"\" width=\"100%\"/>")))))
 
 ;;;###autoload
