@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.0.15
+;; Version: 2.0.16
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1361,15 +1361,17 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-open ()
   "Open the file on the pointer."
   (interactive)
-  (unless (or (string-match "^$" (thing-at-point 'line))
-	      (eq (point) (point-max))
-	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name
-		 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		 easy-hugo-basedir)))
-      (when (and (file-exists-p file)
-		 (not (file-directory-p file)))
-	(find-file file)))))
+  (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
+    (easy-hugo-with-env
+     (unless (or (string-match "^$" (thing-at-point 'line))
+		 (eq (point) (point-max))
+		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+       (let ((file (expand-file-name
+		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		    easy-hugo-basedir)))
+	 (when (and (file-exists-p file)
+		    (not (file-directory-p file)))
+	   (find-file file)))))))
 
 (defun easy-hugo-open-basedir ()
   "Open `easy-hugo-basedir' with dired."
