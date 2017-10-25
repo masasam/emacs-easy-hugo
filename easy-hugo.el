@@ -1327,17 +1327,18 @@ Optional prefix ARG says how many lines to move; default is one line."
         (file-ext (file-name-extension post-file)))
     (when (not (member file-ext easy-hugo--formats))
       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
-    (easy-hugo-with-env
-     (when (file-exists-p (file-truename filename))
-       (error "%s already exists!" (concat easy-hugo-basedir filename)))
-     (unless (or (string-match "^$" (thing-at-point 'line))
-		 (eq (point) (point-max))
-		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
-       (let ((name (expand-file-name
-		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		    easy-hugo-basedir)))
-	 (rename-file name filename 1)
-	 (easy-hugo-refresh))))))
+    (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
+      (easy-hugo-with-env
+       (when (file-exists-p (file-truename filename))
+	 (error "%s already exists!" (concat easy-hugo-basedir filename)))
+       (unless (or (string-match "^$" (thing-at-point 'line))
+		   (eq (point) (point-max))
+		   (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+	 (let ((name (expand-file-name
+		      (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		      easy-hugo-basedir)))
+	   (rename-file name filename 1)
+	   (easy-hugo-refresh)))))))
 
 (defun easy-hugo-undraft ()
   "Undraft file on the pointer."
