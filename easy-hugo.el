@@ -1382,15 +1382,19 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-view ()
   "Open the file on the pointer with 'view-mode'."
   (interactive)
-  (unless (or (string-match "^$" (thing-at-point 'line))
-	      (eq (point) (point-max))
-	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name
-		 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		 easy-hugo-basedir)))
-      (when (and (file-exists-p file)
-		 (not (file-directory-p file)))
-	(view-file file)))))
+  (easy-hugo-with-env
+   (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
+       (progn
+	 (unless (or (string-match "^$" (thing-at-point 'line))
+		     (eq (point) (point-max))
+		     (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+	   (let ((file (expand-file-name
+			(concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+			easy-hugo-basedir)))
+	     (when (and (file-exists-p file)
+			(not (file-directory-p file)))
+	       (view-file file)))))
+     (view-file buffer-file-name))))
 
 (defun easy-hugo-delete ()
   "Delete the file on the pointer."
