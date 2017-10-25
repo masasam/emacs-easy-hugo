@@ -1323,7 +1323,7 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-rename (post-file)
   "Renames file on the pointer to POST-FILE."
   (interactive (list (read-from-minibuffer "Rename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
-  (let ((filename (concat easy-hugo-postdir "/" post-file))
+  (let ((filename (expand-file-name post-file easy-hugo-postdir))
         (file-ext (file-name-extension post-file)))
     (when (not (member file-ext easy-hugo--formats))
       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
