@@ -1399,25 +1399,27 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-delete ()
   "Delete the file on the pointer."
   (interactive)
-  (unless (or (string-match "^$" (thing-at-point 'line))
-	      (eq (point) (point-max))
-	      (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
-    (let ((file (expand-file-name
-		 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		 easy-hugo-basedir)))
-      (when (and (file-exists-p file)
-		 (not (file-directory-p file)))
-	(when (y-or-n-p (concat "Delete " file))
-	  (if easy-hugo-no-help
-	      (setq easy-hugo--line (- (line-number-at-pos) 4))
-	    (setq easy-hugo--line (- (line-number-at-pos) easy-hugo--delete-line)))
-	  (delete-file file)
-	  (if easy-hugo--draft-list
-	      (easy-hugo-draft-list)
-	    (easy-hugo))
-	  (when (> easy-hugo--line 0)
-	    (forward-line easy-hugo--line)
-	    (forward-char easy-hugo--forward-char)))))))
+  (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
+    (easy-hugo-with-env
+     (unless (or (string-match "^$" (thing-at-point 'line))
+		 (eq (point) (point-max))
+		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+       (let ((file (expand-file-name
+		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+		    easy-hugo-basedir)))
+	 (when (and (file-exists-p file)
+		    (not (file-directory-p file)))
+	   (when (y-or-n-p (concat "Delete " file))
+	     (if easy-hugo-no-help
+		 (setq easy-hugo--line (- (line-number-at-pos) 4))
+	       (setq easy-hugo--line (- (line-number-at-pos) easy-hugo--delete-line)))
+	     (delete-file file)
+	     (if easy-hugo--draft-list
+		 (easy-hugo-draft-list)
+	       (easy-hugo))
+	     (when (> easy-hugo--line 0)
+	       (forward-line easy-hugo--line)
+	       (forward-char easy-hugo--forward-char)))))))))
 
 (defun easy-hugo-next-blog ()
   "Go to next blog."
