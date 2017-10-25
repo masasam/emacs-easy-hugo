@@ -664,47 +664,56 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 (defun easy-hugo-image ()
   "Generate image link."
   (interactive
-   (let ((file (read-file-name "Image file: " nil
-			       (expand-file-name
-				(concat easy-hugo-basedir "static/" easy-hugo-image-directory "/"))
-			       t
-			       (expand-file-name
-				(concat easy-hugo-basedir "static/" easy-hugo-image-directory "/")))))
-     (insert (concat (format "<img src=\"%s%s\""
-			     easy-hugo-url
-			     (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
-		     " alt=\"\" width=\"100%\"/>")))))
+   (easy-hugo-with-env
+    (unless (file-directory-p (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
+      (error "%s does not exist" (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
+    (let ((file (read-file-name "Image file: " nil
+				(expand-file-name
+				 (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/"))
+				t
+				(expand-file-name
+				 (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/")))))
+      (insert (concat (format "<img src=\"%s%s\""
+			      easy-hugo-url
+			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
+		      " alt=\"\" width=\"100%\"/>"))))))
 
 ;;;###autoload
 (defun easy-hugo-put-image ()
   "Move image to image directory and generate image link."
   (interactive
-   (let ((file (read-file-name "Image file: " nil
-			       (expand-file-name easy-hugo-default-picture-directory)
-			       t
-			       (expand-file-name easy-hugo-default-picture-directory))))
-     (copy-file file (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/" (file-name-nondirectory file))))
-     (insert (concat (format "<img src=\"%s%s\""
-			     easy-hugo-url
-			     (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
-		     " alt=\"\" width=\"100%\"/>")))))
+   (easy-hugo-with-env
+    (unless (file-directory-p (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
+      (error "%s does not exist" (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
+    (let ((file (read-file-name "Image file: " nil
+				(expand-file-name easy-hugo-default-picture-directory)
+				t
+				(expand-file-name easy-hugo-default-picture-directory))))
+      (copy-file file (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/" (file-name-nondirectory file))))
+      (insert (concat (format "<img src=\"%s%s\""
+			      easy-hugo-url
+			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
+		      " alt=\"\" width=\"100%\"/>"))))))
 
 ;;;###autoload
 (defun easy-hugo-pull-image ()
   "Pull image from internet to image directory and generate image link."
   (interactive
-   (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection) (gui-get-selection))))
-	 (file (read-file-name "Save as: "
-			       (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/"))
-			       (car (last (split-string (substring-no-properties (gui-get-selection)) "/")))
-			       nil)))
-     (when (file-exists-p (file-truename file))
-       (error "%s already exists!" (file-truename file)))
-     (url-copy-file url file t)
-     (insert (concat (format "<img src=\"%s%s\""
-			     easy-hugo-url
-			     (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
-		     " alt=\"\" width=\"100%\"/>")))))
+   (easy-hugo-with-env
+    (unless (file-directory-p (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
+      (error "%s does not exist" (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
+    (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection) (gui-get-selection))))
+	  (file (read-file-name "Save as: "
+				(expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/"))
+				(car (last (split-string (substring-no-properties (gui-get-selection)) "/")))
+				nil)))
+      (when (file-exists-p (file-truename file))
+	(error "%s already exists!" (file-truename file)))
+      (url-copy-file url file t)
+      (insert (concat (format "<img src=\"%s%s\""
+			      easy-hugo-url
+			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
+		      " alt=\"\" width=\"100%\"/>"))))))
 
 ;;;###autoload
 (defun easy-hugo-publish ()
