@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.0.17
+;; Version: 2.1.17
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -880,7 +880,18 @@ If not applicable, return the default preview."
 							     (expand-file-name "content" easy-hugo-basedir)))))
 		  (browse-url easy-hugo-preview-url)))))
 	(browse-url easy-hugo-preview-url))
-    (browse-url easy-hugo-preview-url)))
+    (if buffer-file-name
+	(if (equal (easy-hugo--preview-http-status-code
+		    (file-name-sans-extension
+		     (file-relative-name (file-truename buffer-file-name)
+					 (expand-file-name "content" easy-hugo-basedir))))
+		   "200")
+	    (browse-url (concat easy-hugo-preview-url
+				(file-name-sans-extension
+				 (file-relative-name (file-truename buffer-file-name)
+						     (expand-file-name "content" easy-hugo-basedir)))))
+	  (browse-url easy-hugo-preview-url))
+      (browse-url easy-hugo-preview-url))))
 
 (defun easy-hugo--preview-http-status-code (url)
   "Return the http status code of the preview URL."
