@@ -665,14 +665,14 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Generate image link."
   (interactive
    (easy-hugo-with-env
-    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static")))
-      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static"))))
+    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir)))
+      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir))))
     (let ((file (read-file-name "Image file: " nil
 				(expand-file-name easy-hugo-image-directory
-						  (concat easy-hugo-basedir "static"))
+						  (expand-file-name "static" easy-hugo-basedir))
 				t
 				(expand-file-name easy-hugo-image-directory
-						  (concat easy-hugo-basedir "static")))))
+						  (expand-file-name "static" easy-hugo-basedir)))))
       (insert (concat (format "<img src=\"%s%s\""
 			      easy-hugo-url
 			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
@@ -683,13 +683,13 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Move image to image directory and generate image link."
   (interactive
    (easy-hugo-with-env
-    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static")))
-      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static"))))
+    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir)))
+      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir))))
     (let ((file (read-file-name "Image file: " nil
 				(expand-file-name easy-hugo-default-picture-directory)
 				t
 				(expand-file-name easy-hugo-default-picture-directory))))
-      (copy-file file (expand-file-name (concat easy-hugo-image-directory "/" (file-name-nondirectory file)) (concat easy-hugo-basedir "static")))
+      (copy-file file (expand-file-name (file-name-nondirectory file) (expand-file-name easy-hugo-image-directory "static")))
       (insert (concat (format "<img src=\"%s%s\""
 			      easy-hugo-url
 			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
@@ -700,11 +700,11 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Pull image from internet to image directory and generate image link."
   (interactive
    (easy-hugo-with-env
-    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static")))
-      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static"))))
+    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir)))
+      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir))))
     (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection) (gui-get-selection))))
 	  (file (read-file-name "Save as: "
-				(expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static"))
+				(expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir))
 				(car (last (split-string (substring-no-properties (gui-get-selection)) "/")))
 				nil)))
       (when (file-exists-p (file-truename file))
@@ -1718,10 +1718,10 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-next-postdir ()
   "Go to next postdir."
   (interactive)
-  (setq easy-hugo--postdir-list (easy-hugo--directory-list (easy-hugo--directory-files-recursively (expand-file-name (concat easy-hugo-basedir "content")) "" t)))
-  (setq easy-hugo--postdir-list (delete (expand-file-name (concat easy-hugo-basedir easy-hugo-postdir)) easy-hugo--postdir-list))
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content")) t)
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir easy-hugo-postdir)))
+  (setq easy-hugo--postdir-list (easy-hugo--directory-list (easy-hugo--directory-files-recursively (expand-file-name "content" easy-hugo-basedir) "" t)))
+  (setq easy-hugo--postdir-list (delete (expand-file-name easy-hugo-postdir easy-hugo-basedir) easy-hugo--postdir-list))
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name "content" easy-hugo-basedir) t)
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name easy-hugo-postdir easy-hugo-basedir))
   (if (eq (- (length easy-hugo--postdir-list) 1) easy-hugo--current-postdir)
       (setq easy-hugo--current-postdir 0)
     (setq easy-hugo--current-postdir (+ easy-hugo--current-postdir 1)))
@@ -1731,10 +1731,10 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-previous-postdir ()
   "Go to previous postdir."
   (interactive)
-  (setq easy-hugo--postdir-list (easy-hugo--directory-list (easy-hugo--directory-files-recursively (expand-file-name (concat easy-hugo-basedir "content")) "" t)))
-  (setq easy-hugo--postdir-list (delete (expand-file-name (concat easy-hugo-basedir "content/post")) easy-hugo--postdir-list))
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content")) t)
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name (concat easy-hugo-basedir "content/post")))
+  (setq easy-hugo--postdir-list (easy-hugo--directory-list (easy-hugo--directory-files-recursively (expand-file-name "content" easy-hugo-basedir) "" t)))
+  (setq easy-hugo--postdir-list (delete (expand-file-name "content/post" easy-hugo-basedir) easy-hugo--postdir-list))
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name "content" easy-hugo-basedir) t)
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name "content/post" easy-hugo-basedir))
   (setq easy-hugo--current-postdir (- easy-hugo--current-postdir 1))
   (when (> 0 easy-hugo--current-postdir)
     (setq easy-hugo--current-postdir (- (length easy-hugo--postdir-list) 1)))
