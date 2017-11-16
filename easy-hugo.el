@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.0.16
+;; Version: 2.0.17
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -665,14 +665,14 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Generate image link."
   (interactive
    (easy-hugo-with-env
-    (unless (file-directory-p (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
-      (error "%s does not exist" (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
+    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static")))
+      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static"))))
     (let ((file (read-file-name "Image file: " nil
-				(expand-file-name
-				 (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/"))
+				(expand-file-name easy-hugo-image-directory
+						  (concat easy-hugo-basedir "static"))
 				t
-				(expand-file-name
-				 (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/")))))
+				(expand-file-name easy-hugo-image-directory
+						  (concat easy-hugo-basedir "static")))))
       (insert (concat (format "<img src=\"%s%s\""
 			      easy-hugo-url
 			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
@@ -683,13 +683,13 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Move image to image directory and generate image link."
   (interactive
    (easy-hugo-with-env
-    (unless (file-directory-p (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
-      (error "%s does not exist" (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
+    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static")))
+      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static"))))
     (let ((file (read-file-name "Image file: " nil
 				(expand-file-name easy-hugo-default-picture-directory)
 				t
 				(expand-file-name easy-hugo-default-picture-directory))))
-      (copy-file file (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/" (file-name-nondirectory file))))
+      (copy-file file (expand-file-name (concat easy-hugo-image-directory "/" (file-name-nondirectory file)) (concat easy-hugo-basedir "static")))
       (insert (concat (format "<img src=\"%s%s\""
 			      easy-hugo-url
 			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
@@ -700,11 +700,11 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Pull image from internet to image directory and generate image link."
   (interactive
    (easy-hugo-with-env
-    (unless (file-directory-p (expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
-      (error "%s does not exist" (concat easy-hugo-basedir "static/" easy-hugo-image-directory)))
+    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static")))
+      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static"))))
     (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection) (gui-get-selection))))
 	  (file (read-file-name "Save as: "
-				(expand-file-name (concat easy-hugo-basedir "static/" easy-hugo-image-directory "/"))
+				(expand-file-name easy-hugo-image-directory (concat easy-hugo-basedir "static"))
 				(car (last (split-string (substring-no-properties (gui-get-selection)) "/")))
 				nil)))
       (when (file-exists-p (file-truename file))
@@ -866,20 +866,18 @@ If not applicable, return the default preview."
 		   (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line)))))
 	  (progn
 	    (let ((file (expand-file-name
-			 (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-			 easy-hugo-basedir)))
+			 (substring (thing-at-point 'line) easy-hugo--forward-char -1)
+			 easy-hugo-postdir)))
 	      (when (and (file-exists-p file)
 			 (not (file-directory-p file)))
 		(if (equal (easy-hugo--preview-http-status-code
 			    (file-name-sans-extension
-			     (file-relative-name file (expand-file-name
-						       (concat easy-hugo-basedir "content")))))
+			     (file-relative-name file (expand-file-name "content" easy-hugo-basedir))))
 			   "200")
 		    (browse-url (concat easy-hugo-preview-url
 					(file-name-sans-extension
 					 (file-relative-name file
-							     (expand-file-name
-							      (concat easy-hugo-basedir "content"))))))
+							     (expand-file-name "content" easy-hugo-basedir)))))
 		  (browse-url easy-hugo-preview-url)))))
 	(browse-url easy-hugo-preview-url))
     (browse-url easy-hugo-preview-url)))
@@ -1360,8 +1358,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((file (expand-file-name
-		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		    easy-hugo-basedir)))
+		    (substring (thing-at-point 'line) easy-hugo--forward-char -1)
+		    easy-hugo-postdir)))
 	 (when (and (file-exists-p file)
 		    (not (file-directory-p file)))
 	   (shell-command-to-string (concat "hugo undraft " file))
@@ -1376,8 +1374,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((file (expand-file-name
-		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		    easy-hugo-basedir)))
+		    (substring (thing-at-point 'line) easy-hugo--forward-char -1)
+		    easy-hugo-postdir)))
 	 (when (and (file-exists-p file)
 		    (not (file-directory-p file)))
 	   (find-file file)))))))
@@ -1398,8 +1396,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 		     (eq (point) (point-max))
 		     (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
 	   (let ((file (expand-file-name
-			(concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-			easy-hugo-basedir)))
+			(substring (thing-at-point 'line) easy-hugo--forward-char -1)
+			easy-hugo-postdir)))
 	     (when (and (file-exists-p file)
 			(not (file-directory-p file)))
 	       (view-file file)))))
@@ -1414,8 +1412,8 @@ Optional prefix ARG says how many lines to move; default is one line."
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((file (expand-file-name
-		    (concat easy-hugo-postdir "/" (substring (thing-at-point 'line) easy-hugo--forward-char -1))
-		    easy-hugo-basedir)))
+		    (substring (thing-at-point 'line) easy-hugo--forward-char -1)
+		    easy-hugo-postdir)))
 	 (when (and (file-exists-p file)
 		    (not (file-directory-p file)))
 	   (when (y-or-n-p (concat "Delete " file))
@@ -1824,10 +1822,11 @@ output directories whose names match REGEXP."
      (while files
        (push
 	(concat
-	 (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes
-							  (expand-file-name
-							   (concat easy-hugo-postdir "/" (car files))
-							   easy-hugo-basedir))))
+	 (format-time-string "%Y-%m-%d %H:%M:%S "
+			     (nth 5 (file-attributes
+				     (expand-file-name
+				      (car files)
+				      easy-hugo-postdir))))
 	 (car files))
 	lists)
        (pop files))
@@ -1889,10 +1888,11 @@ output directories whose names match REGEXP."
 		       (not (member (file-name-extension (car files)) easy-hugo--formats)))
 	     (push
 	      (concat
-	       (format-time-string "%Y-%m-%d %H:%M:%S " (nth 5 (file-attributes
-								(expand-file-name
-								 (concat easy-hugo-postdir "/" (car files))
-								 easy-hugo-basedir))))
+	       (format-time-string "%Y-%m-%d %H:%M:%S "
+				   (nth 5 (file-attributes
+					   (expand-file-name
+					    (car files)
+					    easy-hugo-postdir))))
 	       (car files))
 	      lists))
 	   (pop files))
