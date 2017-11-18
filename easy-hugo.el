@@ -1356,6 +1356,105 @@ Optional prefix ARG says how many lines to move; default is one line."
     (easy-hugo--preview-end)
     (easy-hugo)))
 
+(defun easy-hugo-nth-blog (n)
+  "Go to nth blog as N."
+  (interactive)
+  (when (< 1 (length easy-hugo-bloglist))
+    (setq easy-hugo--current-blog n)
+    (setq easy-hugo--current-postdir 0)
+    (setq easy-hugo-basedir
+	  (cdr (assoc 'easy-hugo-basedir
+		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
+    (setq easy-hugo-url
+	  (cdr (assoc 'easy-hugo-url
+		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
+    (setq easy-hugo-root
+	  (cdr (assoc 'easy-hugo-root
+		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
+    (setq easy-hugo-sshdomain
+	  (cdr (assoc 'easy-hugo-sshdomain
+		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
+    (setq easy-hugo-amazon-s3-bucket-name
+	  (cdr (assoc 'easy-hugo-amazon-s3-bucket-name
+		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
+    (setq easy-hugo-google-cloud-storage-bucket-name
+	  (cdr (assoc 'easy-hugo-google-cloud-storage-bucket-name
+		      (nth 1 easy-hugo-bloglist))))
+    (if (cdr (assoc 'easy-hugo-github-deploy-script
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-github-deploy-script
+	      (cdr (assoc 'easy-hugo-github-deploy-script
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-github-deploy-script easy-hugo--default-github-deploy-script))
+    (if (cdr (assoc 'easy-hugo-image-directory
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-image-directory
+	      (cdr (assoc 'easy-hugo-image-directory
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-image-directory easy-hugo--default-image-directory))
+    (if (cdr (assoc 'easy-hugo-default-picture-directory
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-default-picture-directory
+	      (cdr (assoc 'easy-hugo-default-picture-directory
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-default-picture-directory easy-hugo--default-picture-directory))
+    (if (cdr (assoc 'easy-hugo-publish-chmod
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-publish-chmod
+	      (cdr (assoc 'easy-hugo-publish-chmod
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-publish-chmod easy-hugo--default-publish-chmod))
+    (if (cdr (assoc 'easy-hugo-previewtime
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-previewtime
+	      (cdr (assoc 'easy-hugo-previewtime
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-previewtime easy-hugo--default-previewtime))
+    (if (cdr (assoc 'easy-hugo-preview-url
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-preview-url
+	      (cdr (assoc 'easy-hugo-preview-url
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-preview-url easy-hugo--default-preview-url))
+    (if (cdr (assoc 'easy-hugo-sort-default-char
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-sort-default-char
+	      (cdr (assoc 'easy-hugo-sort-default-char
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-sort-default-char easy-hugo--default-sort-default-char))
+    (if (cdr (assoc 'easy-hugo-asciidoc-extension
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-asciidoc-extension
+	      (cdr (assoc 'easy-hugo-asciidoc-extension
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-asciidoc-extension easy-hugo--default-asciidoc-extension))
+    (if (cdr (assoc 'easy-hugo-html-extension
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-html-extension
+	      (cdr (assoc 'easy-hugo-html-extension
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-html-extension easy-hugo--default-html-extension))
+    (if (cdr (assoc 'easy-hugo-markdown-extension
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-markdown-extension
+	      (cdr (assoc 'easy-hugo-markdown-extension
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-markdown-extension easy-hugo--default-markdown-extension))
+    (if (cdr (assoc 'easy-hugo-default-ext
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-default-ext
+	      (cdr (assoc 'easy-hugo-default-ext
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-default-ext easy-hugo--default-ext))
+    (if (cdr (assoc 'easy-hugo-postdir
+		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
+	(setq easy-hugo-postdir
+	      (cdr (assoc 'easy-hugo-postdir
+			  (nth easy-hugo--current-blog easy-hugo-bloglist))))
+      (setq easy-hugo-postdir easy-hugo--default-postdir))
+    (easy-hugo--preview-end)
+    (easy-hugo)))
+
 (defun easy-hugo-next-postdir ()
   "Go to next postdir."
   (interactive)
