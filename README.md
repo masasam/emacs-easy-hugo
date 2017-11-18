@@ -8,7 +8,7 @@ Multiple blogs setting changed in update.
 
 Please write a new setting.
 
-See [multiple blogs setting](##example)
+See [multiple blogs setting](#example)
 
 ## Screencast
 
