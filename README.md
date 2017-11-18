@@ -8,7 +8,7 @@ Multiple blogs setting changed in update.
 
 Please write a new setting.
 
-See [multiple blogs setting](##Example of multiple blogs setting)
+See [multiple blogs setting](##Example)
 
 ## Screencast
 
@@ -290,7 +290,9 @@ Setting the picture directory of your PC, it is easy to execute M-x easy-hugo-pu
 
 If you want to manage multiple blogs.
 
-## Example of multiple blogs setting
+## Example
+
+Example of multiple blogs setting
 
 	;; Main blog
 	(setq easy-hugo-basedir "~/bookshelf/")
