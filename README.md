@@ -199,6 +199,10 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 You can install `easy-hugo.el` from [MELPA](http://melpa.org) with package.el
 (`M-x package-install easy-hugo`).
 
+Confirm that PATH passes from emacs to go.
+
+I recommend you are going to install [exec-path-from-shell]( https://github.com/purcell/exec-path-from-shell).
+
 ## Sample Configuration
 
 	(setq easy-hugo-basedir "~/bookshelf/")
@@ -468,10 +472,6 @@ sample nginx.conf
 	index   index.html index.htm;
 		}
 	}
-
-Confirm that PATH passes from emacs to go.
-
-I recommend you [exec-path-from-shell]( https://github.com/purcell/exec-path-from-shell).
 
 PPAP source sample for hugo
 
