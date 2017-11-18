@@ -2,6 +2,14 @@
 
 Emacs major mode for writing blogs made with hugo by markdown or org-mode or AsciiDoc or reStructuredText or mmark or html
 
+# Warning
+
+Multiple blogs setting changed in update.
+
+Please write a new setting.
+
+See [multiple blogs setting](## Example of multiple blogs setting)
+
 ## Screencast
 
 ![screencast](image/screencast.gif)
@@ -282,7 +290,7 @@ Setting the picture directory of your PC, it is easy to execute M-x easy-hugo-pu
 
 If you want to manage multiple blogs.
 
-Example of setting when adding two blogs and managing a total of three blogs.
+## Example of multiple blogs setting
 
 	;; Main blog
 	(setq easy-hugo-basedir "~/bookshelf/")
@@ -291,39 +299,24 @@ Example of setting when adding two blogs and managing a total of three blogs.
 	(setq easy-hugo-root "/home/blog/")
 	(setq easy-hugo-previewtime "300")
 	(define-key global-map (kbd "C-c C-e") 'easy-hugo)
-	;; Total number of blogs
-	(setq easy-hugo-blog-number 3)
-	;; Blog1
-	(setq easy-hugo-basedir-1 "~/src/github.com/masasam/ppap1/")
-	(setq easy-hugo-url-1 "http://example1.com")
-	(setq easy-hugo-root-1 "/home/blog/")
-	(setq easy-hugo-sshdomain-1 "blog1domain")
-	;; Blog2
-	(setq easy-hugo-basedir-2 "~/src/github.com/masasam/ppap2/")
-	(setq easy-hugo-url-2 "http://example2.com")
-	(setq easy-hugo-amazon-s3-bucket-name-2 "blogbucket")
 
-A total of until 10 blogs can be managed.
+	(setq easy-hugo-bloglist
+		;; blog2 setting
+		'(((easy-hugo-basedir . "~/src/github.com/masasam/hugo2/")
+		(easy-hugo-url . "http://example2.com")
+		(easy-hugo-sshdomain . "myblogdomain")
+		(easy-hugo-root . "/home/hugo/"))
+		;; blog3 setting
+		((easy-hugo-basedir . "~/src/github.com/masasam/hugo3/")
+		(easy-hugo-url . "http://example3.net")
+		(easy-hugo-amazon-s3-bucket-name . "yours3bucketname"))
+		;; blog4 setting
+		((easy-hugo-basedir . "~/src/github.com/masasam/hugo4/")
+		(easy-hugo-url . "http://example4.net")
+		(easy-hugo-google-cloud-storage-bucket-name . "yourGCPbucketname")
+		(easy-hugo-image-directory . "img"))))
 
-Please set necessary variables and use.
-
-	easy-hugo-basedir-1
-	easy-hugo-url-1
-	easy-hugo-root-1
-	easy-hugo-sshdomain-1
-	easy-hugo-amazon-s3-bucket-name-1
-	easy-hugo-google-cloud-storage-bucket-name-1
-	easy-hugo-image-directory-1
-
-	..............
-
-	easy-hugo-basedir-9
-	easy-hugo-url-9
-	easy-hugo-root-9
-	easy-hugo-sshdomain-9
-	easy-hugo-amazon-s3-bucket-name-9
-	easy-hugo-google-cloud-storage-bucket-name-9
-	easy-hugo-image-directory-9
+You can manage as many blogs as you like.
 
 If you want change markdown filename extension, please select md or markdown or mdown.
 Because only these three are supported by hugo. If not set markdown filename extension will be 'md'.
