@@ -290,7 +290,7 @@ Setting the picture directory of your PC, it is easy to execute M-x easy-hugo-pu
 
 If you want to manage multiple blogs.
 
-## Example
+## example
 
 Example of multiple blogs setting
 
