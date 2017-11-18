@@ -1358,7 +1358,7 @@ Optional prefix ARG says how many lines to move; default is one line."
 
 (defun easy-hugo-nth-blog (n)
   "Go to nth blog as N."
-  (interactive)
+  (interactive "p")
   (when (< 1 (length easy-hugo-bloglist))
     (setq easy-hugo--current-blog n)
     (setq easy-hugo--current-postdir 0)
