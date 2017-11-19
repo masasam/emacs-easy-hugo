@@ -172,6 +172,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |c		|easy-hugo-open-config|
 |d		|easy-hugo-delete|
 |g		|easy-hugo-refresh|
+|J      |easy-hugo-nth-blog|
 |h		|easy-hugo-backward-char|
 |j		|easy-hugo-next-line|
 |k		|easy-hugo-previous-line|
@@ -438,8 +439,8 @@ Check if rsync is installed on the server.
 Write at ~/.ssh/config on your PC
 
 	 Host blogdomain
-                        HostName "Your server's IP"
-                        User "Your server's ssh login username"
+		 HostName "Your server's IP"
+         User "Your server's ssh login username"
 
 Because blog is generated under /home/blog/ on the server, set it to reference it with nginx.
 SSL uses certbot (Let's encrypt).
