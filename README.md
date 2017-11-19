@@ -95,10 +95,14 @@ Deploy hugo source at Amazon S3.
 
 Deploy hugo source at Google Cloud Storage.
 
-	easy-hugo-next-postdir
-	easy-hugo-previous-postdir
+	M-x easy-hugo-next-postdir
+	M-x easy-hugo-previous-postdir
 
-With this you can go to a directory other than content/post
+With this you can go to a directory other than content/post.
+
+	M-x easy-hugo-nth-blog
+
+You can move to a blog with the specified number.
 
 	M-x easy-hugo-image
 
