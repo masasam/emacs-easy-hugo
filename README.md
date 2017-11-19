@@ -87,6 +87,8 @@ Execute deploy.sh which exists in directory `easy-hugo-basedir`.
 
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 
+For more information #27
+
 	M-x easy-hugo-amazon-s3-deploy
 
 Deploy hugo source at Amazon S3.
@@ -283,7 +285,7 @@ If you want customise color, write the following in the init.el or .emacs.
 
 In order to generate link of image from image file directory under 'static' directory,
 
-If you want to change image file directory under 'static' directory.
+If you want to change image file directory that is under 'static' directory.
 
 If not set the default image file directory will be 'images'.
 
