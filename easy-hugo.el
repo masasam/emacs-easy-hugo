@@ -882,6 +882,7 @@ Enjoy!
     (define-key map "e" 'easy-hugo-open)
     (define-key map "f" 'easy-hugo-open)
     (define-key map "N" 'easy-hugo-no-help)
+    (define-key map "J" 'easy-hugo-nth-blog)
     (define-key map "j" 'easy-hugo-next-line)
     (define-key map "k" 'easy-hugo-previous-line)
     (define-key map "h" 'easy-hugo-backward-char)
