@@ -87,7 +87,7 @@ Execute deploy.sh which exists in directory `easy-hugo-basedir`.
 
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 
-For more information #27
+For more information https://github.com/masasam/emacs-easy-hugo/issues/27
 
 	M-x easy-hugo-amazon-s3-deploy
 
