@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.2.17
+;; Version: 2.2.18
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1057,12 +1057,12 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-rename (post-file)
   "Renames file on the pointer to POST-FILE."
   (interactive (list (read-from-minibuffer "Rename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
-  (let ((newname (expand-file-name post-file easy-hugo-postdir))
-        (file-ext (file-name-extension post-file)))
-    (when (not (member file-ext easy-hugo--formats))
-      (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
-    (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
-      (easy-hugo-with-env
+  (easy-hugo-with-env
+   (let ((newname (expand-file-name post-file easy-hugo-postdir))
+	 (file-ext (file-name-extension post-file)))
+     (when (not (member file-ext easy-hugo--formats))
+       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
+     (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
        (when (file-exists-p (file-truename newname))
 	 (error "%s already exists!" newname))
        (unless (or (string-match "^$" (thing-at-point 'line))
