@@ -227,7 +227,7 @@ I recommend you are going to install [exec-path-from-shell]( https://github.com/
 	(setq easy-hugo-previewtime "300")
 	(define-key global-map (kbd "C-c C-e") 'easy-hugo)
 
-If you use use-package, Please write them all in :init.
+If you use [use-package](https://github.com/jwiegley/use-package), please write them all in :init.
 
 	(use-package easy-hugo
 	:init
@@ -336,7 +336,7 @@ Example of multiple blogs setting
 		(easy-hugo-google-cloud-storage-bucket-name . "yourGCPbucketname")
 		(easy-hugo-image-directory . "img"))))
 
-If you use use-package, Please write them all in :init.
+If you use [use-package](https://github.com/jwiegley/use-package), please write them all in :init.
 
 	(use-package easy-hugo
 	:init
