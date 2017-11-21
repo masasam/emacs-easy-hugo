@@ -227,6 +227,17 @@ I recommend you are going to install [exec-path-from-shell]( https://github.com/
 	(setq easy-hugo-previewtime "300")
 	(define-key global-map (kbd "C-c C-e") 'easy-hugo)
 
+If you use use-package, Please write them all in :init.
+
+	(use-package easy-hugo
+	:init
+	(setq easy-hugo-basedir "~/bookshelf/")
+	(setq easy-hugo-url "https://yourblogdomain")
+	(setq easy-hugo-sshdomain "blogdomain")
+	(setq easy-hugo-root "/home/blog/")
+	(setq easy-hugo-previewtime "300")
+	:bind ("C-c C-e" . easy-hugo))
+
 easy-hugo-basedir "Directory where hugo html source code is placed on your PC."
 
 easy-hugo-url "Url of the blog."
@@ -324,6 +335,35 @@ Example of multiple blogs setting
 		(easy-hugo-url . "http://example4.net")
 		(easy-hugo-google-cloud-storage-bucket-name . "yourGCPbucketname")
 		(easy-hugo-image-directory . "img"))))
+
+If you use use-package, Please write them all in :init.
+
+	(use-package easy-hugo
+	:init
+	;; Main blog
+	(setq easy-hugo-basedir "~/bookshelf/")
+	(setq easy-hugo-url "https://yourblogdomain")
+	(setq easy-hugo-sshdomain "blogdomain")
+	(setq easy-hugo-root "/home/blog/")
+	(setq easy-hugo-previewtime "300")
+	(define-key global-map (kbd "C-c C-e") 'easy-hugo)
+
+	(setq easy-hugo-bloglist
+		;; blog2 setting
+		'(((easy-hugo-basedir . "~/src/github.com/masasam/hugo2/")
+		(easy-hugo-url . "http://example2.com")
+		(easy-hugo-sshdomain . "myblogdomain")
+		(easy-hugo-root . "/home/hugo/"))
+		;; blog3 setting
+		((easy-hugo-basedir . "~/src/github.com/masasam/hugo3/")
+		(easy-hugo-url . "http://example3.net")
+		(easy-hugo-amazon-s3-bucket-name . "yours3bucketname"))
+		;; blog4 setting
+		((easy-hugo-basedir . "~/src/github.com/masasam/hugo4/")
+		(easy-hugo-url . "http://example4.net")
+		(easy-hugo-google-cloud-storage-bucket-name . "yourGCPbucketname")
+		(easy-hugo-image-directory . "img"))))
+	:bind ("C-c C-e" . easy-hugo))
 
 You can manage as many blogs as you like.
 
