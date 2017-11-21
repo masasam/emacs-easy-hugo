@@ -843,7 +843,9 @@ P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. GitHub timer
 O .. Open basedir     W .. AWS S3 timer  ? .. Help easy-hugo   q .. Quit easy-hugo
 
 "))
-  "Help of easy-hugo.")
+  "Help of easy-hugo."
+  :group 'easy-hugo
+  :type 'string)
 
 (defconst easy-hugo--first-help
   "Welcome to Easy-hugo
