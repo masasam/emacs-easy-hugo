@@ -156,12 +156,15 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |e      |easy-hugo-open|
 |f		|easy-hugo-open|
 |RET	|easy-hugo-open|
+|Tab	|easy-hugo-full-help|
+|S-Tab	|easy-hugo-no-help|
 |<		|easy-hugo-previous-blog|
 |>		|easy-hugo-next-blog|
 |?		|describe-mode|
 |A		|easy-hugo-amazon-s3-deploy|
 |C		|easy-hugo-google-cloud-storage-deploy|
 |D		|easy-hugo-list-draft|
+|F		|easy-hugo-full-help|
 |G		|easy-hugo-github-deploy|
 |H		|easy-hugo-github-deploy-timer|
 |I		|easy-hugo-google-cloud-storage-deploy-timer|
