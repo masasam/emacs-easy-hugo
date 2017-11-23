@@ -903,7 +903,7 @@ w .. Write post       o .. Open file     + .. Pre postdir      - .. Next postdir
     (define-key map "f" 'easy-hugo-open)
     (define-key map "F" 'easy-hugo-full-help)
     (define-key map [tab] 'easy-hugo-full-help)
-    (define-key map [?\S-tab] 'easy-hugo-no-help)
+    (define-key map [backtab] 'easy-hugo-no-help)
     (define-key map "N" 'easy-hugo-no-help)
     (define-key map "J" 'easy-hugo-nth-blog)
     (define-key map "j" 'easy-hugo-next-line)
