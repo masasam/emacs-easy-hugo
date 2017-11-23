@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.2.18
+;; Version: 2.3.18
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -96,6 +96,11 @@
 
 (defcustom easy-hugo-no-help nil
   "No help flg of easy-hugo."
+  :group 'easy-hugo
+  :type 'integer)
+
+(defcustom easy-hugo-additional-help nil
+  "Additional help flg of easy-hugo."
   :group 'easy-hugo
   :type 'integer)
 
@@ -247,9 +252,6 @@ Because only two are supported by hugo."
 
 (defconst easy-hugo--unmovable-line-default easy-hugo--unmovable-line
   "Default value of impossible to move below this line.")
-
-(defconst easy-hugo--delete-line 12
-  "Easy-hugo-delete line number.")
 
 (defconst easy-hugo--preview-buffer "*Hugo Preview*"
   "Easy-hugo preview buffer name.")
@@ -830,8 +832,7 @@ v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   W .. AWS S3 timer     I .. GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
-O .. Open basedir     S .. Sort char     ? .. Help easy-hugo   q .. Quit easy-hugo
-
+F .. Full help [tab]  S .. Sort char     ? .. Describe-mode    q .. Quit easy-hugo
 ")
     (progn
       "n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
@@ -840,8 +841,7 @@ v .. Open view-mode   u .. Undraft file  T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   S .. Sort time        I .. GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
-O .. Open basedir     W .. AWS S3 timer  ? .. Help easy-hugo   q .. Quit easy-hugo
-
+F .. Full help [tab]  W .. AWS S3 timer  ? .. Describe-mode    q .. Quit easy-hugo
 "))
   "Help of easy-hugo."
   :group 'easy-hugo
@@ -859,6 +859,16 @@ Enjoy!
 
 "
   "Help of easy-hugo first time.")
+
+(defcustom easy-hugo-add-help
+  "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
+m .. X s3-timer       i .. X GCS timer   f .. File open        J .. Jump blog-number
+k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
+w .. Write post       o .. Open file     + .. Pre postdir      - .. Next postdir
+"
+  "Add help of easy-hugo."
+  :group 'easy-hugo
+  :type 'string)
 
 (defvar easy-hugo-mode-map
   (let ((map (make-keymap)))
@@ -883,6 +893,8 @@ Enjoy!
     (define-key map "d" 'easy-hugo-delete)
     (define-key map "e" 'easy-hugo-open)
     (define-key map "f" 'easy-hugo-open)
+    (define-key map "F" 'easy-hugo-full-help)
+    (define-key map [tab] 'easy-hugo-full-help)
     (define-key map "N" 'easy-hugo-no-help)
     (define-key map "J" 'easy-hugo-nth-blog)
     (define-key map "j" 'easy-hugo-next-line)
@@ -946,7 +958,23 @@ Enjoy!
 	(setq easy-hugo--unmovable-line easy-hugo--unmovable-line-default))
     (progn
       (setq easy-hugo-no-help 1)
+      (setq easy-hugo-additional-help nil)
       (setq easy-hugo--unmovable-line 3)))
+  (if easy-hugo--draft-list
+      (easy-hugo-draft-list)
+    (easy-hugo)))
+
+(defun easy-hugo-full-help ()
+  "Full help mode of easy hugo."
+  (interactive)
+  (if easy-hugo-additional-help
+      (progn
+	(setq easy-hugo-additional-help nil)
+	(setq easy-hugo--unmovable-line easy-hugo--unmovable-line-default))
+    (progn
+      (setq easy-hugo-additional-help 1)
+      (setq easy-hugo-no-help nil)
+      (setq easy-hugo--unmovable-line 15)))
   (if easy-hugo--draft-list
       (easy-hugo-draft-list)
     (easy-hugo)))
@@ -1148,7 +1176,7 @@ Optional prefix ARG says how many lines to move; default is one line."
 	   (when (y-or-n-p (concat "Delete " file))
 	     (if easy-hugo-no-help
 		 (setq easy-hugo--line (- (line-number-at-pos) 4))
-	       (setq easy-hugo--line (- (line-number-at-pos) easy-hugo--delete-line)))
+	       (setq easy-hugo--line (- (line-number-at-pos) (+ easy-hugo--unmovable-line 1))))
 	     (delete-file file)
 	     (if easy-hugo--draft-list
 		 (easy-hugo-draft-list)
@@ -1572,7 +1600,10 @@ output directories whose names match REGEXP."
 		'face
 		'easy-hugo-help-face)))
      (unless easy-hugo-no-help
-       (insert (propertize easy-hugo-help 'face 'easy-hugo-help-face)))
+       (insert (propertize easy-hugo-help 'face 'easy-hugo-help-face))
+       (when easy-hugo-additional-help
+	 (insert (propertize easy-hugo-add-help 'face 'easy-hugo-help-face)))
+       (insert (propertize (concat "\n")'face 'easy-hugo-help-face)))
      (unless easy-hugo--refresh
        (setq easy-hugo--cursor (point)))
      (cond ((eq 1 easy-hugo--sort-char-flg) (setq files (reverse (sort files 'string<))))
@@ -1627,7 +1658,10 @@ output directories whose names match REGEXP."
 	      'face
 	      'easy-hugo-help-face)))
    (unless easy-hugo-no-help
-     (insert (propertize easy-hugo-help 'face 'easy-hugo-help-face)))
+     (insert (propertize easy-hugo-help 'face 'easy-hugo-help-face))
+     (when easy-hugo-additional-help
+       (insert (propertize easy-hugo-add-help 'face 'easy-hugo-help-face)))
+     (insert (propertize (concat "\n")'face 'easy-hugo-help-face)))
    (unless easy-hugo--refresh
      (setq easy-hugo--cursor (point)))
    (let ((files (directory-files (expand-file-name easy-hugo-postdir easy-hugo-basedir)))
