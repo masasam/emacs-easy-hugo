@@ -157,7 +157,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |f		|easy-hugo-open|
 |RET	|easy-hugo-open|
 |Tab	|easy-hugo-full-help|
-|S-Tab	|easy-hugo-no-help|
+|Shift-Tab|easy-hugo-no-help|
 |<		|easy-hugo-previous-blog|
 |>		|easy-hugo-next-blog|
 |?		|describe-mode|
@@ -197,7 +197,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |v		|easy-hugo-view|
 |w		|easy-hugo-newpost|
 |SPC	|easy-hugo-next-line|
-|S-SPC	|easy-hugo-previous-line|
+|Shift-SPC|easy-hugo-previous-line|
 |←	    |easy-hugo-backward-char|
 |→     |easy-hugo-forward-char|
 |C-b	|easy-hugo-backward-char|
