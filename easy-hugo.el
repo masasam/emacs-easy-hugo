@@ -872,7 +872,7 @@ Enjoy!
   "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
 m .. X s3-timer       i .. X GCS timer   f .. File open        J .. Jump blog-number
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
-w .. Write post       o .. Open file     + .. Pre postdir      - .. Next postdir
+w .. Write post       o .. Open file     - .. Pre postdir      + .. Next postdir
 "
   "Add help of easy-hugo."
   :group 'easy-hugo
