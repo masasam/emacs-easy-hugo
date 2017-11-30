@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.3.18
+;; Version: 2.4.18
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -110,7 +110,8 @@
   :type 'integer)
 
 (defcustom easy-hugo-publish-chmod "Du=rwx,Dgo=rx,Fu=rw,Fog=r"
-  "Permission when publish. The default is drwxr-xr-x."
+  "Permission when publish.
+The default is drwxr-xr-x."
   :group 'easy-hugo
   :type 'string)
 
@@ -145,13 +146,23 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-help-line 7
+  "Number of lines of `easy-hugo-help'."
+  :group 'easy-hugo
+  :type 'integer)
+
+(defcustom easy-hugo-add-help-line 4
+  "Number of lines of `easy-hugo-add-help'."
+  :group 'easy-hugo
+  :type 'integer)
+
 (defvar easy-hugo--preview-loop t
   "Preview loop flg.")
 
 (defvar easy-hugo--server-process nil
   "Hugo process.")
 
-(defvar easy-hugo--unmovable-line 11
+(defvar easy-hugo--unmovable-line (+ easy-hugo-help-line 4)
   "Impossible to move below this line.")
 
 (defvar easy-hugo--draft-list nil
@@ -983,7 +994,7 @@ w .. Write post       o .. Open file     - .. Pre postdir      + .. Next postdir
     (progn
       (setq easy-hugo-additional-help 1)
       (setq easy-hugo-no-help nil)
-      (setq easy-hugo--unmovable-line 15)))
+      (setq easy-hugo--unmovable-line (+ easy-hugo-help-line easy-hugo-add-help-line 4))))
   (if easy-hugo--draft-list
       (easy-hugo-draft-list)
     (easy-hugo)))
@@ -1012,7 +1023,7 @@ w .. Write post       o .. Open file     - .. Pre postdir      + .. Next postdir
   (setq easy-hugo--refresh nil))
 
 (defun easy-hugo-sort-time ()
-  "Sort time on easy-hugo-mode."
+  "Sort article by time on easy-hugo-mode."
   (interactive)
   (if easy-hugo--draft-list
       (progn
@@ -1029,7 +1040,7 @@ w .. Write post       o .. Open file     - .. Pre postdir      + .. Next postdir
       (easy-hugo))))
 
 (defun easy-hugo-sort-char ()
-  "Sort char on easy-hugo-mode."
+  "Sort article by characters on easy-hugo-mode."
   (interactive)
   (if easy-hugo--draft-list
       (progn
