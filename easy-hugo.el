@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.4.18
+;; Version: 2.4.19
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1233,7 +1233,7 @@ Optional prefix ARG says how many lines to move; default is one line."
 		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
     (setq easy-hugo-google-cloud-storage-bucket-name
 	  (cdr (assoc 'easy-hugo-google-cloud-storage-bucket-name
-		      (nth 1 easy-hugo-bloglist))))
+		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
     (if (cdr (assoc 'easy-hugo-github-deploy-script
 		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
 	(setq easy-hugo-github-deploy-script
@@ -1334,7 +1334,7 @@ Optional prefix ARG says how many lines to move; default is one line."
 		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
     (setq easy-hugo-google-cloud-storage-bucket-name
 	  (cdr (assoc 'easy-hugo-google-cloud-storage-bucket-name
-		      (nth 1 easy-hugo-bloglist))))
+		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
     (if (cdr (assoc 'easy-hugo-github-deploy-script
 		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
 	(setq easy-hugo-github-deploy-script
@@ -1437,7 +1437,7 @@ Optional prefix ARG says how many lines to move; default is one line."
 		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
     (setq easy-hugo-google-cloud-storage-bucket-name
 	  (cdr (assoc 'easy-hugo-google-cloud-storage-bucket-name
-		      (nth 1 easy-hugo-bloglist))))
+		      (nth easy-hugo--current-blog easy-hugo-bloglist))))
     (if (cdr (assoc 'easy-hugo-github-deploy-script
 		    (nth easy-hugo--current-blog easy-hugo-bloglist)))
 	(setq easy-hugo-github-deploy-script
