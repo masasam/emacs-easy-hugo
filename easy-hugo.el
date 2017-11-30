@@ -156,6 +156,11 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'integer)
 
+(defcustom easy-hugo-org-header nil
+  "Flg of use in org format header with hugo version 0.25 and above."
+  :group 'easy-hugo
+  :type 'integer)
+
 (defvar easy-hugo--preview-loop t
   "Preview loop flg.")
 
@@ -545,7 +550,8 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
        (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
      (when (file-exists-p (file-truename filename))
        (error "%s already exists!" filename))
-     (if (<= 0.25 (easy-hugo--version))
+     (if (and (null easy-hugo-org-header)
+	      (<= 0.25 (easy-hugo--version)))
 	 (call-process "hugo" nil "*hugo*" t "new" (file-relative-name filename (expand-file-name "content" easy-hugo-basedir)))
        (progn
 	 (if (or (string-equal file-ext easy-hugo-markdown-extension)
@@ -557,8 +563,9 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
      (when (get-buffer "*hugo*")
        (kill-buffer "*hugo*"))
      (find-file filename)
-     (when (and (> 0.25 (easy-hugo--version))
-		(string-equal file-ext "org"))
+     (when (or easy-hugo-org-header
+	       (and (> 0.25 (easy-hugo--version))
+		    (string-equal file-ext "org")))
        (insert (easy-hugo--org-headers (file-name-base post-file))))
      (goto-char (point-max))
      (save-buffer))))
