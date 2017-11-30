@@ -493,8 +493,10 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (setq easy-hugo--sshdomain-timer easy-hugo-sshdomain)
   (setq easy-hugo--root-timer easy-hugo-root)
   (setq easy-hugo--url-timer easy-hugo-url)
-  (setq easy-hugo--publish-timer
-	(run-at-time (* n 60) nil #'easy-hugo-publish-on-timer)))
+  (if easy-hugo--publish-timer
+      (message "There is already reserved publish-timer")
+    (setq easy-hugo--publish-timer
+	  (run-at-time (* n 60) nil #'easy-hugo-publish-on-timer))))
 
 ;;;###autoload
 (defun easy-hugo-cancel-publish-timer ()
@@ -518,6 +520,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (setq easy-hugo--publish-url easy-hugo-url)
   (setq easy-hugo-url easy-hugo--url-timer)
   (easy-hugo-publish)
+  (setq easy-hugo--publish-timer nil)
   (setq easy-hugo-basedir easy-hugo--publish-basedir)
   (setq easy-hugo-sshdomain easy-hugo--publish-sshdomain)
   (setq easy-hugo-root easy-hugo--publish-root)
@@ -702,8 +705,10 @@ If not applicable, return the default preview."
   (interactive "nMinute:")
   (setq easy-hugo--github-deploy-basedir-timer easy-hugo-basedir)
   (setq easy-hugo--github-deploy-url-timer easy-hugo-url)
-  (setq easy-hugo--github-deploy-timer
-	(run-at-time (* n 60) nil #'easy-hugo-github-deploy-on-timer)))
+  (if easy-hugo--github-deploy-timer
+      (message "There is already reserved github-deploy-timer")
+    (setq easy-hugo--github-deploy-timer
+	  (run-at-time (* n 60) nil #'easy-hugo-github-deploy-on-timer))))
 
 ;;;###autoload
 (defun easy-hugo-cancel-github-deploy-timer ()
@@ -723,6 +728,7 @@ If not applicable, return the default preview."
   (setq easy-hugo--github-deploy-url easy-hugo-url)
   (setq easy-hugo-url easy-hugo--github-deploy-url-timer)
   (easy-hugo-github-deploy)
+  (setq easy-hugo--github-deploy-timer nil)
   (setq easy-hugo-basedir easy-hugo--github-deploy-basedir)
   (setq easy-hugo-url easy-hugo--github-deploy-url))
 
@@ -755,8 +761,10 @@ If not applicable, return the default preview."
   (setq easy-hugo--amazon-s3-basedir-timer easy-hugo-basedir)
   (setq easy-hugo--amazon-s3-url-timer easy-hugo-url)
   (setq easy-hugo--amazon-s3-bucket-name-timer easy-hugo-amazon-s3-bucket-name)
-  (setq easy-hugo--amazon-s3-timer
-	(run-at-time (* n 60) nil #'easy-hugo-amazon-s3-deploy-on-timer)))
+  (if easy-hugo--amazon-s3-timer
+      (message "There is already reserved AWS-s3-deploy-timer")
+    (setq easy-hugo--amazon-s3-timer
+	  (run-at-time (* n 60) nil #'easy-hugo-amazon-s3-deploy-on-timer))))
 
 ;;;###autoload
 (defun easy-hugo-cancel-amazon-s3-deploy-timer ()
@@ -778,6 +786,7 @@ If not applicable, return the default preview."
   (setq easy-hugo--amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name)
   (setq easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-timer)
   (easy-hugo-amazon-s3-deploy)
+  (setq easy-hugo--amazon-s3-timer nil)
   (setq easy-hugo-basedir easy-hugo--amazon-s3-basedir)
   (setq easy-hugo-url easy-hugo--amazon-s3-url)
   (setq easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name))
@@ -811,8 +820,10 @@ If not applicable, return the default preview."
   (setq easy-hugo--google-cloud-storage-basedir-timer easy-hugo-basedir)
   (setq easy-hugo--google-cloud-storage-url-timer easy-hugo-url)
   (setq easy-hugo--google-cloud-storage-bucket-name-timer easy-hugo-google-cloud-storage-bucket-name)
-  (setq easy-hugo--google-cloud-storage-timer
-	(run-at-time (* n 60) nil #'easy-hugo-google-cloud-storage-deploy-on-timer)))
+  (if easy-hugo--google-cloud-storage-timer
+      (message "There is already reserved GCS-timer")
+    (setq easy-hugo--google-cloud-storage-timer
+	  (run-at-time (* n 60) nil #'easy-hugo-google-cloud-storage-deploy-on-timer))))
 
 ;;;###autoload
 (defun easy-hugo-cancel-google-cloud-storage-deploy-timer ()
@@ -834,6 +845,7 @@ If not applicable, return the default preview."
   (setq easy-hugo--google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name)
   (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-timer)
   (easy-hugo-google-cloud-storage-deploy)
+  (setq easy-hugo--google-cloud-storage-timer nil)
   (setq easy-hugo-basedir easy-hugo--google-cloud-storage-basedir)
   (setq easy-hugo-url easy-hugo--google-cloud-storage-url)
   (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name))
