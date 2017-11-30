@@ -369,14 +369,6 @@ Because only two are supported by hugo."
 (defconst easy-hugo--forward-char 20
   "Forward-char of easy-hugo.")
 
-;;;###autoload
-(defun easy-hugo-article ()
-  "Open a list of articles written in hugo with dired."
-  (interactive)
-  (unless easy-hugo-basedir
-    (error "Please set easy-hugo-basedir variable"))
-  (find-file (expand-file-name easy-hugo-postdir easy-hugo-basedir)))
-
 (defmacro easy-hugo-with-env (&rest body)
   "Evaluate BODY with `default-directory' set to `easy-hugo-basedir'.
 Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
@@ -387,6 +379,25 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
        (error "'hugo' is not installed"))
      (let ((default-directory easy-hugo-basedir))
        ,@body)))
+
+(defmacro easy-hugo-set-bloglist (body)
+  "Macros to set variables to `easy-hugo-bloglist' as BODY."
+  `(setq ,body
+	 (cdr (assoc ',body
+		     (nth easy-hugo--current-blog easy-hugo-bloglist)))))
+
+(defmacro easy-hugo-eval-bloglist (body)
+  "Macros to eval variables of BODY from `easy-hugo-bloglist'."
+  `(cdr (assoc ',body
+	       (nth easy-hugo--current-blog easy-hugo-bloglist))))
+
+;;;###autoload
+(defun easy-hugo-article ()
+  "Open a list of articles written in hugo with dired."
+  (interactive)
+  (unless easy-hugo-basedir
+    (error "Please set easy-hugo-basedir variable"))
+  (find-file (expand-file-name easy-hugo-postdir easy-hugo-basedir)))
 
 ;;;###autoload
 (defun easy-hugo-image ()
