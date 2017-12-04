@@ -851,13 +851,15 @@ If not applicable, return the default preview."
   (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name))
 
 ;;;###autoload
-(defun easy-hugo-helm-ag ()
-  "Search for blog article with helm-ag."
+(defun easy-hugo-ag ()
+  "Search for blog article with counsel-ag or helm-ag."
   (interactive)
   (easy-hugo-with-env
-   (if (package-installed-p 'helm-ag)
-       (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-     (error "'helm-ag' is not installed"))))
+   (if (package-installed-p 'counsel)
+       (counsel-ag nil (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+     (if (package-installed-p 'helm-ag)
+	 (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+       (error "'counsel' or 'helm-ag' is not installed")))))
 
 ;;;###autoload
 (defun easy-hugo-open-config ()
@@ -879,7 +881,7 @@ If not applicable, return the default preview."
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Undraft file
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   W .. AWS S3 timer     I .. GCS timer
-P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. GitHub timer
+P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  S .. Sort char     ? .. Describe-mode    q .. Quit easy-hugo
 ")
@@ -888,7 +890,7 @@ F .. Full help [tab]  S .. Sort char     ? .. Describe-mode    q .. Quit easy-hu
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    s .. Sort char
 v .. Open view-mode   u .. Undraft file  T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   S .. Sort time        I .. GCS timer
-P .. Publish server   C .. Deploy GCS    a .. Search helm-ag   H .. GitHub timer
+P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  W .. AWS S3 timer  ? .. Describe-mode    q .. Quit easy-hugo
 "))
@@ -927,7 +929,7 @@ w .. Write post       o .. Open file     - .. Pre postdir      + .. Next postdir
     (define-key map "-" 'easy-hugo-previous-postdir)
     (define-key map "n" 'easy-hugo-newpost)
     (define-key map "w" 'easy-hugo-newpost)
-    (define-key map "a" 'easy-hugo-helm-ag)
+    (define-key map "a" 'easy-hugo-ag)
     (define-key map "c" 'easy-hugo-open-config)
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)

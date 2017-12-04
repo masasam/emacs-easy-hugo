@@ -75,11 +75,13 @@ Since the process of hugo running in the PC disappears in 300 seconds, you do no
 
 You can publish your blog to the server and the browser opens automatically.
 
-	M-x easy-hugo-helm-ag
+	M-x easy-hugo-ag
 
 ![easy-hugo-helm-ag](image/easy-hugo-helm-ag.png)
 
-You can search blog article with [helm-ag](https://github.com/syohex/emacs-helm-ag).
+You can search blog article with [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/syohex/emacs-helm-ag).
+
+If both are installed, counsel-ag takes precedence.
 
 	M-x easy-hugo-github-deploy
 
@@ -176,7 +178,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |S		|easy-hugo-sort-char|
 |T		|easy-hugo-publish-timer|
 |W		|easy-hugo-amazon-s3-deploy-timer|
-|a		|easy-hugo-helm-ag|
+|a		|easy-hugo-ag|
 |b		|easy-hugo-cancel-github-deploy-timer|
 |c		|easy-hugo-open-config|
 |d		|easy-hugo-delete|
