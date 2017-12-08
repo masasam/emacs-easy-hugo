@@ -154,7 +154,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |,      |easy-hugo-previous-postdir|
 |+      |easy-hugo-next-postdir|
 |-      |easy-hugo-previous-postdir|
-|o		|easy-hugo-open|
+|o		|easy-hugo-open-other-window|
 |e      |easy-hugo-open|
 |f		|easy-hugo-open|
 |RET	|easy-hugo-open|

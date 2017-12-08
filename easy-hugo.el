@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.4.19
+;; Version: 2.5.19
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -915,7 +915,7 @@ Enjoy!
   "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
 m .. X s3-timer       i .. X GCS timer   f .. File open        J .. Jump blog-number
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
-w .. Write post       o .. Open file     - .. Pre postdir      + .. Next postdir
+- .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
 "
   "Add help of easy-hugo."
   :group 'easy-hugo
@@ -936,7 +936,7 @@ w .. Write post       o .. Open file     - .. Pre postdir      + .. Next postdir
     (define-key map "T" 'easy-hugo-publish-timer)
     (define-key map "W" 'easy-hugo-amazon-s3-deploy-timer)
     (define-key map "t" 'easy-hugo-cancel-publish-timer)
-    (define-key map "o" 'easy-hugo-open)
+    (define-key map "o" 'easy-hugo-open-other-window)
     (define-key map "O" 'easy-hugo-open-basedir)
     (define-key map "R" 'easy-hugo-rename)
     (define-key map "\C-m" 'easy-hugo-open)
@@ -1191,6 +1191,21 @@ Optional prefix ARG says how many lines to move; default is one line."
 	 (when (and (file-exists-p file)
 		    (not (file-directory-p file)))
 	   (find-file file)))))))
+
+(defun easy-hugo-open-other-window ()
+  "Open the file on the pointer at other window."
+  (interactive)
+  (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
+    (easy-hugo-with-env
+     (unless (or (string-match "^$" (thing-at-point 'line))
+		 (eq (point) (point-max))
+		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+       (let ((file (expand-file-name
+		    (substring (thing-at-point 'line) easy-hugo--forward-char -1)
+		    easy-hugo-postdir)))
+	 (when (and (file-exists-p file)
+		    (not (file-directory-p file)))
+	   (find-file-other-window file)))))))
 
 (defun easy-hugo-open-basedir ()
   "Open `easy-hugo-basedir' with dired."
