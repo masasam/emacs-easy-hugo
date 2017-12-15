@@ -1233,7 +1233,7 @@ Optional prefix ARG says how many lines to move; default is one line."
      (view-file buffer-file-name))))
 
 (defun easy-hugo-view-other-window ()
-  "Open the file on the pointer with 'view-mode'."
+  "Open the file on the pointer with 'view-mode' at other window."
   (interactive)
   (easy-hugo-with-env
    (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
