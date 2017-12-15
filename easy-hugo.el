@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.5.19
+;; Version: 2.6.19
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -151,7 +151,7 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'integer)
 
-(defcustom easy-hugo-add-help-line 4
+(defcustom easy-hugo-add-help-line 5
   "Number of lines of `easy-hugo-add-help'."
   :group 'easy-hugo
   :type 'integer)
@@ -913,9 +913,10 @@ Enjoy!
 
 (defcustom easy-hugo-add-help
   "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
-m .. X s3-timer       i .. X GCS timer   f .. File open        J .. Jump blog-number
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
+m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
+J .. Jump blog        e .. Edit file
 "
   "Add help of easy-hugo."
   :group 'easy-hugo
@@ -964,6 +965,7 @@ k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
     (define-key map [right] 'easy-hugo-forward-char)
     (define-key map [left] 'easy-hugo-backward-char)
     (define-key map "v" 'easy-hugo-view)
+    (define-key map "V" 'easy-hugo-view-other-window)
     (define-key map "r" 'easy-hugo-refresh)
     (define-key map "g" 'easy-hugo-refresh)
     (if (null easy-hugo-sort-default-char)
@@ -1229,6 +1231,23 @@ Optional prefix ARG says how many lines to move; default is one line."
 			(not (file-directory-p file)))
 	       (view-file file)))))
      (view-file buffer-file-name))))
+
+(defun easy-hugo-view-other-window ()
+  "Open the file on the pointer with 'view-mode'."
+  (interactive)
+  (easy-hugo-with-env
+   (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
+       (progn
+	 (unless (or (string-match "^$" (thing-at-point 'line))
+		     (eq (point) (point-max))
+		     (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
+	   (let ((file (expand-file-name
+			(substring (thing-at-point 'line) easy-hugo--forward-char -1)
+			easy-hugo-postdir)))
+	     (when (and (file-exists-p file)
+			(not (file-directory-p file)))
+	       (view-file-other-window file)))))
+     (view-file-other-window buffer-file-name))))
 
 (defun easy-hugo-delete ()
   "Delete the file on the pointer."
