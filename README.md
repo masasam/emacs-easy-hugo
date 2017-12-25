@@ -254,9 +254,9 @@ easy-hugo-root "Root directory of hugo at your server."
 
 easy-hugo-previewtime "Preview display time."
 
-If you want to change default postdir.
+If you want to change default easy-hugo-postdir.
 
-If not set the default postdir will be "content/post".
+If not set the default easy-hugo-postdir will be "content/post".
 
 Easy-hugo will not start when easy-hugo-postdir don't exists.
 
