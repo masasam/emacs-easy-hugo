@@ -260,6 +260,10 @@ If not set the default easy-hugo-postdir will be "content/post".
 
 Easy-hugo will not start when easy-hugo-postdir don't exists.
 
+	(setq easy-hugo-postdir "content/posts")
+
+If you use [Academic theme](https://themes.gohugo.io/academic/)
+
 	(setq easy-hugo-postdir "content/home")
 
 If you want deploy hugo at Amazon S3, please install AWS CLI and set easy-hugo-amazon-s3-bucket-name.
