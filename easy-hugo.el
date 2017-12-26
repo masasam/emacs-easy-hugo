@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.6.19
+;; Version: 2.7.19
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -176,21 +176,6 @@ Because only two are supported by hugo."
 (defvar easy-hugo--draft-mode nil
   "Display draft-mode.")
 
-(defvar easy-hugo--publish-timer nil
-  "Easy-hugo-publish-timer.")
-
-(defvar easy-hugo--basedir-timer nil
-  "Easy-hugo-basedir-timer.")
-
-(defvar easy-hugo--sshdomain-timer nil
-  "Easy-hugo-sshdomain-timer.")
-
-(defvar easy-hugo--root-timer nil
-  "Easy-hugo-root-timer.")
-
-(defvar easy-hugo--url-timer nil
-  "Easy-hugo-url-timer.")
-
 (defvar easy-hugo--github-deploy-timer nil
   "Easy-hugo-github-deploy-timer.")
 
@@ -332,6 +317,9 @@ Because only two are supported by hugo."
 	(easy-hugo-postdir . ,easy-hugo-postdir))
       easy-hugo-bloglist)
 
+(defvar easy-hugo--publish-timer-list (make-list (length easy-hugo-bloglist) 'nil)
+  "Timer list for cansel timer.")
+
 (defconst easy-hugo--default-github-deploy-script easy-hugo-github-deploy-script
   "Default easy-hugo github-deploy-script.")
 
@@ -395,6 +383,11 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Macros to eval variables of BODY from `easy-hugo-bloglist'."
   `(cdr (assoc ',body
 	       (nth easy-hugo--current-blog easy-hugo-bloglist))))
+
+(defmacro easy-hugo-nth-eval-bloglist (body blog)
+  "Macros to eval variables of BODY from `easy-hugo-bloglist' at BLOG."
+  `(cdr (assoc ',body
+	       (nth ,blog easy-hugo-bloglist))))
 
 ;;;###autoload
 (defun easy-hugo-article ()
@@ -489,42 +482,51 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 (defun easy-hugo-publish-timer (n)
   "A timer that publish after the N number of minutes has elapsed."
   (interactive "nMinute:")
-  (setq easy-hugo--basedir-timer easy-hugo-basedir)
-  (setq easy-hugo--sshdomain-timer easy-hugo-sshdomain)
-  (setq easy-hugo--root-timer easy-hugo-root)
-  (setq easy-hugo--url-timer easy-hugo-url)
-  (if easy-hugo--publish-timer
-      (message "There is already reserved publish-timer")
-    (setq easy-hugo--publish-timer
-	  (run-at-time (* n 60) nil #'easy-hugo-publish-on-timer))))
+  (unless easy-hugo-basedir
+    (error "Please set easy-hugo-basedir variable"))
+  (unless (executable-find "hugo")
+    (error "'hugo' is not installed"))
+  (unless easy-hugo-sshdomain
+    (error "Please set easy-hugo-sshdomain variable"))
+  (unless easy-hugo-root
+    (error "Please set easy-hugo-root variable"))
+  (unless (executable-find "rsync")
+    (error "'rsync' is not installed"))
+  (unless (file-exists-p "~/.ssh/config")
+    (error "There is no ~/.ssh/config"))
+  (let ((blognum easy-hugo--current-blog))
+    (if (nth blognum easy-hugo--publish-timer-list)
+	(message "There is already reserved publish-timer on %s" easy-hugo-url)
+      (setf (nth easy-hugo--current-blog easy-hugo--publish-timer-list)
+	    (run-at-time (* n 60) nil #'(lambda () (easy-hugo-publish-on-timer blognum)))))))
 
 ;;;###autoload
 (defun easy-hugo-cancel-publish-timer ()
   "Cancel timer that publish after the specified number of minutes has elapsed."
   (interactive)
-  (if easy-hugo--publish-timer
+  (if (nth easy-hugo--current-blog easy-hugo--publish-timer-list)
       (progn
-	(cancel-timer easy-hugo--publish-timer)
-	(setq easy-hugo--publish-timer nil)
-	(message "Publish-timer canceled"))
-    (message "There is no reserved publish-timer")))
+	(cancel-timer (nth easy-hugo--current-blog easy-hugo--publish-timer-list))
+	(setf (nth easy-hugo--current-blog easy-hugo--publish-timer-list) nil)
+	(message "Publish-timer canceled on %s" easy-hugo-url))
+    (message "There is no reserved publish-timer on %s" easy-hugo-url)))
 
-(defun easy-hugo-publish-on-timer ()
-  "Adapt local change to the server with hugo on timer."
-  (setq easy-hugo--publish-basedir easy-hugo-basedir)
-  (setq easy-hugo-basedir easy-hugo--basedir-timer)
-  (setq easy-hugo--publish-sshdomain easy-hugo-sshdomain)
-  (setq easy-hugo-sshdomain easy-hugo--sshdomain-timer)
-  (setq easy-hugo--publish-root easy-hugo-root)
-  (setq easy-hugo-root easy-hugo--root-timer)
-  (setq easy-hugo--publish-url easy-hugo-url)
-  (setq easy-hugo-url easy-hugo--url-timer)
-  (easy-hugo-publish)
-  (setq easy-hugo--publish-timer nil)
-  (setq easy-hugo-basedir easy-hugo--publish-basedir)
-  (setq easy-hugo-sshdomain easy-hugo--publish-sshdomain)
-  (setq easy-hugo-root easy-hugo--publish-root)
-  (setq easy-hugo-url easy-hugo--publish-url))
+(defun easy-hugo-publish-on-timer (n)
+  "Adapt local change to the server with hugo on timer at N."
+  (let ((default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n)))
+    (when (file-directory-p "public")
+      (delete-directory "public" t nil))
+    (let ((ret (call-process "hugo" nil "*hugo-publish*" t "--destination" "public")))
+      (unless (zerop ret)
+	(switch-to-buffer (get-buffer "*hugo-publish*"))
+	(error "'hugo --destination public' command does not end normally")))
+    (when (get-buffer "*hugo-publish*")
+      (kill-buffer "*hugo-publish*"))
+    (shell-command-to-string (concat "rsync -rtpl --chmod=" easy-hugo-publish-chmod " --delete public/ " (easy-hugo-nth-eval-bloglist easy-hugo-sshdomain n) ":" (shell-quote-argument (easy-hugo-nth-eval-bloglist easy-hugo-root n))))
+    (message "Blog published")
+    (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
+      (browse-url (easy-hugo-nth-eval-bloglist easy-hugo-url n)))
+    (setf (nth n easy-hugo--publish-timer-list) nil)))
 
 (defun easy-hugo--org-headers (file)
   "Return a draft org mode header string for a new article as FILE."
