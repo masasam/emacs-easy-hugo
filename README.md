@@ -2,14 +2,6 @@
 
 Emacs major mode for writing blogs made with hugo by markdown or org-mode or AsciiDoc or reStructuredText or mmark or html
 
-# Warning
-
-Multiple blogs setting changed in update.
-
-Please write a new setting.
-
-See [multiple blogs setting](#example)
-
 ## Screencast
 
 ![screencast](image/screencast.gif)
@@ -324,11 +316,7 @@ Setting the picture directory of your PC, it is easy to execute M-x easy-hugo-pu
 
 	(setq easy-hugo-default-picture-directory "~/Pictures")
 
-If you want to manage multiple blogs.
-
-## example
-
-Example of multiple blogs setting
+## multiple blogs setting
 
 	;; Main blog
 	(setq easy-hugo-basedir "~/bookshelf/")
