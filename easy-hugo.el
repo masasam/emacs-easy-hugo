@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.7.19
+;; Version: 2.8.19
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -176,15 +176,6 @@ Because only two are supported by hugo."
 (defvar easy-hugo--draft-mode nil
   "Display draft-mode.")
 
-(defvar easy-hugo--github-deploy-timer nil
-  "Easy-hugo-github-deploy-timer.")
-
-(defvar easy-hugo--github-deploy-basedir-timer nil
-  "Easy-hugo-github-deploy-basedir-timer.")
-
-(defvar easy-hugo--github-deploy-url-timer nil
-  "Easy-hugo-github-deploy-url-timer.")
-
 (defvar easy-hugo--amazon-s3-timer nil
   "Easy-hugo-amazon-s3-timer.")
 
@@ -318,7 +309,10 @@ Because only two are supported by hugo."
       easy-hugo-bloglist)
 
 (defvar easy-hugo--publish-timer-list (make-list (length easy-hugo-bloglist) 'nil)
-  "Timer list for cansel timer.")
+  "Timer list for cansel publish timer.")
+
+(defvar easy-hugo--github-deploy-timer-list (make-list (length easy-hugo-bloglist) 'nil)
+  "Timer list for cansel github deploy timer.")
 
 (defconst easy-hugo--default-github-deploy-script easy-hugo-github-deploy-script
   "Default easy-hugo github-deploy-script.")
@@ -705,34 +699,53 @@ If not applicable, return the default preview."
 (defun easy-hugo-github-deploy-timer (n)
   "A timer that github-deploy after the N number of minutes has elapsed."
   (interactive "nMinute:")
-  (setq easy-hugo--github-deploy-basedir-timer easy-hugo-basedir)
-  (setq easy-hugo--github-deploy-url-timer easy-hugo-url)
-  (if easy-hugo--github-deploy-timer
-      (message "There is already reserved github-deploy-timer")
-    (setq easy-hugo--github-deploy-timer
-	  (run-at-time (* n 60) nil #'easy-hugo-github-deploy-on-timer))))
+  (unless easy-hugo-basedir
+    (error "Please set easy-hugo-basedir variable"))
+  (unless (executable-find "hugo")
+    (error "'hugo' is not installed"))
+  (let ((deployscript (file-truename (expand-file-name
+				      easy-hugo-github-deploy-script easy-hugo-basedir)))
+	(blognum easy-hugo--current-blog))
+    (unless (executable-find deployscript)
+      (error "%s do not execute" deployscript))
+    (if (nth blognum easy-hugo--github-deploy-timer-list)
+	(message "There is already reserved github-deloy-timer on %s" easy-hugo-url)
+      (setf (nth easy-hugo--current-blog easy-hugo--github-deploy-timer-list)
+	    (run-at-time (* n 60) nil
+			 #'(lambda () (easy-hugo-github-deploy-on-timer blognum)))))))
 
 ;;;###autoload
 (defun easy-hugo-cancel-github-deploy-timer ()
   "Cancel timer that github-deploy after the specified number of minutes has elapsed."
   (interactive)
-  (if easy-hugo--github-deploy-timer
+  (if (nth easy-hugo--current-blog easy-hugo--github-deploy-timer-list)
       (progn
-	(cancel-timer easy-hugo--github-deploy-timer)
-	(setq easy-hugo--github-deploy-timer nil)
-	(message "Github-deploy-timer canceled"))
-    (message "There is no reserved github-deploy-timer")))
+	(cancel-timer (nth easy-hugo--current-blog easy-hugo--github-deploy-timer-list))
+	(setf (nth easy-hugo--current-blog easy-hugo--github-deploy-timer-list) nil)
+	(message "Github-deploy-timer canceled on %s" easy-hugo-url))
+    (message "There is no reserved github-deploy-timer on %s" easy-hugo-url)))
 
-(defun easy-hugo-github-deploy-on-timer ()
-  "Execute `easy-hugo-github-deploy-script' script on timer locate at `easy-hugo-basedir'."
-  (setq easy-hugo--github-deploy-basedir easy-hugo-basedir)
-  (setq easy-hugo-basedir easy-hugo--github-deploy-basedir-timer)
-  (setq easy-hugo--github-deploy-url easy-hugo-url)
-  (setq easy-hugo-url easy-hugo--github-deploy-url-timer)
-  (easy-hugo-github-deploy)
-  (setq easy-hugo--github-deploy-timer nil)
-  (setq easy-hugo-basedir easy-hugo--github-deploy-basedir)
-  (setq easy-hugo-url easy-hugo--github-deploy-url))
+(defun easy-hugo-github-deploy-on-timer (n)
+  "Execute `easy-hugo-github-deploy-script' script on timer locate at `easy-hugo-basedir' at N."
+  (let* ((deployscript (file-truename
+			(expand-file-name
+			 (if (easy-hugo-nth-eval-bloglist easy-hugo-github-deploy-script n)
+			     (easy-hugo-nth-eval-bloglist easy-hugo-github-deploy-script n)
+			   "deploy.sh")
+			 (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))))
+	 (default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))
+	 (ret (call-process
+	       (shell-quote-argument deployscript) nil "*hugo-github-deploy*" t))
+	 (default-directory easy-hugo-basedir))
+    (unless (zerop ret)
+      (switch-to-buffer (get-buffer "*hugo-github-deploy*"))
+      (error "%s command does not end normally" deployscript)))
+  (when (get-buffer "*hugo-github-deploy*")
+    (kill-buffer "*hugo-github-deploy*"))
+  (message "Blog deployed")
+  (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
+    (browse-url (easy-hugo-nth-eval-bloglist  easy-hugo-url n)))
+  (setf (nth n easy-hugo--github-deploy-timer-list) nil))
 
 ;;;###autoload
 (defun easy-hugo-amazon-s3-deploy ()
