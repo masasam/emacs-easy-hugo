@@ -830,10 +830,12 @@ If not applicable, return the default preview."
       (error "'hugo --destination public' command does not end normally")))
   (when (get-buffer "*hugo-google-cloud-storage-deploy*")
     (kill-buffer "*hugo-google-cloud-storage-deploy*"))
+  (setq default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))
   (shell-command-to-string
    (concat "gsutil -m rsync -d -r public gs://"
 	   (easy-hugo-nth-eval-bloglist easy-hugo-google-cloud-storage-bucket-name n)
 	   "/"))
+  (setq default-directory easy-hugo-basedir)
   (message "Blog deployed")
   (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
     (browse-url (easy-hugo-nth-eval-bloglist easy-hugo-url n)))
