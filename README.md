@@ -260,6 +260,8 @@ If you use [Academic theme](https://themes.gohugo.io/academic/)
 
 If you want deploy hugo at Amazon S3, please install AWS CLI and set easy-hugo-amazon-s3-bucket-name.
 
+Please set up for with 'aws configure' command if you are the first time aws command.
+
 	(setq easy-hugo-amazon-s3-bucket-name "your-amazon-s3-bucket-name")
 
 If you want deploy hugo at Google Cloud Storage, please install Google Cloud SDK and set easy-hugo-google-cloud-storage-bucket-name.

@@ -176,18 +176,6 @@ Because only two are supported by hugo."
 (defvar easy-hugo--draft-mode nil
   "Display draft-mode.")
 
-(defvar easy-hugo--amazon-s3-timer nil
-  "Easy-hugo-amazon-s3-timer.")
-
-(defvar easy-hugo--amazon-s3-basedir-timer nil
-  "Easy-hugo-amazon-s3-basedir-timer.")
-
-(defvar easy-hugo--amazon-s3-url-timer nil
-  "Easy-hugo-amazon-s3-url-timer.")
-
-(defvar easy-hugo--amazon-s3-bucket-name-timer nil
-  "Easy-hugo-amazon-s3-bucket-name-timer.")
-
 (defvar easy-hugo--google-cloud-storage-timer nil
   "Easy-hugo-google-cloud-storage-timer.")
 
@@ -313,6 +301,9 @@ Because only two are supported by hugo."
 
 (defvar easy-hugo--github-deploy-timer-list (make-list (length easy-hugo-bloglist) 'nil)
   "Timer list for cansel github deploy timer.")
+
+(defvar easy-hugo--amazon-s3-deploy-timer-list (make-list (length easy-hugo-bloglist) 'nil)
+  "Timer list for cansel amazon s3 deploy timer.")
 
 (defconst easy-hugo--default-github-deploy-script easy-hugo-github-deploy-script
   "Default easy-hugo github-deploy-script.")
@@ -513,6 +504,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
     (let ((ret (call-process "hugo" nil "*hugo-publish*" t "--destination" "public")))
       (unless (zerop ret)
 	(switch-to-buffer (get-buffer "*hugo-publish*"))
+	(setf (nth n easy-hugo--publish-timer-list) nil)
 	(error "'hugo --destination public' command does not end normally")))
     (when (get-buffer "*hugo-publish*")
       (kill-buffer "*hugo-publish*"))
@@ -739,6 +731,7 @@ If not applicable, return the default preview."
 	 (default-directory easy-hugo-basedir))
     (unless (zerop ret)
       (switch-to-buffer (get-buffer "*hugo-github-deploy*"))
+      (setf (nth n easy-hugo--github-deploy-timer-list) nil)
       (error "%s command does not end normally" deployscript)))
   (when (get-buffer "*hugo-github-deploy*")
     (kill-buffer "*hugo-github-deploy*"))
@@ -773,38 +766,50 @@ If not applicable, return the default preview."
 (defun easy-hugo-amazon-s3-deploy-timer (n)
   "A timer that amazon-s3-deploy after the N number of minutes has elapsed."
   (interactive "nMinute:")
-  (setq easy-hugo--amazon-s3-basedir-timer easy-hugo-basedir)
-  (setq easy-hugo--amazon-s3-url-timer easy-hugo-url)
-  (setq easy-hugo--amazon-s3-bucket-name-timer easy-hugo-amazon-s3-bucket-name)
-  (if easy-hugo--amazon-s3-timer
-      (message "There is already reserved AWS-s3-deploy-timer")
-    (setq easy-hugo--amazon-s3-timer
-	  (run-at-time (* n 60) nil #'easy-hugo-amazon-s3-deploy-on-timer))))
+  (unless easy-hugo-basedir
+    (error "Please set easy-hugo-basedir variable"))
+  (unless (executable-find "hugo")
+    (error "'hugo' is not installed"))
+  (unless (executable-find "aws")
+    (error "'aws' is not installed"))
+  (unless easy-hugo-amazon-s3-bucket-name
+    (error "Please set 'easy-hugo-amazon-s3-bucket-name' variable"))
+  (let ((blognum easy-hugo--current-blog))
+    (if (nth blognum easy-hugo--amazon-s3-deploy-timer-list)
+	(message "There is already reserved AWS-s3-deploy-timer on %s" easy-hugo-url)
+      (setf (nth easy-hugo--current-blog easy-hugo--amazon-s3-deploy-timer-list)
+	    (run-at-time (* n 60) nil
+			 #'(lambda () (easy-hugo-amazon-s3-deploy-on-timer blognum)))))))
 
 ;;;###autoload
 (defun easy-hugo-cancel-amazon-s3-deploy-timer ()
   "Cancel timer that amazon-s3-deploy after the specified number of minutes has elapsed."
   (interactive)
-  (if easy-hugo--amazon-s3-timer
+  (if (nth easy-hugo--current-blog easy-hugo--amazon-s3-deploy-timer-list)
       (progn
-	(cancel-timer easy-hugo--amazon-s3-timer)
-	(setq easy-hugo--amazon-s3-timer nil)
-	(message "AWS-s3-deploy-timer canceled"))
-    (message "There is no reserved AWS-s3-deploy-timer")))
+	(cancel-timer (nth easy-hugo--current-blog easy-hugo--amazon-s3-deploy-timer-list))
+	(setf (nth easy-hugo--current-blog easy-hugo--amazon-s3-deploy-timer-list) nil)
+	(message "AWS-s3-deploy-timer canceled on %s" easy-hugo-url))
+    (message "There is no reserved AWS-s3-deploy-timer on %s" easy-hugo-url)))
 
-(defun easy-hugo-amazon-s3-deploy-on-timer ()
-  "Deploy hugo source at Amazon S3 on timer."
-  (setq easy-hugo--amazon-s3-basedir easy-hugo-basedir)
-  (setq easy-hugo-basedir easy-hugo--amazon-s3-basedir-timer)
-  (setq easy-hugo--amazon-s3-url easy-hugo-url)
-  (setq easy-hugo-url easy-hugo--amazon-s3-url-timer)
-  (setq easy-hugo--amazon-s3-bucket-name easy-hugo-amazon-s3-bucket-name)
-  (setq easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name-timer)
-  (easy-hugo-amazon-s3-deploy)
-  (setq easy-hugo--amazon-s3-timer nil)
-  (setq easy-hugo-basedir easy-hugo--amazon-s3-basedir)
-  (setq easy-hugo-url easy-hugo--amazon-s3-url)
-  (setq easy-hugo-amazon-s3-bucket-name easy-hugo--amazon-s3-bucket-name))
+(defun easy-hugo-amazon-s3-deploy-on-timer (n)
+  "Deploy hugo source at Amazon S3 on timer at N."
+  (let* ((default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))
+	 (ret (call-process "hugo" nil "*hugo-amazon-s3-deploy*" t "--destination" "public"))
+	 (default-directory easy-hugo-basedir))
+    (unless (zerop ret)
+      (switch-to-buffer (get-buffer "*hugo-amazon-s3-deploy*"))
+      (setf (nth n easy-hugo--amazon-s3-deploy-timer-list) nil)
+      (error "'hugo --destination public' command does not end normally")))
+  (when (get-buffer "*hugo-amazon-s3-deploy*")
+    (kill-buffer "*hugo-amazon-s3-deploy*"))
+  (setq default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))
+  (shell-command-to-string (concat "aws s3 sync --delete public s3://" (easy-hugo-nth-eval-bloglist easy-hugo-amazon-s3-bucket-name n) "/"))
+  (setq default-directory easy-hugo-basedir)
+  (message "Blog deployed")
+  (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
+    (browse-url (easy-hugo-nth-eval-bloglist easy-hugo-url n))
+    (setf (nth n easy-hugo--amazon-s3-deploy-timer-list) nil)))
 
 ;;;###autoload
 (defun easy-hugo-google-cloud-storage-deploy ()
