@@ -176,54 +176,6 @@ Because only two are supported by hugo."
 (defvar easy-hugo--draft-mode nil
   "Display draft-mode.")
 
-(defvar easy-hugo--google-cloud-storage-timer nil
-  "Easy-hugo-google-cloud-storage-timer.")
-
-(defvar easy-hugo--google-cloud-storage-basedir-timer nil
-  "Easy-hugo-google-cloud-storage-basedir-timer.")
-
-(defvar easy-hugo--google-cloud-storage-url-timer nil
-  "Easy-hugo-google-cloud-storage-url-timer.")
-
-(defvar easy-hugo--google-cloud-storage-bucket-name-timer nil
-  "Easy-hugo-google-cloud-storage-bucket-name-timer.")
-
-(defvar easy-hugo--publish-basedir nil
-  "Easy-hugo-publish-var.")
-
-(defvar easy-hugo--publish-sshdomain nil
-  "Easy-hugo-publish-var.")
-
-(defvar easy-hugo--publish-root nil
-  "Easy-hugo-publish-var.")
-
-(defvar easy-hugo--publish-url nil
-  "Easy-hugo-publish-var.")
-
-(defvar easy-hugo--github-deploy-basedir nil
-  "Easy-hugo-github-deploy-var.")
-
-(defvar easy-hugo--github-deploy-url nil
-  "Easy-hugo-github-deploy-var.")
-
-(defvar easy-hugo--amazon-s3-basedir nil
-  "Easy-hugo-amazon-s3-var.")
-
-(defvar easy-hugo--amazon-s3-url nil
-  "Easy-hugo-amazon-s3-var.")
-
-(defvar easy-hugo--amazon-s3-bucket-name nil
-  "Easy-hugo-amazon-s3-var.")
-
-(defvar easy-hugo--google-cloud-storage-basedir nil
-  "Easy-hugo-google-cloud-storage-var.")
-
-(defvar easy-hugo--google-cloud-storage-url nil
-  "Easy-hugo-google-cloud-storage-var.")
-
-(defvar easy-hugo--google-cloud-storage-bucket-name nil
-  "Easy-hugo-google-cloud-storage-var.")
-
 (defvar easy-hugo--current-postdir 0
   "Easy-hugo current postdir.")
 
@@ -304,6 +256,9 @@ Because only two are supported by hugo."
 
 (defvar easy-hugo--amazon-s3-deploy-timer-list (make-list (length easy-hugo-bloglist) 'nil)
   "Timer list for cansel amazon s3 deploy timer.")
+
+(defvar easy-hugo--google-cloud-storage-deploy-timer-list (make-list (length easy-hugo-bloglist) 'nil)
+  "Timer list for cansel google cloud storage deploy timer.")
 
 (defconst easy-hugo--default-github-deploy-script easy-hugo-github-deploy-script
   "Default easy-hugo github-deploy-script.")
@@ -838,38 +793,51 @@ If not applicable, return the default preview."
 (defun easy-hugo-google-cloud-storage-deploy-timer (n)
   "A timer that google-cloud-storage-deploy after the N number of minutes has elapsed."
   (interactive "nMinute:")
-  (setq easy-hugo--google-cloud-storage-basedir-timer easy-hugo-basedir)
-  (setq easy-hugo--google-cloud-storage-url-timer easy-hugo-url)
-  (setq easy-hugo--google-cloud-storage-bucket-name-timer easy-hugo-google-cloud-storage-bucket-name)
-  (if easy-hugo--google-cloud-storage-timer
-      (message "There is already reserved GCS-timer")
-    (setq easy-hugo--google-cloud-storage-timer
-	  (run-at-time (* n 60) nil #'easy-hugo-google-cloud-storage-deploy-on-timer))))
+  (unless easy-hugo-basedir
+    (error "Please set easy-hugo-basedir variable"))
+  (unless (executable-find "hugo")
+    (error "'hugo' is not installed"))
+  (unless (executable-find "gsutil")
+    (error "'Google Cloud SDK' is not installed"))
+  (unless easy-hugo-google-cloud-storage-bucket-name
+    (error "Please set 'easy-hugo-google-cloud-storage-bucket-name' variable"))
+  (let ((blognum easy-hugo--current-blog))
+    (if (nth blognum easy-hugo--google-cloud-storage-deploy-timer-list)
+	(message "There is already reserved google-cloud-storage-deploy-timer on %s" easy-hugo-url)
+      (setf (nth easy-hugo--current-blog easy-hugo--google-cloud-storage-deploy-timer-list)
+	    (run-at-time (* n 60) nil
+			 #'(lambda () (easy-hugo-google-cloud-storage-deploy-on-timer blognum)))))))
 
 ;;;###autoload
 (defun easy-hugo-cancel-google-cloud-storage-deploy-timer ()
   "Cancel timer that google-cloud-storage-deploy after the specified number of minutes has elapsed."
   (interactive)
-  (if easy-hugo--google-cloud-storage-timer
+  (if (nth easy-hugo--current-blog easy-hugo--google-cloud-storage-deploy-timer-list)
       (progn
-	(cancel-timer easy-hugo--google-cloud-storage-timer)
-	(setq easy-hugo--google-cloud-storage-timer nil)
-	(message "GCS-timer canceled"))
-    (message "There is no reserved GCS-timer")))
+	(cancel-timer (nth easy-hugo--current-blog easy-hugo--google-cloud-storage-deploy-timer-list))
+	(setf (nth easy-hugo--current-blog easy-hugo--google-cloud-storage-deploy-timer-list) nil)
+	(message "GCS-deploy-timer canceled on %s" easy-hugo-url))
+    (message "There is no reserved GCS-deploy-timer on %s" easy-hugo-url)))
 
-(defun easy-hugo-google-cloud-storage-deploy-on-timer ()
-  "Deploy hugo source at Google Cloud Storage on timer."
-  (setq easy-hugo--google-cloud-storage-basedir easy-hugo-basedir)
-  (setq easy-hugo-basedir easy-hugo--google-cloud-storage-basedir-timer)
-  (setq easy-hugo--google-cloud-storage-url easy-hugo-url)
-  (setq easy-hugo-url easy-hugo--google-cloud-storage-url-timer)
-  (setq easy-hugo--google-cloud-storage-bucket-name easy-hugo-google-cloud-storage-bucket-name)
-  (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name-timer)
-  (easy-hugo-google-cloud-storage-deploy)
-  (setq easy-hugo--google-cloud-storage-timer nil)
-  (setq easy-hugo-basedir easy-hugo--google-cloud-storage-basedir)
-  (setq easy-hugo-url easy-hugo--google-cloud-storage-url)
-  (setq easy-hugo-google-cloud-storage-bucket-name easy-hugo--google-cloud-storage-bucket-name))
+(defun easy-hugo-google-cloud-storage-deploy-on-timer (n)
+  "Deploy hugo source at Google Cloud Storage on timer at N."
+  (let* ((default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))
+	 (ret (call-process "hugo" nil "*hugo-google-cloud-storage-deploy*" t "--destination" "public"))
+	 (default-directory easy-hugo-basedir))
+    (unless (zerop ret)
+      (switch-to-buffer (get-buffer "*hugo-google-cloud-storage-deploy*"))
+      (setf (nth n easy-hugo--google-cloud-storage-deploy-timer-list) nil)
+      (error "'hugo --destination public' command does not end normally")))
+  (when (get-buffer "*hugo-google-cloud-storage-deploy*")
+    (kill-buffer "*hugo-google-cloud-storage-deploy*"))
+  (shell-command-to-string
+   (concat "gsutil -m rsync -d -r public gs://"
+	   (easy-hugo-nth-eval-bloglist easy-hugo-google-cloud-storage-bucket-name n)
+	   "/"))
+  (message "Blog deployed")
+  (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
+    (browse-url (easy-hugo-nth-eval-bloglist easy-hugo-url n)))
+  (setf (nth n easy-hugo--google-cloud-storage-deploy-timer-list) nil))
 
 ;;;###autoload
 (defun easy-hugo-ag ()
