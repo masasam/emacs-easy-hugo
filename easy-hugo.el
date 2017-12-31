@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.8.19
+;; Version: 2.8.20
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -167,8 +167,11 @@ Because only two are supported by hugo."
 (defvar easy-hugo--server-process nil
   "Hugo process.")
 
-(defvar easy-hugo--unmovable-line (+ easy-hugo-help-line 4)
-  "Impossible to move below this line.")
+(if easy-hugo-no-help
+    (defvar easy-hugo--unmovable-line 3
+      "Impossible to move below this line.")
+  (defvar easy-hugo--unmovable-line (+ easy-hugo-help-line 4)
+    "Impossible to move below this line."))
 
 (defvar easy-hugo--draft-list nil
   "Draft list flg.")
@@ -182,7 +185,7 @@ Because only two are supported by hugo."
 (defvar easy-hugo--postdir-list nil
   "Easy-hugo postdir list.")
 
-(defconst easy-hugo--unmovable-line-default easy-hugo--unmovable-line
+(defconst easy-hugo--unmovable-line-default (+ easy-hugo-help-line 4)
   "Default value of impossible to move below this line.")
 
 (defconst easy-hugo--preview-buffer "*Hugo Preview*"
