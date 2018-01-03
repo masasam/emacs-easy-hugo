@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.8.20
+;; Version: 2.8.21
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -199,9 +199,11 @@ Because only two are supported by hugo."
 			       ,easy-hugo-html-extension))
 
 (defface easy-hugo-help-face
-  '((((class color) (background light)) (:bold t :foreground "#82c600" :background "#f0f8ff"))
-    (((class color) (background dark)) (:bold t :foreground "#82c600" :background "#2f4f4f")))
-  ""
+  '((((class color) (background light))
+     (:bold t :foreground "#82c600" :background "#f0f8ff"))
+    (((class color) (background dark))
+     (:bold t :foreground "#82c600" :background "#2f4f4f")))
+  "Definition of help color."
   :group 'easy-hugo-faces)
 
 (defvar easy-hugo--mode-buffer nil
@@ -251,52 +253,68 @@ Because only two are supported by hugo."
 	(easy-hugo-postdir . ,easy-hugo-postdir))
       easy-hugo-bloglist)
 
-(defvar easy-hugo--publish-timer-list (make-list (length easy-hugo-bloglist) 'nil)
+(defvar easy-hugo--publish-timer-list
+  (make-list (length easy-hugo-bloglist) 'nil)
   "Timer list for cansel publish timer.")
 
-(defvar easy-hugo--github-deploy-timer-list (make-list (length easy-hugo-bloglist) 'nil)
+(defvar easy-hugo--github-deploy-timer-list
+  (make-list (length easy-hugo-bloglist) 'nil)
   "Timer list for cansel github deploy timer.")
 
-(defvar easy-hugo--amazon-s3-deploy-timer-list (make-list (length easy-hugo-bloglist) 'nil)
+(defvar easy-hugo--amazon-s3-deploy-timer-list
+  (make-list (length easy-hugo-bloglist) 'nil)
   "Timer list for cansel amazon s3 deploy timer.")
 
-(defvar easy-hugo--google-cloud-storage-deploy-timer-list (make-list (length easy-hugo-bloglist) 'nil)
+(defvar easy-hugo--google-cloud-storage-deploy-timer-list
+  (make-list (length easy-hugo-bloglist) 'nil)
   "Timer list for cansel google cloud storage deploy timer.")
 
-(defconst easy-hugo--default-github-deploy-script easy-hugo-github-deploy-script
+(defconst easy-hugo--default-github-deploy-script
+  easy-hugo-github-deploy-script
   "Default easy-hugo github-deploy-script.")
 
-(defconst easy-hugo--default-image-directory easy-hugo-image-directory
+(defconst easy-hugo--default-image-directory
+  easy-hugo-image-directory
   "Default easy-hugo image-directory.")
 
-(defconst easy-hugo--default-picture-directory easy-hugo-default-picture-directory
+(defconst easy-hugo--default-picture-directory
+  easy-hugo-default-picture-directory
   "Default easy-hugo picture-directory.")
 
-(defconst easy-hugo--default-publish-chmod easy-hugo-publish-chmod
+(defconst easy-hugo--default-publish-chmod
+  easy-hugo-publish-chmod
   "Default easy-hugo publish-chmod.")
 
-(defconst easy-hugo--default-previewtime easy-hugo-previewtime
+(defconst easy-hugo--default-previewtime
+  easy-hugo-previewtime
   "Default easy-hugo previewtime.")
 
-(defconst easy-hugo--default-preview-url easy-hugo-preview-url
+(defconst easy-hugo--default-preview-url
+  easy-hugo-preview-url
   "Default easy-hugo preview-url.")
 
-(defconst easy-hugo--default-sort-default-char easy-hugo-sort-default-char
+(defconst easy-hugo--default-sort-default-char
+  easy-hugo-sort-default-char
   "Default easy-hugo sort-default-char.")
 
-(defconst easy-hugo--default-asciidoc-extension easy-hugo-asciidoc-extension
+(defconst easy-hugo--default-asciidoc-extension
+  easy-hugo-asciidoc-extension
   "Default easy-hugo asciidoc-extension.")
 
-(defconst easy-hugo--default-html-extension easy-hugo-html-extension
+(defconst easy-hugo--default-html-extension
+  easy-hugo-html-extension
   "Default easy-hugo html-extension.")
 
-(defconst easy-hugo--default-markdown-extension easy-hugo-markdown-extension
+(defconst easy-hugo--default-markdown-extension
+  easy-hugo-markdown-extension
   "Default easy-hugo markdown-extension.")
 
-(defconst easy-hugo--default-ext easy-hugo-default-ext
+(defconst easy-hugo--default-ext
+  easy-hugo-default-ext
   "Default easy-hugo default-ext.")
 
-(defconst easy-hugo--default-postdir easy-hugo-postdir
+(defconst easy-hugo--default-postdir
+  easy-hugo-postdir
   "Default easy-hugo-postdir.")
 
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
@@ -345,17 +363,27 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Generate image link."
   (interactive
    (easy-hugo-with-env
-    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir)))
-      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir))))
+    (unless (file-directory-p (expand-file-name
+			       easy-hugo-image-directory
+			       (expand-file-name "static" easy-hugo-basedir)))
+      (error "%s does not exist" (expand-file-name
+				  easy-hugo-image-directory
+				  (expand-file-name "static" easy-hugo-basedir))))
     (let ((file (read-file-name "Image file: " nil
-				(expand-file-name easy-hugo-image-directory
-						  (expand-file-name "static" easy-hugo-basedir))
+				(expand-file-name
+				 easy-hugo-image-directory
+				 (expand-file-name "static" easy-hugo-basedir))
 				t
-				(expand-file-name easy-hugo-image-directory
-						  (expand-file-name "static" easy-hugo-basedir)))))
+				(expand-file-name
+				 easy-hugo-image-directory
+				 (expand-file-name "static" easy-hugo-basedir)))))
       (insert (concat (format "<img src=\"%s%s\""
 			      easy-hugo-url
-			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
+			      (concat
+			       "/"
+			       easy-hugo-image-directory
+			       "/"
+			       (file-name-nondirectory file)))
 		      " alt=\"\" width=\"100%\"/>"))))))
 
 ;;;###autoload
@@ -363,16 +391,26 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Move image to image directory and generate image link."
   (interactive
    (easy-hugo-with-env
-    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir)))
-      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir))))
+    (unless (file-directory-p (expand-file-name
+			       easy-hugo-image-directory
+			       (expand-file-name "static" easy-hugo-basedir)))
+      (error "%s does not exist" (expand-file-name
+				  easy-hugo-image-directory
+				  (expand-file-name "static" easy-hugo-basedir))))
     (let ((file (read-file-name "Image file: " nil
 				(expand-file-name easy-hugo-default-picture-directory)
 				t
 				(expand-file-name easy-hugo-default-picture-directory))))
-      (copy-file file (expand-file-name (file-name-nondirectory file) (expand-file-name easy-hugo-image-directory "static")))
+      (copy-file file (expand-file-name
+		       (file-name-nondirectory file)
+		       (expand-file-name easy-hugo-image-directory "static")))
       (insert (concat (format "<img src=\"%s%s\""
 			      easy-hugo-url
-			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
+			      (concat
+			       "/"
+			       easy-hugo-image-directory
+			       "/"
+			       (file-name-nondirectory file)))
 		      " alt=\"\" width=\"100%\"/>"))))))
 
 ;;;###autoload
@@ -380,19 +418,32 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Pull image from internet to image directory and generate image link."
   (interactive
    (easy-hugo-with-env
-    (unless (file-directory-p (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir)))
-      (error "%s does not exist" (expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir))))
-    (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection) (gui-get-selection))))
+    (unless (file-directory-p (expand-file-name
+			       easy-hugo-image-directory
+			       (expand-file-name "static" easy-hugo-basedir)))
+      (error "%s does not exist" (expand-file-name
+				  easy-hugo-image-directory
+				  (expand-file-name "static" easy-hugo-basedir))))
+    (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection)
+					(gui-get-selection))))
 	  (file (read-file-name "Save as: "
-				(expand-file-name easy-hugo-image-directory (expand-file-name "static" easy-hugo-basedir))
-				(car (last (split-string (substring-no-properties (gui-get-selection)) "/")))
+				(expand-file-name
+				 easy-hugo-image-directory
+				 (expand-file-name "static" easy-hugo-basedir))
+				(car (last (split-string
+					    (substring-no-properties (gui-get-selection))
+					    "/")))
 				nil)))
       (when (file-exists-p (file-truename file))
 	(error "%s already exists!" (file-truename file)))
       (url-copy-file url file t)
       (insert (concat (format "<img src=\"%s%s\""
 			      easy-hugo-url
-			      (concat "/" easy-hugo-image-directory "/" (file-name-nondirectory file)))
+			      (concat
+			       "/"
+			       easy-hugo-image-directory
+			       "/"
+			       (file-name-nondirectory file)))
 		      " alt=\"\" width=\"100%\"/>"))))))
 
 ;;;###autoload
@@ -416,7 +467,11 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
        (error "'hugo --destination public' command does not end normally")))
    (when (get-buffer "*hugo-publish*")
      (kill-buffer "*hugo-publish*"))
-   (shell-command-to-string (concat "rsync -rtpl --chmod=" easy-hugo-publish-chmod " --delete public/ " easy-hugo-sshdomain ":" (shell-quote-argument easy-hugo-root)))
+   (shell-command-to-string
+    (concat "rsync -rtpl --chmod="
+	    easy-hugo-publish-chmod " --delete public/ "
+	    easy-hugo-sshdomain ":"
+	    (shell-quote-argument easy-hugo-root)))
    (message "Blog published")
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
@@ -467,7 +522,11 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 	(error "'hugo --destination public' command does not end normally")))
     (when (get-buffer "*hugo-publish*")
       (kill-buffer "*hugo-publish*"))
-    (shell-command-to-string (concat "rsync -rtpl --chmod=" easy-hugo-publish-chmod " --delete public/ " (easy-hugo-nth-eval-bloglist easy-hugo-sshdomain n) ":" (shell-quote-argument (easy-hugo-nth-eval-bloglist easy-hugo-root n))))
+    (shell-command-to-string
+     (concat "rsync -rtpl --chmod="
+	     easy-hugo-publish-chmod " --delete public/ "
+	     (easy-hugo-nth-eval-bloglist easy-hugo-sshdomain n) ":"
+	     (shell-quote-argument (easy-hugo-nth-eval-bloglist easy-hugo-root n))))
     (message "Blog published")
     (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
       (browse-url (easy-hugo-nth-eval-bloglist easy-hugo-url n)))
@@ -492,24 +551,33 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 (defun easy-hugo-newpost (post-file)
   "Create a new post with hugo.
 POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mmark' or '.html'."
-  (interactive (list (read-from-minibuffer "Filename: " `(,easy-hugo-default-ext . 1) nil nil nil)))
+  (interactive (list (read-from-minibuffer
+		      "Filename: "
+		      `(,easy-hugo-default-ext . 1) nil nil nil)))
   (easy-hugo-with-env
    (let ((filename (expand-file-name post-file easy-hugo-postdir))
 	 (file-ext (file-name-extension post-file)))
      (when (not (member file-ext easy-hugo--formats))
-       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
+       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name"
+	      easy-hugo-markdown-extension
+	      easy-hugo-asciidoc-extension
+	      easy-hugo-html-extension))
      (when (file-exists-p (file-truename filename))
        (error "%s already exists!" filename))
      (if (and (null easy-hugo-org-header)
 	      (<= 0.25 (easy-hugo--version)))
-	 (call-process "hugo" nil "*hugo*" t "new" (file-relative-name filename (expand-file-name "content" easy-hugo-basedir)))
+	 (call-process "hugo" nil "*hugo*" t "new"
+		       (file-relative-name filename
+					   (expand-file-name "content" easy-hugo-basedir)))
        (progn
 	 (if (or (string-equal file-ext easy-hugo-markdown-extension)
 		 (string-equal file-ext easy-hugo-asciidoc-extension)
 		 (string-equal file-ext "rst")
 		 (string-equal file-ext "mmark")
 		 (string-equal file-ext easy-hugo-html-extension))
-	     (call-process "hugo" nil "*hugo*" t "new" (file-relative-name filename (expand-file-name "content" easy-hugo-basedir))))))
+	     (call-process "hugo" nil "*hugo*" t "new"
+			   (file-relative-name filename
+					       (expand-file-name "content" easy-hugo-basedir))))))
      (when (get-buffer "*hugo*")
        (kill-buffer "*hugo*"))
      (find-file filename)
@@ -538,7 +606,8 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
      (progn
        (if (<= 0.25 (easy-hugo--version))
 	   (setq easy-hugo--server-process
-		 (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server" "--navigateToChanged"))
+		 (start-process "hugo-server"
+				easy-hugo--preview-buffer "hugo" "server" "--navigateToChanged"))
 	 (setq easy-hugo--server-process
 	       (start-process "hugo-server" easy-hugo--preview-buffer "hugo" "server")))
        (while easy-hugo--preview-loop
@@ -570,12 +639,17 @@ If not applicable, return the default preview."
 			 (not (file-directory-p file)))
 		(if (equal (easy-hugo--preview-http-status-code
 			    (file-name-sans-extension
-			     (file-relative-name file (expand-file-name "content" easy-hugo-basedir))))
+			     (file-relative-name file
+						 (expand-file-name
+						  "content"
+						  easy-hugo-basedir))))
 			   "200")
 		    (browse-url (concat easy-hugo-preview-url
 					(file-name-sans-extension
 					 (file-relative-name file
-							     (expand-file-name "content" easy-hugo-basedir)))))
+							     (expand-file-name
+							      "content"
+							      easy-hugo-basedir)))))
 		  (browse-url easy-hugo-preview-url)))))
 	(browse-url easy-hugo-preview-url))
     (if buffer-file-name
@@ -597,7 +671,8 @@ If not applicable, return the default preview."
        (split-string
 	(nth 0
 	     (split-string
-	      (with-current-buffer (url-retrieve-synchronously (concat "http://127.0.0.1:1313/" url))
+	      (with-current-buffer
+		  (url-retrieve-synchronously (concat "http://127.0.0.1:1313/" url))
 		(prog1
 		    (buffer-string)
 		  (kill-buffer)))
@@ -610,7 +685,8 @@ If not applicable, return the default preview."
        (split-string
 	(nth 0
 	     (split-string
-	      (with-current-buffer (url-retrieve-synchronously "http://127.0.0.1:1313/")
+	      (with-current-buffer
+		  (url-retrieve-synchronously "http://127.0.0.1:1313/")
 		(prog1
 		    (buffer-string)
 		  (kill-buffer)))
@@ -633,7 +709,9 @@ If not applicable, return the default preview."
   "Execute `easy-hugo-github-deploy-script' script locate at `easy-hugo-basedir'."
   (interactive)
   (easy-hugo-with-env
-   (let ((deployscript (file-truename (expand-file-name easy-hugo-github-deploy-script easy-hugo-basedir))))
+   (let ((deployscript (file-truename (expand-file-name
+				       easy-hugo-github-deploy-script
+				       easy-hugo-basedir))))
      (unless (executable-find deployscript)
        (error "%s do not execute" deployscript))
      (let ((ret (call-process (shell-quote-argument deployscript) nil "*hugo-github-deploy*" t)))
@@ -655,7 +733,8 @@ If not applicable, return the default preview."
   (unless (executable-find "hugo")
     (error "'hugo' is not installed"))
   (let ((deployscript (file-truename (expand-file-name
-				      easy-hugo-github-deploy-script easy-hugo-basedir)))
+				      easy-hugo-github-deploy-script
+				      easy-hugo-basedir)))
 	(blognum easy-hugo--current-blog))
     (unless (executable-find deployscript)
       (error "%s do not execute" deployscript))
@@ -716,7 +795,8 @@ If not applicable, return the default preview."
        (error "'hugo --destination public' command does not end normally")))
    (when (get-buffer "*hugo-amazon-s3-deploy*")
      (kill-buffer "*hugo-amazon-s3-deploy*"))
-   (shell-command-to-string (concat "aws s3 sync --delete public s3://" easy-hugo-amazon-s3-bucket-name "/"))
+   (shell-command-to-string
+    (concat "aws s3 sync --delete public s3://" easy-hugo-amazon-s3-bucket-name "/"))
    (message "Blog deployed")
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
@@ -763,7 +843,9 @@ If not applicable, return the default preview."
   (when (get-buffer "*hugo-amazon-s3-deploy*")
     (kill-buffer "*hugo-amazon-s3-deploy*"))
   (setq default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))
-  (shell-command-to-string (concat "aws s3 sync --delete public s3://" (easy-hugo-nth-eval-bloglist easy-hugo-amazon-s3-bucket-name n) "/"))
+  (shell-command-to-string
+   (concat "aws s3 sync --delete public s3://"
+	   (easy-hugo-nth-eval-bloglist easy-hugo-amazon-s3-bucket-name n) "/"))
   (setq default-directory easy-hugo-basedir)
   (message "Blog deployed")
   (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
@@ -781,13 +863,16 @@ If not applicable, return the default preview."
      (error "Please set 'easy-hugo-google-cloud-storage-bucket-name' variable"))
    (when (file-directory-p "public")
      (delete-directory "public" t nil))
-   (let ((ret (call-process "hugo" nil "*hugo-google-cloud-storage-deploy*" t "--destination" "public")))
+   (let ((ret (call-process
+	       "hugo" nil "*hugo-google-cloud-storage-deploy*" t "--destination" "public")))
      (unless (zerop ret)
        (switch-to-buffer (get-buffer "*hugo-google-cloud-storage-deploy*"))
        (error "'hugo --destination public' command does not end normally")))
    (when (get-buffer "*hugo-google-cloud-storage-deploy*")
      (kill-buffer "*hugo-google-cloud-storage-deploy*"))
-   (shell-command-to-string (concat "gsutil -m rsync -d -r public gs://" easy-hugo-google-cloud-storage-bucket-name "/"))
+   (shell-command-to-string
+    (concat "gsutil -m rsync -d -r public gs://"
+	    easy-hugo-google-cloud-storage-bucket-name "/"))
    (message "Blog deployed")
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
@@ -825,7 +910,8 @@ If not applicable, return the default preview."
 (defun easy-hugo-google-cloud-storage-deploy-on-timer (n)
   "Deploy hugo source at Google Cloud Storage on timer at N."
   (let* ((default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))
-	 (ret (call-process "hugo" nil "*hugo-google-cloud-storage-deploy*" t "--destination" "public"))
+	 (ret (call-process
+	       "hugo" nil "*hugo-google-cloud-storage-deploy*" t "--destination" "public"))
 	 (default-directory easy-hugo-basedir))
     (unless (zerop ret)
       (switch-to-buffer (get-buffer "*hugo-google-cloud-storage-deploy*"))
@@ -1142,7 +1228,8 @@ Optional prefix ARG says how many lines to move; default is one line."
    (let ((newname (expand-file-name post-file easy-hugo-postdir))
 	 (file-ext (file-name-extension post-file)))
      (when (not (member file-ext easy-hugo--formats))
-       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name" easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
+       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name"
+	      easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
      (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
        (when (file-exists-p (file-truename newname))
 	 (error "%s already exists!" newname))
@@ -1432,27 +1519,51 @@ Optional prefix ARG says how many lines to move; default is one line."
 (defun easy-hugo-next-postdir ()
   "Go to next postdir."
   (interactive)
-  (setq easy-hugo--postdir-list (easy-hugo--directory-list (easy-hugo--directory-files-recursively (expand-file-name "content" easy-hugo-basedir) "" t)))
-  (setq easy-hugo--postdir-list (delete (expand-file-name easy-hugo-postdir easy-hugo-basedir) easy-hugo--postdir-list))
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name "content" easy-hugo-basedir) t)
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+  (setq easy-hugo--postdir-list
+	(easy-hugo--directory-list
+	 (easy-hugo--directory-files-recursively
+	  (expand-file-name "content" easy-hugo-basedir) "" t)))
+  (setq easy-hugo--postdir-list
+	(delete (expand-file-name easy-hugo-postdir easy-hugo-basedir)
+		easy-hugo--postdir-list))
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name
+					 "content"
+					 easy-hugo-basedir)
+	       t)
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name
+					 easy-hugo-postdir
+					 easy-hugo-basedir))
   (if (eq (- (length easy-hugo--postdir-list) 1) easy-hugo--current-postdir)
       (setq easy-hugo--current-postdir 0)
     (setq easy-hugo--current-postdir (+ easy-hugo--current-postdir 1)))
-  (setq easy-hugo-postdir (file-relative-name (nth easy-hugo--current-postdir easy-hugo--postdir-list) easy-hugo-basedir))
+  (setq easy-hugo-postdir
+	(file-relative-name (nth easy-hugo--current-postdir easy-hugo--postdir-list)
+			    easy-hugo-basedir))
   (easy-hugo))
 
 (defun easy-hugo-previous-postdir ()
   "Go to previous postdir."
   (interactive)
-  (setq easy-hugo--postdir-list (easy-hugo--directory-list (easy-hugo--directory-files-recursively (expand-file-name "content" easy-hugo-basedir) "" t)))
-  (setq easy-hugo--postdir-list (delete (expand-file-name "content/post" easy-hugo-basedir) easy-hugo--postdir-list))
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name "content" easy-hugo-basedir) t)
-  (add-to-list 'easy-hugo--postdir-list (expand-file-name "content/post" easy-hugo-basedir))
+  (setq easy-hugo--postdir-list
+	(easy-hugo--directory-list
+	 (easy-hugo--directory-files-recursively
+	  (expand-file-name "content" easy-hugo-basedir) "" t)))
+  (setq easy-hugo--postdir-list
+	(delete
+	 (expand-file-name "content/post" easy-hugo-basedir)
+	 easy-hugo--postdir-list))
+  (add-to-list 'easy-hugo--postdir-list
+	       (expand-file-name "content" easy-hugo-basedir)
+	       t)
+  (add-to-list 'easy-hugo--postdir-list
+	       (expand-file-name "content/post" easy-hugo-basedir))
   (setq easy-hugo--current-postdir (- easy-hugo--current-postdir 1))
   (when (> 0 easy-hugo--current-postdir)
     (setq easy-hugo--current-postdir (- (length easy-hugo--postdir-list) 1)))
-  (setq easy-hugo-postdir (file-relative-name (nth easy-hugo--current-postdir easy-hugo--postdir-list) easy-hugo-basedir))
+  (setq easy-hugo-postdir
+	(file-relative-name
+	 (nth easy-hugo--current-postdir easy-hugo--postdir-list)
+	 easy-hugo-basedir))
   (easy-hugo))
 
 (defun easy-hugo--directory-list (list)
@@ -1518,7 +1629,9 @@ output directories whose names match REGEXP."
        (if (equal (file-relative-name easy-hugo-postdir "content") ".")
 	   (when (eq (string-match "\\([^/]+\\)$" file) 0)
 	     (push (match-string 1 file) files))
-	 (when (string-match (concat (file-relative-name easy-hugo-postdir "content") "/\\(.+?\\)$") file)
+	 (when (string-match
+		(concat (file-relative-name easy-hugo-postdir "content") "/\\(.+?\\)$")
+		file)
 	   (push (match-string 1 file) files))))
      (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
        (error "%s%s doesn't exist!" easy-hugo-basedir easy-hugo-postdir))
@@ -1545,8 +1658,10 @@ output directories whose names match REGEXP."
        (insert (propertize (concat "\n")'face 'easy-hugo-help-face)))
      (unless easy-hugo--refresh
        (setq easy-hugo--cursor (point)))
-     (cond ((eq 1 easy-hugo--sort-char-flg) (setq files (reverse (sort files 'string<))))
-	   ((eq 2 easy-hugo--sort-char-flg) (setq files (sort files 'string<))))
+     (cond ((eq 1 easy-hugo--sort-char-flg)
+	    (setq files (reverse (sort files 'string<))))
+	   ((eq 2 easy-hugo--sort-char-flg)
+	    (setq files (sort files 'string<))))
      (while files
        (push
 	(concat
@@ -1558,8 +1673,10 @@ output directories whose names match REGEXP."
 	 (car files))
 	lists)
        (pop files))
-     (cond ((eq 1 easy-hugo--sort-time-flg) (setq lists (reverse (sort lists 'string<))))
-	   ((eq 2 easy-hugo--sort-time-flg) (setq lists (sort lists 'string<))))
+     (cond ((eq 1 easy-hugo--sort-time-flg)
+	    (setq lists (reverse (sort lists 'string<))))
+	   ((eq 2 easy-hugo--sort-time-flg)
+	    (setq lists (sort lists 'string<))))
      (while lists
        (insert (concat (car lists) "\n"))
        (pop lists))
@@ -1593,7 +1710,9 @@ output directories whose names match REGEXP."
 		'face
 		'easy-hugo-help-face))
      (insert (propertize
-	      (concat "Easy-hugo  " easy-hugo-url "/" (file-relative-name easy-hugo-postdir "content") "\n\n")
+	      (concat "Easy-hugo  " easy-hugo-url "/"
+		      (file-relative-name easy-hugo-postdir "content")
+		      "\n\n")
 	      'face
 	      'easy-hugo-help-face)))
    (unless easy-hugo-no-help
@@ -1611,8 +1730,10 @@ output directories whose names match REGEXP."
 	   (easy-hugo-mode)
 	   (goto-char easy-hugo--cursor))
        (progn
-	 (cond ((eq 1 easy-hugo--sort-char-flg) (setq files (reverse (sort files 'string<))))
-	       ((eq 2 easy-hugo--sort-char-flg) (setq files (sort files 'string<))))
+	 (cond ((eq 1 easy-hugo--sort-char-flg)
+		(setq files (reverse (sort files 'string<))))
+	       ((eq 2 easy-hugo--sort-char-flg)
+		(setq files (sort files 'string<))))
 	 (while files
 	   (unless (or (string= (car files) ".")
 		       (string= (car files) "..")
@@ -1627,8 +1748,10 @@ output directories whose names match REGEXP."
 	       (car files))
 	      lists))
 	   (pop files))
-	 (cond ((eq 1 easy-hugo--sort-time-flg) (setq lists (reverse (sort lists 'string<))))
-	       ((eq 2 easy-hugo--sort-time-flg) (setq lists (sort lists 'string<))))
+	 (cond ((eq 1 easy-hugo--sort-time-flg)
+		(setq lists (reverse (sort lists 'string<))))
+	       ((eq 2 easy-hugo--sort-time-flg)
+		(setq lists (sort lists 'string<))))
 	 (while lists
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
