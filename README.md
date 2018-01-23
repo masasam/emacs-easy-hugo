@@ -236,8 +236,6 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 	(setq easy-hugo-previewtime "300")
 	:bind ("C-c C-e" . easy-hugo))
 
-If you use [spacemacs](https://github.com/syl20bnr/spacemacs) or [evil-mode](https://github.com/emacs-evil/evil), see [cescoferraro's configration](https://github.com/cescoferraro/dotfiles/blob/master/src/emacs.d/configuration.org#hugo)
-
 easy-hugo-basedir "Directory where hugo html source code is placed on your PC."
 
 easy-hugo-url "Url of the blog."
@@ -393,6 +391,10 @@ If you want change html filename extension, please select html or htm.
 Because only these two are supported by hugo. If not set html filename extension will be 'html'.
 
 	(setq easy-hugo-asciidoc-extension "htm")
+
+## For spacemace or evil-mode users
+
+If you use [spacemacs](https://github.com/syl20bnr/spacemacs) or [evil-mode](https://github.com/emacs-evil/evil), see [cescoferraro's configration](https://github.com/cescoferraro/dotfiles/blob/master/src/emacs.d/configuration.org#hugo)
 
 ## Preparation for using this package
 
