@@ -236,6 +236,8 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 	(setq easy-hugo-previewtime "300")
 	:bind ("C-c C-e" . easy-hugo))
 
+If you use [spacemacs](https://github.com/syl20bnr/spacemacs) or [evil-mode](https://github.com/emacs-evil/evil), see [cescoferraro's configration](https://github.com/cescoferraro/dotfiles/blob/master/src/emacs.d/configuration.org#hugo)
+
 easy-hugo-basedir "Directory where hugo html source code is placed on your PC."
 
 easy-hugo-url "Url of the blog."
