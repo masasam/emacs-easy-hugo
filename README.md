@@ -258,13 +258,13 @@ If you use [Academic theme](https://themes.gohugo.io/academic/)
 
 	(setq easy-hugo-postdir "content/home")
 
-If you want deploy hugo at Amazon S3, please install AWS CLI and set easy-hugo-amazon-s3-bucket-name.
+If you want to deploy hugo at Amazon S3, please install AWS CLI and set easy-hugo-amazon-s3-bucket-name.
 
 Please set up for with `aws configure` command if you are the first time aws command.
 
 	(setq easy-hugo-amazon-s3-bucket-name "your-amazon-s3-bucket-name")
 
-If you want deploy hugo at Google Cloud Storage, please install Google Cloud SDK and set easy-hugo-google-cloud-storage-bucket-name.
+If you want to deploy hugo at Google Cloud Storage, please install Google Cloud SDK and set easy-hugo-google-cloud-storage-bucket-name.
 
 Please set up for with `gcloud auth login` command if you are the first time gcloud command.
 
@@ -300,7 +300,7 @@ If not set the default s key will be sort time.
 
 	(setq easy-hugo-sort-default-char t)
 
-If you want customise color, write the following in the init.el or .emacs.
+If you want to customise color, write the following in the init.el or .emacs.
 
 	(defface easy-hugo-help-face
 	'((((class color) (background light)) (:bold t :foreground "your-hex-color" :background "your-hex-color"))
@@ -320,6 +320,19 @@ Setting the picture directory of your PC, it is easy to execute M-x easy-hugo-pu
 
 	(setq easy-hugo-default-picture-directory "~/Pictures")
 
+If you want to use org style header
+
+	(setq easy-hugo-org-header t)
+
+Then it becomes the following header
+
+     #+TITLE:  filename
+     #+DATE:  2018-01-31T12:10:08-08:00
+     #+PUBLISHDATE:  2018-01-31T12:10:08-08:00
+     #+DRAFT: nil
+     #+TAGS: nil, nil
+     #+DESCRIPTION: Short description
+	 
 ## multiple blogs setting
 
 	;; Main blog
@@ -377,17 +390,17 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 
 You can manage as many blogs as you like.
 
-If you want change markdown filename extension, please select md or markdown or mdown.
+If you want to change markdown filename extension, please select md or markdown or mdown.
 Because only these three are supported by hugo. If not set markdown filename extension will be 'md'.
 
 	(setq easy-hugo-markdown-extension "markdown")
 
-If you want change asciidoc filename extension, please select ad or asciidoc or adoc.
+If you want to change asciidoc filename extension, please select ad or asciidoc or adoc.
 Because only these three are supported by hugo. If not set asciidoc filename extension will be 'ad'.
 
 	(setq easy-hugo-asciidoc-extension "asciidoc")
 
-If you want change html filename extension, please select html or htm.
+If you want to change html filename extension, please select html or htm.
 Because only these two are supported by hugo. If not set html filename extension will be 'html'.
 
 	(setq easy-hugo-asciidoc-extension "htm")
