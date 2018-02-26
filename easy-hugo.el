@@ -419,6 +419,33 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 		      " alt=\"\" width=\"100%\"/>"))))))
 
 ;;;###autoload
+(defun easy-hugo-put-figure ()
+  "Move image to image directory and generate figure shortcode."
+  (interactive
+   (easy-hugo-with-env
+    (unless (file-directory-p (expand-file-name
+                               easy-hugo-image-directory
+                               (expand-file-name "static" easy-hugo-basedir)))
+      (error "%s does not exist" (expand-file-name
+                                  easy-hugo-image-directory
+                                  (expand-file-name "static" easy-hugo-basedir))))
+    (let ((file (read-file-name "Image file: " nil
+                                (expand-file-name easy-hugo-default-picture-directory)
+                                t
+                                (expand-file-name easy-hugo-default-picture-directory))))
+      (copy-file file (expand-file-name
+                       (file-name-nondirectory file)
+                       (expand-file-name easy-hugo-image-directory "static")))
+      (insert (concat (format "{{< figure src=\"%s%s\""
+                              easy-hugo-url
+                              (concat
+                               "/"
+                               easy-hugo-image-directory
+                               "/"
+                               (file-name-nondirectory file)))
+                      "  title=\"\" >}}"))))))
+
+;;;###autoload
 (defun easy-hugo-pull-image ()
   "Pull image from internet to image directory and generate image link."
   (interactive
@@ -450,6 +477,39 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 			       "/"
 			       (file-name-nondirectory file)))
 		      " alt=\"\" width=\"100%\"/>"))))))
+
+;;;###autoload
+(defun easy-hugo-pull-figure ()
+  "Pull image from internet to image directory and generate figure shortcode."
+  (interactive
+   (easy-hugo-with-env
+    (unless (file-directory-p (expand-file-name
+			       easy-hugo-image-directory
+			       (expand-file-name "static" easy-hugo-basedir)))
+      (error "%s does not exist" (expand-file-name
+				  easy-hugo-image-directory
+				  (expand-file-name "static" easy-hugo-basedir))))
+    (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection)
+					(gui-get-selection))))
+	  (file (read-file-name "Save as: "
+				(expand-file-name
+				 easy-hugo-image-directory
+				 (expand-file-name "static" easy-hugo-basedir))
+				(car (last (split-string
+					    (substring-no-properties (gui-get-selection))
+					    "/")))
+				nil)))
+      (when (file-exists-p (file-truename file))
+	(error "%s already exists!" (file-truename file)))
+      (url-copy-file url file t)
+      (insert (concat (format "{{< figure src=\"%s%s\""
+                              easy-hugo-url
+                              (concat
+                               "/"
+                               easy-hugo-image-directory
+                               "/"
+                               (file-name-nondirectory file)))
+                      "  title=\"\" >}}"))))))
 
 ;;;###autoload
 (defun easy-hugo-publish ()
