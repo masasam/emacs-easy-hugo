@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.8.21
+;; Version: 2.9.21
 ;; Package-Requires: ((emacs "24.4"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -390,6 +390,34 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 			       "/"
 			       (file-name-nondirectory file)))
 		      " alt=\"\" width=\"100%\"/>"))))))
+
+;;;###autoload
+(defun easy-hugo-figure ()
+  "Generate figure shortcode."
+  (interactive
+   (easy-hugo-with-env
+    (unless (file-directory-p (expand-file-name
+			       easy-hugo-image-directory
+			       (expand-file-name "static" easy-hugo-basedir)))
+      (error "%s does not exist" (expand-file-name
+				  easy-hugo-image-directory
+				  (expand-file-name "static" easy-hugo-basedir))))
+    (let ((file (read-file-name "Image file: " nil
+				(expand-file-name
+				 easy-hugo-image-directory
+				 (expand-file-name "static" easy-hugo-basedir))
+				t
+				(expand-file-name
+				 easy-hugo-image-directory
+				 (expand-file-name "static" easy-hugo-basedir)))))
+      (insert (concat (format "{{< figure src=\"%s%s\""
+			      easy-hugo-url
+			      (concat
+			       "/"
+			       easy-hugo-image-directory
+			       "/"
+			       (file-name-nondirectory file)))
+		      "  title=\"\" >}}"))))))
 
 ;;;###autoload
 (defun easy-hugo-put-image ()
