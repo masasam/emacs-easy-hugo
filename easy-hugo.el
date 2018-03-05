@@ -798,9 +798,10 @@ If not applicable, return the default preview."
 ;;;###autoload
 (defun easy-hugo-current-time ()
   "Generate current time in date format at the frontmatter."
-  (concat
-   (format-time-string "%Y-%m-%dT%T")
-   (easy-hugo--orgtime-format (format-time-string "%z"))))
+  (interactive)
+  (insert (concat
+	   (format-time-string "%Y-%m-%dT%T")
+	   (easy-hugo--orgtime-format (format-time-string "%z")))))
 
 (defun easy-hugo--orgtime-format (x)
   "Format orgtime as X."
