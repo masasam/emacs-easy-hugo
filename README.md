@@ -198,7 +198,6 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |r		|easy-hugo-refresh|
 |s		|easy-hugo-sort-time|
 |t		|easy-hugo-cancel-publish-timer|
-|u		|easy-hugo-undraft|
 |v		|easy-hugo-view|
 |w		|easy-hugo-newpost|
 
