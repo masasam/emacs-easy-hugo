@@ -795,6 +795,13 @@ If not applicable, return the default preview."
   (when (get-buffer easy-hugo--preview-buffer)
     (kill-buffer easy-hugo--preview-buffer)))
 
+;;;###autoload
+(defun easy-hugo-current-time ()
+  "Generate current time in date format at the frontmatter."
+  (concat
+   (format-time-string "%Y-%m-%dT%T")
+   (easy-hugo--orgtime-format (format-time-string "%z"))))
+
 (defun easy-hugo--orgtime-format (x)
   "Format orgtime as X."
   (concat (substring x 0 3) ":" (substring x 3 5)))
