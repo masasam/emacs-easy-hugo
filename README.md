@@ -117,6 +117,7 @@ Generate current time in date format at the frontmatter.
 You can move to a blog with the specified number.
 
 	M-x easy-hugo-image
+	M-x easy-hugo-figure
 
 Generate link of image from image file directory under 'static' directory.
 
@@ -127,6 +128,7 @@ When you select the image file you want to use, a link will be inserted.
 ![easy-hugo-image2](image/easy-hugo-image2.png)
 
 	M-x easy-hugo-put-image
+	M-x easy-hugo-put-figure
 
 Move image to 'easy-hugo-image-directory' and generate image link.
 
@@ -135,6 +137,7 @@ You can change the initial launch position with 'easy-hugo-default-picture-direc
 ![easy-hugo-put-image](image/easy-hugo-put-image.png)
 
 	M-x easy-hugo-pull-image
+	M-x easy-hugo-pull-figure
 
 Pull image from internet to image directory and generate image link.
 
