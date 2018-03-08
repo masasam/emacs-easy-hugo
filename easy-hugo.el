@@ -4,8 +4,8 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 2.9.22
-;; Package-Requires: ((emacs "24.4"))
+;; Version: 3.0.22
+;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -1438,6 +1438,31 @@ Optional prefix ARG says how many lines to move; default is one line."
 	     (when (> easy-hugo--line 0)
 	       (forward-line easy-hugo--line)
 	       (forward-char easy-hugo--forward-char)))))))))
+
+;;;###autoload
+(defun easy-hugo-complete-tags ()
+  "Auto-complete tags from your posts."
+  (interactive)
+  (let ((files (easy-hugo--directory-files-recursively
+		(expand-file-name "content" easy-hugo-basedir) "" nil)))
+    (let ((source (with-temp-buffer
+		    (while files
+		      (insert-file-contents (car files))
+		      (pop files))
+		    (buffer-string))))
+      (save-match-data
+	(let ((pos 0)
+	      matches)
+	  (while (string-match "[T\\|t]ags = +\\[\\(.+?\\)\\]$" source pos)
+	    (push (match-string 1 source) matches)
+	    (setq pos (match-end 0)))
+	  (insert
+	   (popup-menu*
+	    (delete-dups
+	     (delete "" (split-string
+			 (replace-regexp-in-string "[\"\']" " "
+						   (replace-regexp-in-string "[,()]" "" (format "%s" matches)))
+			 " "))))))))))
 
 (defun easy-hugo-next-blog ()
   "Go to next blog."
