@@ -96,6 +96,22 @@ Deploy hugo source at Google Cloud Storage.
 
 With this you can go to a directory other than content/post.
 
+	M-x easy-hugo-complete-tags
+
+Auto-complete tags from your posts.
+
+![easy-hugo-complete-tags](image/easy-hugo-complete-tags.png)
+
+	M-x easy-hugo-complete-categories
+
+Auto-complete categories from your posts.
+
+![easy-hugo-complete-categories](image/easy-hugo-complete-categories.png)
+
+	M-x easy-hugo-current-time
+
+Generate current time in date format at the frontmatter.
+
 	M-x easy-hugo-nth-blog
 
 You can move to a blog with the specified number.
