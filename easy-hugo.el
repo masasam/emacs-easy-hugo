@@ -1453,7 +1453,7 @@ Optional prefix ARG says how many lines to move; default is one line."
       (save-match-data
 	(let ((pos 0)
 	      matches)
-	  (while (string-match "^[T\\|t]ags[:]? +.*\\[\\(.+?\\)\\]$" source pos)
+	  (while (string-match "^[T\\|t]ags[:]? [=]?+.*\\[\\(.+?\\)\\]$" source pos)
 	    (push (match-string 1 source) matches)
 	    (setq pos (match-end 0)))
 	  (insert
@@ -1478,7 +1478,7 @@ Optional prefix ARG says how many lines to move; default is one line."
       (save-match-data
 	(let ((pos 0)
 	      matches)
-	  (while (string-match "^[C\\|c]ategories[:]? +.*\\[\\(.+?\\)\\]$" source pos)
+	  (while (string-match "^[C\\|c]ategories[:]? [=]?+.*\\[\\(.+?\\)\\]$" source pos)
 	    (push (match-string 1 source) matches)
 	    (setq pos (match-end 0)))
 	  (insert
