@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.0.22
+;; Version: 3.0.23
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1453,7 +1453,7 @@ Optional prefix ARG says how many lines to move; default is one line."
       (save-match-data
 	(let ((pos 0)
 	      matches)
-	  (while (string-match "[T\\|t]ags = +\\[\\(.+?\\)\\]$" source pos)
+	  (while (string-match "^[T\\|t]ags[:]? +.*\\[\\(.+?\\)\\]$" source pos)
 	    (push (match-string 1 source) matches)
 	    (setq pos (match-end 0)))
 	  (insert
@@ -1478,7 +1478,7 @@ Optional prefix ARG says how many lines to move; default is one line."
       (save-match-data
 	(let ((pos 0)
 	      matches)
-	  (while (string-match "[C\\|c]ategories = +\\[\\(.+?\\)\\]$" source pos)
+	  (while (string-match "^[C\\|c]ategories[:]? +.*\\[\\(.+?\\)\\]$" source pos)
 	    (push (match-string 1 source) matches)
 	    (setq pos (match-end 0)))
 	  (insert
