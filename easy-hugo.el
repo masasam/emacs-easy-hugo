@@ -1464,6 +1464,31 @@ Optional prefix ARG says how many lines to move; default is one line."
 						   (replace-regexp-in-string "[,()]" "" (format "%s" matches)))
 			 " "))))))))))
 
+;;;###autoload
+(defun easy-hugo-complete-categories ()
+  "Auto-complete categories from your posts."
+  (interactive)
+  (let ((files (easy-hugo--directory-files-recursively
+		(expand-file-name "content" easy-hugo-basedir) "" nil)))
+    (let ((source (with-temp-buffer
+		    (while files
+		      (insert-file-contents (car files))
+		      (pop files))
+		    (buffer-string))))
+      (save-match-data
+	(let ((pos 0)
+	      matches)
+	  (while (string-match "[C\\|c]ategories = +\\[\\(.+?\\)\\]$" source pos)
+	    (push (match-string 1 source) matches)
+	    (setq pos (match-end 0)))
+	  (insert
+	   (popup-menu*
+	    (delete-dups
+	     (delete "" (split-string
+			 (replace-regexp-in-string "[\"\']" " "
+						   (replace-regexp-in-string "[,()]" "" (format "%s" matches)))
+			 " "))))))))))
+
 (defun easy-hugo-next-blog ()
   "Go to next blog."
   (interactive)
