@@ -268,7 +268,7 @@ If you want to change default easy-hugo-postdir.
 
 If not set the default easy-hugo-postdir will be "content/post".
 
-Easy-hugo will not start when easy-hugo-postdir don't exists.
+Easy-hugo will not start when easy-hugo-postdir doesn't exist.
 
 	(setq easy-hugo-postdir "content/posts")
 
