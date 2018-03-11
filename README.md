@@ -188,6 +188,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |G		|easy-hugo-github-deploy|
 |H		|easy-hugo-github-deploy-timer|
 |I		|easy-hugo-google-cloud-storage-deploy-timer|
+|J      |easy-hugo-nth-blog|
 |N		|easy-hugo-no-help|
 |O		|easy-hugo-open-basedir|
 |P		|easy-hugo-publish|
@@ -203,7 +204,6 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |e      |easy-hugo-open|
 |f		|easy-hugo-open|
 |g		|easy-hugo-refresh|
-|J      |easy-hugo-nth-blog|
 |h		|easy-hugo-backward-char|
 |i		|easy-hugo-cancel-google-cloud-storage-deploy-timer|
 |j		|easy-hugo-next-line|
@@ -217,6 +217,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |r		|easy-hugo-refresh|
 |s		|easy-hugo-sort-time|
 |t		|easy-hugo-cancel-publish-timer|
+|u		|easy-hugo-sort-publishday|
 |v		|easy-hugo-view|
 |w		|easy-hugo-newpost|
 
