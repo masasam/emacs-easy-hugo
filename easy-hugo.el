@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.0.23
+;; Version: 3.1.23
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1717,6 +1717,19 @@ Optional prefix ARG says how many lines to move; default is one line."
     (or (= lastc ?/)
         (and (memq system-type '(windows-nt ms-dos))
              (= lastc ?\\)))))
+
+(defun easy-hugo--directory-files (dir regexp)
+  "Return list of all files under DIR that have file names matching REGEXP."
+  (let ((result nil)
+	(files nil)
+	(tramp-mode (and tramp-mode (file-remote-p (expand-file-name dir)))))
+    (dolist (file (sort (file-name-all-completions "" dir)
+			'string<))
+      (unless (member file '("./" "../"))
+	(if (not (easy-hugo--directory-name-p file))
+	    (when (string-match regexp file)
+	      (push (expand-file-name file dir) files)))))
+    (nconc result (nreverse files))))
 
 (defun easy-hugo--directory-files-recursively (dir regexp &optional include-directories)
   "Return list of all files under DIR that have file names matching REGEXP.
