@@ -1,6 +1,6 @@
 ;;; easy-hugo.el --- Write blogs made with hugo by markdown or org-mode -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017 by Masashı Mıyaura
+;; Copyright (C) 2017-2018 by Masashı Mıyaura
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
@@ -1520,7 +1520,9 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    (delete-dups
 	     (delete "" (split-string
 			 (replace-regexp-in-string "[\"\']" " "
-						   (replace-regexp-in-string "[,()]" "" (format "%s" matches)))
+						   (replace-regexp-in-string
+						    "[,()]" ""
+						    (format "%s" matches)))
 			 " "))))))))))
 
 ;;;###autoload
@@ -1545,7 +1547,9 @@ Optional prefix ARG says how many lines to move; default is one line."
 	    (delete-dups
 	     (delete "" (split-string
 			 (replace-regexp-in-string "[\"\']" " "
-						   (replace-regexp-in-string "[,()]" "" (format "%s" matches)))
+						   (replace-regexp-in-string
+						    "[,()]" ""
+						    (format "%s" matches)))
 			 " "))))))))))
 
 (defun easy-hugo-next-blog ()
@@ -1939,7 +1943,25 @@ output directories whose names match REGEXP."
 	 (cond ((eq 1 easy-hugo--sort-char-flg)
 		(setq files (reverse (sort files 'string<))))
 	       ((eq 2 easy-hugo--sort-char-flg)
-		(setq files (sort files 'string<))))
+		(setq files (sort files 'string<)))
+	       ((eq 1 easy-hugo--sort-publishday-flg)
+		(let ((source (sort (easy-hugo--publishday-alist)
+				    (lambda (a b) (string> (car a) (car b))))))
+		  (setq files nil)
+		  (while source
+		    (push (file-relative-name (cdr (car source))
+					      (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+			  files)
+		    (pop source))))
+	       ((eq 2 easy-hugo--sort-publishday-flg)
+		(let ((source (reverse (sort (easy-hugo--publishday-alist)
+					     (lambda (a b) (string> (car a) (car b)))))))
+		  (setq files nil)
+		  (while source
+		    (push (file-relative-name (cdr (car source))
+					      (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+			  files)
+		    (pop source)))))
 	 (while files
 	   (unless (or (string= (car files) ".")
 		       (string= (car files) "..")
