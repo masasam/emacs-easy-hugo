@@ -1272,6 +1272,38 @@ J .. Jump blog        e .. Edit file
 	(setq easy-hugo--sort-char-flg 1))
       (easy-hugo))))
 
+(defun easy-hugo--publishing-date-alist ()
+  "Return article alist with publishing date."
+  (let* ((files (easy-hugo--directory-files
+		 (expand-file-name
+		  easy-hugo-postdir
+		  easy-hugo-basedir)
+		 ""))
+	 (filelist files)
+	 (result (list)))
+    (let ((source (with-temp-buffer
+		    (while files
+		      (insert-file-contents (car files))
+		      (pop files))
+		    (buffer-string))))
+      (save-match-data
+	(let ((pos 0)
+	      matches)
+	  (while (string-match "^[D\\|d]ate[:]? [=]?+[ ]*\\(.+?\\)$" source pos)
+	    (push (match-string 1 source) matches)
+	    (setq pos (match-end 0)))
+	  (let ((timestamplist
+		 (delete "" (split-string
+			     (replace-regexp-in-string
+			      "[\"\']" " "
+			      (replace-regexp-in-string "[,()]" "" (format "%s" matches)))
+			     " "))))
+	    (while timestamplist
+	      (push (cons (car timestamplist) (car filelist)) result)
+	      (pop timestamplist)
+	      (pop filelist))
+	    result))))))
+
 (defun easy-hugo-forward-char (arg)
   "Forward-char on easy-hugo-mode.
 Optional prefix ARG says how many lines to move; default is one line."
