@@ -226,6 +226,9 @@ Because only two are supported by hugo."
 (defvar easy-hugo--sort-char-flg nil
   "Sort char flg of easy-hugo.")
 
+(defvar easy-hugo--sort-publishday-flg nil
+  "Sort publishtime flg of easy-hugo.")
+
 (defvar easy-hugo--refresh nil
   "Refresh flg of easy-hugo.")
 
@@ -1061,7 +1064,7 @@ If not applicable, return the default preview."
   (if (null easy-hugo-sort-default-char)
       (progn
 	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
-p .. Preview          g .. Refresh       A .. Deploy AWS S3    O .. Open basedir
+p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   W .. AWS S3 timer     I .. GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
@@ -1070,8 +1073,8 @@ F .. Full help [tab]  S .. Sort char     ? .. Describe-mode    q .. Quit easy-hu
 ")
     (progn
       "n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
-p .. Preview          g .. Refresh       A .. Deploy AWS S3    s .. Sort char
-v .. Open view-mode   O .. Open basedir  T .. Publish timer    N .. No help-mode
+p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
+v .. Open view-mode   s .. Sort char     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   S .. Sort time        I .. GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
@@ -1115,6 +1118,7 @@ J .. Jump blog        e .. Edit file
     (define-key map "w" 'easy-hugo-newpost)
     (define-key map "a" 'easy-hugo-ag)
     (define-key map "c" 'easy-hugo-open-config)
+    (define-key map "u" 'easy-hugo-sort-publishday)
     (define-key map "p" 'easy-hugo-preview)
     (define-key map "P" 'easy-hugo-publish)
     (define-key map "T" 'easy-hugo-publish-timer)
@@ -1244,12 +1248,14 @@ J .. Jump blog        e .. Edit file
   (if easy-hugo--draft-list
       (progn
 	(setq easy-hugo--sort-char-flg nil)
+	(setq easy-hugo--sort-publishday-flg nil)
 	(if (eq 1 easy-hugo--sort-time-flg)
 	    (setq easy-hugo--sort-time-flg 2)
 	  (setq easy-hugo--sort-time-flg 1))
 	(easy-hugo-draft-list))
     (progn
       (setq easy-hugo--sort-char-flg nil)
+      (setq easy-hugo--sort-publishday-flg nil)
       (if (eq 1 easy-hugo--sort-time-flg)
 	  (setq easy-hugo--sort-time-flg 2)
 	(setq easy-hugo--sort-time-flg 1))
@@ -1261,18 +1267,39 @@ J .. Jump blog        e .. Edit file
   (if easy-hugo--draft-list
       (progn
 	(setq easy-hugo--sort-time-flg nil)
+	(setq easy-hugo--sort-publishday-flg nil)
 	(if (eq 1 easy-hugo--sort-char-flg)
 	    (setq easy-hugo--sort-char-flg 2)
 	  (setq easy-hugo--sort-char-flg 1))
 	(easy-hugo-draft-list))
     (progn
       (setq easy-hugo--sort-time-flg nil)
+      (setq easy-hugo--sort-publishday-flg nil)
       (if (eq 1 easy-hugo--sort-char-flg)
 	  (setq easy-hugo--sort-char-flg 2)
 	(setq easy-hugo--sort-char-flg 1))
       (easy-hugo))))
 
-(defun easy-hugo--publishing-date-alist ()
+(defun easy-hugo-sort-publishday ()
+  "Sort article by publishday on easy-hugo-mode."
+  (interactive)
+  (if easy-hugo--draft-list
+      (progn
+	(setq easy-hugo--sort-time-flg nil)
+	(setq easy-hugo--sort-char-flg nil)
+	(if (eq 1 easy-hugo--sort-publishday-flg)
+	    (setq easy-hugo--sort-publishday-flg 2)
+	  (setq easy-hugo--sort-publishday-flg 1))
+	(easy-hugo-draft-list))
+    (progn
+      (setq easy-hugo--sort-time-flg nil)
+      (setq easy-hugo--sort-char-flg nil)
+      (if (eq 1 easy-hugo--sort-publishday-flg)
+	  (setq easy-hugo--sort-publishday-flg 2)
+	(setq easy-hugo--sort-publishday-flg 1))
+      (easy-hugo))))
+
+(defun easy-hugo--publishday-alist ()
   "Return article alist with publishing date."
   (let* ((files (easy-hugo--directory-files
 		 (expand-file-name
