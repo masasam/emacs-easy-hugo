@@ -1331,6 +1331,45 @@ J .. Jump blog        e .. Edit file
 	      (pop filelist))
 	    result))))))
 
+(defun easy-hugo--draft-publishday-alist (filesin)
+  "Return article alist from FILESIN with publishing date."
+  (when filesin
+    (let ((files filesin)
+	  (filelist (list))
+	  (result (list)))
+      (while files
+	(push (expand-file-name (car files)
+				(expand-file-name
+				 easy-hugo-postdir
+				 easy-hugo-basedir))
+	      filelist)
+	(pop files))
+      (let ((source (with-temp-buffer
+		      (while filesin
+			(insert-file-contents (expand-file-name (car filesin)
+								(expand-file-name
+								 easy-hugo-postdir
+								 easy-hugo-basedir)))
+			(pop filesin))
+		      (buffer-string))))
+	(save-match-data
+	  (let ((pos 0)
+		matches)
+	    (while (string-match "^[D\\|d]ate[:]? [=]?+[ ]*\\(.+?\\)$" source pos)
+	      (push (match-string 1 source) matches)
+	      (setq pos (match-end 0)))
+	    (let ((timestamplist
+		   (delete "" (split-string
+			       (replace-regexp-in-string
+				"[\"\']" " "
+				(replace-regexp-in-string "[,()]" "" (format "%s" matches)))
+			       " "))))
+	      (while timestamplist
+		(push (cons (car timestamplist) (car filelist)) result)
+		(pop timestamplist)
+		(pop filelist))
+	      result)))))))
+
 (defun easy-hugo-forward-char (arg)
   "Forward-char on easy-hugo-mode.
 Optional prefix ARG says how many lines to move; default is one line."
@@ -1871,7 +1910,25 @@ output directories whose names match REGEXP."
      (cond ((eq 1 easy-hugo--sort-char-flg)
 	    (setq files (reverse (sort files 'string<))))
 	   ((eq 2 easy-hugo--sort-char-flg)
-	    (setq files (sort files 'string<))))
+	    (setq files (sort files 'string<)))
+	   ((eq 1 easy-hugo--sort-publishday-flg)
+	    (let ((source (reverse (sort (easy-hugo--draft-publishday-alist files)
+					 (lambda (a b) (string> (car a) (car b)))))))
+	      (setq files nil)
+	      (while source
+		(push (file-relative-name (cdr (car source))
+					  (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+		      files)
+		(pop source))))
+	   ((eq 2 easy-hugo--sort-publishday-flg)
+	    (let ((source (sort (easy-hugo--draft-publishday-alist files)
+				(lambda (a b) (string> (car a) (car b))))))
+	      (setq files nil)
+	      (while source
+		(push (file-relative-name (cdr (car source))
+					  (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+		      files)
+		(pop source)))))
      (while files
        (push
 	(concat
