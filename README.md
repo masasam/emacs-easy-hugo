@@ -189,6 +189,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |H		|easy-hugo-github-deploy-timer|
 |I		|easy-hugo-google-cloud-storage-deploy-timer|
 |J      |easy-hugo-nth-blog|
+|M		|easy-hugo-magit|
 |N		|easy-hugo-no-help|
 |O		|easy-hugo-open-basedir|
 |P		|easy-hugo-publish|

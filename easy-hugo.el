@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.1.23
+;; Version: 3.2.23
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -365,6 +365,16 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
   (find-file (expand-file-name easy-hugo-postdir easy-hugo-basedir)))
+
+;;;###autoload
+(defun easy-hugo-magit ()
+  "Open magit at current blog."
+  (interactive)
+  (unless easy-hugo-basedir
+    (error "Please set easy-hugo-basedir variable"))
+  (if (package-installed-p 'magit)
+      (magit-status easy-hugo-basedir)
+    (error "'magit' is not installed")))
 
 ;;;###autoload
 (defun easy-hugo-image ()
@@ -1069,13 +1079,13 @@ v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   W .. AWS S3 timer     I .. GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
-F .. Full help [tab]  S .. Sort char     ? .. Describe-mode    q .. Quit easy-hugo
+F .. Full help [tab]  M .. Magit status  ? .. Describe-mode    q .. Quit easy-hugo
 ")
     (progn
       "n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort char     T .. Publish timer    N .. No help-mode
-d .. Delete post      c .. Open config   S .. Sort time        I .. GCS timer
+d .. Delete post      c .. Open config   M .. Magit status     I .. GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  W .. AWS S3 timer  ? .. Describe-mode    q .. Quit easy-hugo
@@ -1098,12 +1108,21 @@ Enjoy!
   "Help of easy-hugo first time.")
 
 (defcustom easy-hugo-add-help
-  "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
+  (if (null easy-hugo-sort-default-char)
+      (progn
+	"O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
 m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
-J .. Jump blog        e .. Edit file
-"
+J .. Jump blog        e .. Edit file     S .. Sort char
+")
+    (progn
+      "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
+k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
+m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
+- .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
+J .. Jump blog        e .. Edit file     S .. Sort time
+"))
   "Add help of easy-hugo."
   :group 'easy-hugo
   :type 'string)
@@ -1117,6 +1136,7 @@ J .. Jump blog        e .. Edit file
     (define-key map "n" 'easy-hugo-newpost)
     (define-key map "w" 'easy-hugo-newpost)
     (define-key map "a" 'easy-hugo-ag)
+    (define-key map "M" 'easy-hugo-magit)
     (define-key map "c" 'easy-hugo-open-config)
     (define-key map "u" 'easy-hugo-sort-publishday)
     (define-key map "p" 'easy-hugo-preview)
