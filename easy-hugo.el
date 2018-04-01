@@ -373,7 +373,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
   (if (package-installed-p 'magit)
-      (magit-status easy-hugo-basedir)
+      (magit-status-internal easy-hugo-basedir)
     (error "'magit' is not installed")))
 
 ;;;###autoload
