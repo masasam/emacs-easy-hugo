@@ -57,11 +57,11 @@ When permalinks is hugo's default and English URL, if you press p with easy-hugo
 ![easy-hugo6](image/easy-hugo6.png)
 (The picture of the header is http://www.pixiv.net/member_illust.php?mode=medium&illust_id=60674880)
 
-The browser opens automatically and you can preview the blog on your PC.
+The browser opens automatically and you can preview the blog on your laptop or desktop.
 
 Even if you run the easy-hugo-preview command many times, only one hugo process will run so do not mind it.
 
-Since the process of hugo running in the PC disappears in 300 seconds, you do not have to worry about killing hugo process.
+Since the process of hugo running in the laptop or desktop disappears in 300 seconds, you do not have to worry about killing hugo process.
 
     M-x easy-hugo-publish
 
@@ -260,7 +260,7 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 	(setq easy-hugo-previewtime "300")
 	:bind ("C-c C-e" . easy-hugo))
 
-easy-hugo-basedir "Directory where hugo html source code is placed on your PC."
+easy-hugo-basedir "Directory where hugo html source code is placed on your laptop or desktop."
 
 easy-hugo-url "Url of the blog."
 
@@ -340,7 +340,7 @@ If not set the default image file directory will be 'images'.
 
 	(setq easy-hugo-image-directory "img")
 
-Setting the picture directory of your PC, it is easy to execute M-x easy-hugo-put-image
+Setting the picture directory of your laptop or desktop, it is easy to execute M-x easy-hugo-put-image
 
 	(setq easy-hugo-default-picture-directory "~/Pictures")
 
@@ -533,7 +533,7 @@ I created my blog in google compute engine.
 
 Check if rsync is installed on the server.
 
-Write at ~/.ssh/config on your PC
+Write at ~/.ssh/config on your laptop or desktop
 
 	 Host blogdomain
 		 HostName "Your server's IP"
