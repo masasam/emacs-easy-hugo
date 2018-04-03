@@ -2008,23 +2008,29 @@ output directories whose names match REGEXP."
 	   ((eq 2 easy-hugo--sort-char-flg)
 	    (setq files (sort files 'string<)))
 	   ((eq 1 easy-hugo--sort-publishday-flg)
-	    (let ((source (reverse (sort (easy-hugo--draft-publishday-alist files)
-					 (lambda (a b) (string> (car a) (car b)))))))
-	      (setq files nil)
-	      (while source
-		(push (file-relative-name (cdr (car source))
-					  (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-		      files)
-		(pop source))))
+	    (let ((publist (easy-hugo--draft-publishday-alist files)))
+	      (if publist
+		  (let ((source (reverse (sort publist
+					       (lambda (a b) (string> (car a) (car b)))))))
+		    (setq files nil)
+		    (while source
+		      (push (file-relative-name (cdr (car source))
+						(expand-file-name easy-hugo-postdir easy-hugo-basedir))
+			    files)
+		      (pop source)))
+		(message "There is no file written date in front matter"))))
 	   ((eq 2 easy-hugo--sort-publishday-flg)
-	    (let ((source (sort (easy-hugo--draft-publishday-alist files)
-				(lambda (a b) (string> (car a) (car b))))))
-	      (setq files nil)
-	      (while source
-		(push (file-relative-name (cdr (car source))
-					  (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-		      files)
-		(pop source)))))
+	    (let ((publist (easy-hugo--draft-publishday-alist files)))
+	      (if publist
+		  (let ((source (sort publist
+				      (lambda (a b) (string> (car a) (car b))))))
+		    (setq files nil)
+		    (while source
+		      (push (file-relative-name (cdr (car source))
+						(expand-file-name easy-hugo-postdir easy-hugo-basedir))
+			    files)
+		      (pop source)))
+		(message "There is no file written date in front matter")))))
      (while files
        (push
 	(concat
