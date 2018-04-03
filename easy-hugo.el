@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.2.24
+;; Version: 3.2.25
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1413,17 +1413,18 @@ J .. Jump blog        e .. Edit file     S .. Sort time
 	  (while (string-match "^[D\\|d]ate[:]? [=]?+[ ]*\\(.+?\\)$" source pos)
 	    (push (match-string 1 source) matches)
 	    (setq pos (match-end 0)))
-	  (let ((timestamplist
-		 (delete "" (split-string
-			     (replace-regexp-in-string
-			      "[\"\']" " "
-			      (replace-regexp-in-string "[,()]" "" (format "%s" matches)))
-			     " "))))
-	    (while timestamplist
-	      (push (cons (car timestamplist) (car filelist)) result)
-	      (pop timestamplist)
-	      (pop filelist))
-	    result))))))
+	  (when matches
+	    (let ((timestamplist
+		   (delete "" (split-string
+			       (replace-regexp-in-string
+				"[\"\']" " "
+				(replace-regexp-in-string "[,()]" "" (format "%s" matches)))
+			       " "))))
+	      (while timestamplist
+		(push (cons (car timestamplist) (car filelist)) result)
+		(pop timestamplist)
+		(pop filelist))
+	      result)))))))
 
 (defun easy-hugo--draft-publishday-alist (filesin)
   "Return article alist from FILESIN with publishing date."
@@ -1452,17 +1453,18 @@ J .. Jump blog        e .. Edit file     S .. Sort time
 	    (while (string-match "^[D\\|d]ate[:]? [=]?+[ ]*\\(.+?\\)$" source pos)
 	      (push (match-string 1 source) matches)
 	      (setq pos (match-end 0)))
-	    (let ((timestamplist
-		   (delete "" (split-string
-			       (replace-regexp-in-string
-				"[\"\']" " "
-				(replace-regexp-in-string "[,()]" "" (format "%s" matches)))
-			       " "))))
-	      (while timestamplist
-		(push (cons (car timestamplist) (car filelist)) result)
-		(pop timestamplist)
-		(pop filelist))
-	      result)))))))
+	    (when matches
+	      (let ((timestamplist
+		     (delete "" (split-string
+				 (replace-regexp-in-string
+				  "[\"\']" " "
+				  (replace-regexp-in-string "[,()]" "" (format "%s" matches)))
+				 " "))))
+		(while timestamplist
+		  (push (cons (car timestamplist) (car filelist)) result)
+		  (pop timestamplist)
+		  (pop filelist))
+		result))))))))
 
 (defun easy-hugo-forward-char (arg)
   "Forward-char on easy-hugo-mode.
