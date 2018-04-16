@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.2.25
+;; Version: 3.2.26
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -573,12 +573,20 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
        (error "'hugo --destination public' command does not end normally")))
    (when (get-buffer "*hugo-publish*")
      (kill-buffer "*hugo-publish*"))
-   (shell-command-to-string
-    (concat "rsync -rtpl --chmod="
-	    easy-hugo-publish-chmod " --delete "
-	    easy-hugo-rsync-delete-directory " "
-	    easy-hugo-sshdomain ":"
-	    (shell-quote-argument easy-hugo-root)))
+   (let ((ret (call-process "rsync"
+			    nil
+			    "*hugo-rsync*"
+			    t
+			    "-rtpl"
+			    (concat "--chmod=" easy-hugo-publish-chmod)
+			    "--delete"
+			    easy-hugo-rsync-delete-directory
+			    (concat easy-hugo-sshdomain ":" (shell-quote-argument easy-hugo-root)))))
+     (unless (zerop ret)
+       (switch-to-buffer (get-buffer "*hugo-rsync*"))
+       (error "'rsync' command does not end normally")))
+   (when (get-buffer "*hugo-rsync*")
+     (kill-buffer "*hugo-rsync*"))
    (message "Blog published")
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
@@ -629,12 +637,23 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 	(error "'hugo --destination public' command does not end normally")))
     (when (get-buffer "*hugo-publish*")
       (kill-buffer "*hugo-publish*"))
-    (shell-command-to-string
-     (concat "rsync -rtpl --chmod="
-	     easy-hugo-publish-chmod " --delete "
-	     easy-hugo-rsync-delete-directory " "
-	     (easy-hugo-nth-eval-bloglist easy-hugo-sshdomain n) ":"
-	     (shell-quote-argument (easy-hugo-nth-eval-bloglist easy-hugo-root n))))
+    (let ((ret (call-process "rsync"
+			     nil
+			     "*hugo-rsync*"
+			     t
+			     "-rtpl"
+			     (concat "--chmod=" easy-hugo-publish-chmod)
+			     "--delete"
+			     easy-hugo-rsync-delete-directory
+			     (concat
+			      (easy-hugo-nth-eval-bloglist easy-hugo-sshdomain n)
+			      ":"
+			      (shell-quote-argument (easy-hugo-nth-eval-bloglist easy-hugo-root n))))))
+      (unless (zerop ret)
+	(switch-to-buffer (get-buffer "*hugo-rsync*"))
+	(error "'rsync' command does not end normally")))
+    (when (get-buffer "*hugo-rsync*")
+      (kill-buffer "*hugo-rsync*"))
     (message "Blog published")
     (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
       (browse-url (easy-hugo-nth-eval-bloglist easy-hugo-url n)))
@@ -1979,7 +1998,7 @@ output directories whose names match REGEXP."
 		file)
 	   (push (match-string 1 file) files))))
      (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-       (error "%s%s doesn't exist!" easy-hugo-basedir easy-hugo-postdir))
+       (error "%s%s does not exist!" easy-hugo-basedir easy-hugo-postdir))
      (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
      (switch-to-buffer easy-hugo--mode-buffer)
      (setq-local default-directory easy-hugo-basedir)
@@ -2066,7 +2085,7 @@ output directories whose names match REGEXP."
   (interactive)
   (easy-hugo-with-env
    (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-     (error "%s%s doesn't exist!" easy-hugo-basedir easy-hugo-postdir))
+     (error "%s%s does not exist!" easy-hugo-basedir easy-hugo-postdir))
    (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
    (setq easy-hugo--draft-list nil)
    (switch-to-buffer easy-hugo--mode-buffer)
