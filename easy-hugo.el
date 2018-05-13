@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.2.26
+;; Version: 3.2.27
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -443,13 +443,16 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
       (error "%s does not exist" (expand-file-name
 				  easy-hugo-image-directory
 				  (expand-file-name "static" easy-hugo-basedir))))
-    (let ((file (read-file-name "Image file: " nil
-				(expand-file-name easy-hugo-default-picture-directory)
-				t
-				(expand-file-name easy-hugo-default-picture-directory))))
-      (copy-file file (expand-file-name
-		       (file-name-nondirectory file)
-		       (expand-file-name easy-hugo-image-directory "static")))
+    (let* ((file (read-file-name "Image file: " nil
+				 (expand-file-name easy-hugo-default-picture-directory)
+				 t
+				 (expand-file-name easy-hugo-default-picture-directory)))
+	   (putfile (expand-file-name
+		     (file-name-nondirectory file)
+		     (expand-file-name easy-hugo-image-directory "static"))))
+      (when (file-exists-p putfile)
+	(error "%s already exists!" putfile))
+      (copy-file file putfile)
       (insert (concat (format "<img src=\"%s%s\""
 			      easy-hugo-url
 			      (concat
@@ -470,13 +473,16 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
       (error "%s does not exist" (expand-file-name
                                   easy-hugo-image-directory
                                   (expand-file-name "static" easy-hugo-basedir))))
-    (let ((file (read-file-name "Image file: " nil
-                                (expand-file-name easy-hugo-default-picture-directory)
-                                t
-                                (expand-file-name easy-hugo-default-picture-directory))))
-      (copy-file file (expand-file-name
-                       (file-name-nondirectory file)
-                       (expand-file-name easy-hugo-image-directory "static")))
+    (let* ((file (read-file-name "Image file: " nil
+				 (expand-file-name easy-hugo-default-picture-directory)
+				 t
+				 (expand-file-name easy-hugo-default-picture-directory)))
+	   (putfile (expand-file-name
+		     (file-name-nondirectory file)
+		     (expand-file-name easy-hugo-image-directory "static"))))
+      (when (file-exists-p putfile)
+	(error "%s already exists!" putfile))
+      (copy-file file putfile)
       (insert (concat (format "{{< figure src=\"%s%s\""
                               easy-hugo-url
                               (concat
