@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.3.28
+;; Version: 3.3.29
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -382,7 +382,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (interactive)
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
-  (if (package-installed-p 'magit)
+  (if (require 'magit nil t)
       (magit-status-internal easy-hugo-basedir)
     (error "'magit' is not installed")))
 
