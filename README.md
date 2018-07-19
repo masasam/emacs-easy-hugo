@@ -73,7 +73,12 @@ You can publish your blog to the server and the browser opens automatically.
 
 You can search blog article with [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/syohex/emacs-helm-ag).
 
-If both are installed, counsel-ag takes precedence.
+If both are installed, counsel-ag takes precedence at default and
+you can use helm-ag by writing the following to .emacs or init.el
+
+	(setq easy-hugo-helm-ag t)
+
+If you deploy your blog at github
 
 	M-x easy-hugo-github-deploy
 
