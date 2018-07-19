@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.3.27
+;; Version: 3.3.28
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1160,9 +1160,9 @@ to the server."
   "Search for blog article with counsel-ag or helm-ag."
   (interactive)
   (easy-hugo-with-env
-   (if (package-installed-p 'counsel)
+   (if (require 'counsel nil t)
        (counsel-ag nil (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-     (if (package-installed-p 'helm-ag)
+     (if (require 'helm-ag nil t)
 	 (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
        (error "'counsel' or 'helm-ag' is not installed")))))
 
