@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.3.30
+;; Version: 3.3.31
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -944,7 +944,7 @@ to the server."
 				       easy-hugo-basedir))))
      (unless (executable-find deployscript)
        (error "%s do not execute" deployscript))
-     (let ((ret (call-process (shell-quote-argument deployscript) nil "*hugo-github-deploy*" t)))
+     (let ((ret (call-process deployscript nil "*hugo-github-deploy*" t)))
        (unless (zerop ret)
 	 (switch-to-buffer (get-buffer "*hugo-github-deploy*"))
 	 (error "%s command does not end normally" deployscript)))
@@ -995,7 +995,7 @@ to the server."
 			 (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))))
 	 (default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n))
 	 (ret (call-process
-	       (shell-quote-argument deployscript) nil "*hugo-github-deploy*" t))
+	       deployscript nil "*hugo-github-deploy*" t))
 	 (default-directory easy-hugo-basedir))
     (unless (zerop ret)
       (switch-to-buffer (get-buffer "*hugo-github-deploy*"))
