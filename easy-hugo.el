@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.3.31
+;; Version: 3.3.32
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -313,7 +313,7 @@ Because only two are supported by hugo."
   "Default easy-hugo previewtime.")
 
 (defconst easy-hugo--default-preview-url
-  easy-hugo-preview-url
+  "http://localhost:1313/"
   "Default easy-hugo preview-url.")
 
 (defconst easy-hugo--default-sort-default-char
@@ -759,7 +759,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 	 (setq easy-hugo--server-process
 	       (start-process "hugo-server" easy-hugo--preview-buffer easy-hugo-bin "server")))
        (while easy-hugo--preview-loop
-	 (if (equal (easy-hugo--preview-status) "200")
+	 (if (equal (easy-hugo--preview-status easy-hugo-preview-url) "200")
 	     (progn
 	       (setq easy-hugo--preview-loop nil)
 	       (easy-hugo--preview-open)))
@@ -820,21 +820,21 @@ If not applicable, return the default preview."
 	(nth 0
 	     (split-string
 	      (with-current-buffer
-		  (easy-hugo--url-retrieve-synchronously (concat "http://127.0.0.1:1313/" url))
+		  (easy-hugo--url-retrieve-synchronously (concat easy-hugo-preview-url url))
 		(prog1
 		    (buffer-string)
 		  (kill-buffer)))
 	      "\n"))
 	" ")))
 
-(defun easy-hugo--preview-status ()
-  "Return the http status code of the preview."
+(defun easy-hugo--preview-status (url)
+  "Return the http status code of the preview URL."
   (nth 1
        (split-string
 	(nth 0
 	     (split-string
 	      (with-current-buffer
-		  (easy-hugo--url-retrieve-synchronously "http://127.0.0.1:1313/")
+		  (easy-hugo--url-retrieve-synchronously url)
 		(prog1
 		    (buffer-string)
 		  (kill-buffer)))
