@@ -335,7 +335,7 @@ Then it becomes the following header
      #+TAGS: nil, nil
      #+DESCRIPTION: Short description
 	 
-## multiple blogs setting
+## Multiple blogs setting
 
 	;; Main blog
 	(setq easy-hugo-basedir "~/bookshelf/")
