@@ -9,7 +9,6 @@ Emacs major mode for writing blogs made with hugo by markdown or org-mode or Asc
 	M-x easy-hugo
 
 You can manage blogs on easy-hugo-mode.
-
 If you manage multiple blogs, you can switch blogs with the < or > key.
 
 ![easy-hugo-mode](image/easy-hugo-mode.png)
@@ -17,11 +16,8 @@ If you manage multiple blogs, you can switch blogs with the < or > key.
     M-x easy-hugo-newpost
 
 You can post a new article.
-
 Enter a article file name in the minibuffer.
-
 A markdown file is automatically generated.
-
 You can write a blog with markdown.
 
 ![easy-hugo4](image/easy-hugo4.png)
@@ -51,16 +47,13 @@ If you enter '.html' file name in the minibuffer, html file is automatically gen
 ![screencast](image/screencast2.gif)
 
 If your hugo version is 0.25 or higher, you can preview by following the edited part.
-
 When permalinks is hugo's default and English URL, if you press p with easy-hugo-mode, it displays a preview of the article on pointer.
 
 ![easy-hugo6](image/easy-hugo6.png)
 (The picture of the header is http://www.pixiv.net/member_illust.php?mode=medium&illust_id=60674880)
 
 The browser opens automatically and you can preview the blog on your laptop or desktop.
-
 Even if you run the easy-hugo-preview command many times, only one hugo process will run so do not mind it.
-
 Since the process of hugo running in the laptop or desktop disappears in 300 seconds, you do not have to worry about killing hugo process.
 
     M-x easy-hugo-publish
@@ -72,7 +65,6 @@ You can publish your blog to the server and the browser opens automatically.
 ![easy-hugo-helm-ag](image/easy-hugo-helm-ag.png)
 
 You can search blog article with [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/syohex/emacs-helm-ag).
-
 If both are installed, counsel-ag takes precedence at default and
 you can use helm-ag by writing the following to .emacs or init.el
 
@@ -83,9 +75,9 @@ If you deploy your blog at github
 	M-x easy-hugo-github-deploy
 
 Execute deploy.sh which exists in directory `easy-hugo-basedir`.
-
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
-
+When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-and-deployment/),
+it can also correspond to Firebase etc.
 For more information https://github.com/masasam/emacs-easy-hugo/issues/27
 
 	M-x easy-hugo-amazon-s3-deploy
@@ -136,7 +128,6 @@ When you select the image file you want to use, a link will be inserted.
 	M-x easy-hugo-put-figure
 
 Move image to 'easy-hugo-image-directory' and generate image link.
-
 You can change the initial launch position with 'easy-hugo-default-picture-directory'.
 
 ![easy-hugo-put-image](image/easy-hugo-put-image.png)
@@ -145,15 +136,12 @@ You can change the initial launch position with 'easy-hugo-default-picture-direc
 	M-x easy-hugo-pull-figure
 
 Pull image from internet to image directory and generate image link.
-
 Copy the URL of the image you want to download with your browser.
-
 Execute M-x easy-hugo-pull-image.
 
 ![easy-hugo-pull-image](image/easy-hugo-pull-image.png)
 
 Decide file name.
-
 If you press enter without deciding the file name, the file name can be used as it is.
 
 ![easy-hugo-pull-image1](image/easy-hugo-pull-image1.png)
@@ -236,13 +224,9 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 
 You can install `easy-hugo.el` from [MELPA](http://melpa.org) with package.el
 (`M-x package-install easy-hugo`).
-
 Confirm that PATH passes from emacs to go.
-
 I recommend you are going to install [exec-path-from-shell]( https://github.com/purcell/exec-path-from-shell).
-
 Easy-hugo-ag needs [the_silver_searcher](https://github.com/ggreer/the_silver_searcher).
-
 Easy-hugo-ag needs [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/syohex/emacs-helm-ag).
 
 ## Sample Configuration
@@ -266,19 +250,13 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 	:bind ("C-c C-e" . easy-hugo))
 
 easy-hugo-basedir "Directory where hugo html source code is placed on your laptop or desktop."
-
 easy-hugo-url "Url of the blog."
-
 easy-hugo-sshdomain "Domain written in ~/.ssh/config."
-
 easy-hugo-root "Root directory of hugo at your server."
-
 easy-hugo-previewtime "Preview display time."
 
 If you want to change default easy-hugo-postdir.
-
 If not set the default easy-hugo-postdir will be "content/post".
-
 Easy-hugo will not start when easy-hugo-postdir doesn't exist.
 
 	(setq easy-hugo-postdir "content/posts")
@@ -288,13 +266,11 @@ If you use [Academic theme](https://themes.gohugo.io/academic/)
 	(setq easy-hugo-postdir "content/home")
 
 If you want to deploy hugo at Amazon S3, please install AWS CLI and set easy-hugo-amazon-s3-bucket-name.
-
 Please set up for with `aws configure` command if you are the first time aws command.
 
 	(setq easy-hugo-amazon-s3-bucket-name "your-amazon-s3-bucket-name")
 
 If you want to deploy hugo at Google Cloud Storage, please install Google Cloud SDK and set easy-hugo-google-cloud-storage-bucket-name.
-
 Please set up for with `gcloud auth login` command if you are the first time gcloud command.
 
 	(setq easy-hugo-google-cloud-storage-bucket-name "your-google-cloud-storage-bucket-name")
@@ -303,19 +279,16 @@ When writing blog with org-mode at .org file or rst-mode at .rst file or web-mod
 "C-c C-e" keys are duplicated so please use other keys.
 
 If you want the default extension to be '.org'.
-
 If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".org")
 
 If you want the default extension to be '.ad'.
-
 If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".ad")
 
 If you want the default extension to be '.rst'.
-
 If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".rst")
@@ -338,9 +311,7 @@ If you want to customise color, write the following in the init.el or .emacs.
 	:group 'easy-hugo-faces)
 
 In order to generate link of image from image file directory under 'static' directory,
-
 If you want to change image file directory that is under 'static' directory.
-
 If not set the default image file directory will be 'images'.
 
 	(setq easy-hugo-image-directory "img")
@@ -441,11 +412,9 @@ If you use [spacemacs](https://github.com/syl20bnr/spacemacs) or [evil-mode](htt
 ## Preparation for using this package
 
 Install hugo
-
 See https://gohugo.io/
 
 Quickstart Guide
-
 See https://gohugo.io/overview/quickstart/
 
 ### Configuration file example
@@ -531,11 +500,8 @@ archetypes/default.html
 ### Prepare the server
 
 Let's build with a free trial of "google compute engine" or "amazon ec2".
-
 If you want deploy hugo at GitHub Pages or Amazon S3 or Google Cloud Storage, This paragraph is not necessary.
-
 I created my blog in google compute engine.
-
 Check if rsync is installed on the server.
 
 Write at ~/.ssh/config on your laptop or desktop
