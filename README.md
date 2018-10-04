@@ -249,11 +249,13 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 	(setq easy-hugo-previewtime "300")
 	:bind ("C-c C-e" . easy-hugo))
 
-easy-hugo-basedir "Directory where hugo html source code is placed on your laptop or desktop."
-easy-hugo-url "Url of the blog."
-easy-hugo-sshdomain "Domain written in ~/.ssh/config."
-easy-hugo-root "Root directory of hugo at your server."
-easy-hugo-previewtime "Preview display time."
+|name    |description      |
+|-------|--------------|
+|easy-hugo-basedir	|Directory where hugo html source code is placed on your laptop or desktop|
+|easy-hugo-url	|Url of the blog|
+|easy-hugo-sshdomain	|Domain written in ~/.ssh/config|
+|easy-hugo-root	|Root directory of hugo at your server|
+|easy-hugo-previewtime	|Preview display time|
 
 If you want to change default easy-hugo-postdir.
 If not set the default easy-hugo-postdir will be "content/post".
