@@ -18,7 +18,7 @@ If you manage multiple blogs, you can switch blogs with the < or > key.
 You can post a new article.
 Enter a article file name in the minibuffer.
 A markdown file is automatically generated.
-You can write a blog with markdown-mode.
+You can write a blog with [markdown-mode](https://github.com/jrblevin/markdown-mode).
 
 ![easy-hugo4](image/easy-hugo4.png)
 
