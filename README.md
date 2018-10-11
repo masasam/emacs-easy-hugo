@@ -70,7 +70,7 @@ you can use helm-ag by writing the following to .emacs or init.el
 
 	(setq easy-hugo-helm-ag t)
 
-If you deploy your blog at github
+If you deploy your blog at github etc
 
 	M-x easy-hugo-github-deploy
 
@@ -121,6 +121,9 @@ Generate link of image from image file directory under 'static' directory.
 ![easy-hugo-image1](image/easy-hugo-image1.png)
 
 When you select the image file you want to use, a link will be inserted.
+The default for the image file directory name is "images", but if you want to change it, write as follows.
+
+	(setq easy-hugo-image-directory "img")
 
 ![easy-hugo-image2](image/easy-hugo-image2.png)
 
