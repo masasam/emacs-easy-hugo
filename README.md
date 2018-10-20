@@ -77,7 +77,7 @@ If you deploy your blog at github etc
 Execute deploy.sh which exists in directory `easy-hugo-basedir`.
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-and-deployment/),
-it can also correspond to Firebase etc.
+it can also correspond to Firebase or Netlify etc.
 For more information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27).
 
 	M-x easy-hugo-amazon-s3-deploy
