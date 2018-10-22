@@ -141,6 +141,8 @@ You can change the initial launch position with 'easy-hugo-default-picture-direc
 
 ![easy-hugo-put-image](image/easy-hugo-put-image.png)
 
+![easy-hugo-put-image2](image/easy-hugo-put-image2.png)
+
 	M-x easy-hugo-pull-image
 	M-x easy-hugo-pull-figure
 
