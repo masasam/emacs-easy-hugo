@@ -97,7 +97,7 @@ With this you can go to a directory other than content/post.
 
 Select postdir you want to go to. You can go to a selected directory.
 
-![easy-hugo-select-directory](image/easy-hugo-selected-directory.png)
+![easy-hugo-select-postdir](image/easy-hugo-select-postdir.png)
 
 	M-x easy-hugo-complete-tags
 
