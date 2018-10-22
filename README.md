@@ -93,6 +93,12 @@ Deploy hugo source at Google Cloud Storage.
 
 With this you can go to a directory other than content/post.
 
+	M-x easy-hugo-select-postdir
+
+Select postdir you want to go to. You can go to a selected directory.
+
+![easy-hugo-selected-directory](image/easy-hugo-selected-directory.png)
+
 	M-x easy-hugo-complete-tags
 
 Auto-complete tags from your past posts.
@@ -174,6 +180,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |,      |easy-hugo-previous-postdir|
 |+      |easy-hugo-next-postdir|
 |-      |easy-hugo-previous-postdir|
+|/      |easy-hugo-select-postdir|
 |<		|easy-hugo-previous-blog|
 |>		|easy-hugo-next-blog|
 |?		|describe-mode|
