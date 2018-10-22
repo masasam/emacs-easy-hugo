@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.3.32
+;; Version: 3.4.32
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1193,7 +1193,7 @@ v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   W .. AWS S3 timer     I .. GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
-F .. Full help [tab]  M .. Magit status  ? .. Describe-mode    q .. Quit easy-hugo
+F .. Full help [tab]  M .. Magit status  / .. Select postdir   q .. Quit easy-hugo
 ")
     (progn
       "n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
@@ -1202,7 +1202,7 @@ v .. Open view-mode   s .. Sort char     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   M .. Magit status     I .. GCS timer
 P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
-F .. Full help [tab]  W .. AWS S3 timer  ? .. Describe-mode    q .. Quit easy-hugo
+F .. Full help [tab]  W .. AWS S3 timer  / .. Select postdir   q .. Quit easy-hugo
 "))
   "Help of easy-hugo."
   :group 'easy-hugo
@@ -1228,14 +1228,14 @@ Enjoy!
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
 m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
-J .. Jump blog        e .. Edit file     S .. Sort char
+J .. Jump blog        e .. Edit file     S .. Sort char        ? .. Describe-mode
 ")
     (progn
       "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
 m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
-J .. Jump blog        e .. Edit file     S .. Sort time
+J .. Jump blog        e .. Edit file     S .. Sort time        ? .. Describe-mode
 "))
   "Add help of easy-hugo."
   :group 'easy-hugo
@@ -1306,6 +1306,7 @@ J .. Jump blog        e .. Edit file     S .. Sort time
     (define-key map "i" 'easy-hugo-cancel-google-cloud-storage-deploy-timer)
     (define-key map "D" 'easy-hugo-list-draft)
     (define-key map "q" 'easy-hugo-quit)
+    (define-key map "/" 'easy-hugo-select-postdir)
     (define-key map "<" 'easy-hugo-previous-blog)
     (define-key map ">" 'easy-hugo-next-blog)
     map)
@@ -1945,6 +1946,21 @@ Optional prefix ARG says how many lines to move; default is one line."
 	(file-relative-name
 	 (nth easy-hugo--current-postdir easy-hugo--postdir-list)
 	 easy-hugo-basedir))
+  (easy-hugo))
+
+;;;###autoload
+(defun easy-hugo-select-postdir ()
+  "Select postdir you want to go to."
+  (interactive)
+  (setq easy-hugo-postdir
+	(file-relative-name
+	 (completing-read
+	  "Complete easy-hugo-postdir: "
+	  (easy-hugo--directory-list
+	   (cons (expand-file-name "content" easy-hugo-basedir)
+		 (easy-hugo--directory-files-recursively
+		  (expand-file-name "content" easy-hugo-basedir) "" t)))
+	  nil t)))
   (easy-hugo))
 
 (defun easy-hugo--directory-list (list)
