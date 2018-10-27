@@ -2,6 +2,8 @@
 
 Emacs major mode for writing blogs made with hugo by markdown or org-mode or AsciiDoc or reStructuredText or mmark or html
 
+![logo](image/logo.png)
+
 ## Screencast
 
 ![screencast](image/screencast.gif)
