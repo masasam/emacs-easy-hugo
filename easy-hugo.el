@@ -1919,7 +1919,7 @@ Optional prefix ARG says how many lines to move; default is one line."
   (let ((completions (easy-hugo-url-list easy-hugo-bloglist-maxnumber)))
     (easy-hugo-nth-blog
      (cadr (assoc
-	    (completing-read "Complete easy-hugo-url: " completions)
+	    (completing-read "Complete easy-hugo-url: " completions nil t)
 	    completions)))))
 
 (defun easy-hugo-next-postdir ()
