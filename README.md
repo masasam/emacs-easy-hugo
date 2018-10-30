@@ -97,9 +97,15 @@ With this you can go to a directory other than content/post.
 
 	M-x easy-hugo-select-postdir
 
-Select postdir you want to go to. You can go to a selected directory.
+Select postdir you want to go. You can go to a selected directory.
 
 ![easy-hugo-select-postdir](image/easy-hugo-select-postdir.png)
+
+	M-x easy-hugo-select-blog
+
+Select blog you want to go. You can go to a selected blog.
+
+![easy-hugo-select-blog](image/easy-hugo-select-blog.png)
 
 	M-x easy-hugo-complete-tags
 
@@ -185,6 +191,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |+      |easy-hugo-next-postdir|
 |-      |easy-hugo-previous-postdir|
 |/      |easy-hugo-select-postdir|
+|;      |easy-hugo-select-blog|
 |<		|easy-hugo-previous-blog|
 |>		|easy-hugo-next-blog|
 |?		|describe-mode|
