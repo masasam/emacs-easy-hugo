@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.4.32
+;; Version: 3.5.32
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1191,16 +1191,16 @@ to the server."
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   W .. AWS S3 timer     I .. GCS timer
-P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
+P .. Publish server   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
-F .. Full help [tab]  M .. Magit status  / .. Select postdir   q .. Quit easy-hugo
+F .. Full help [tab]  ; .. Select blog   / .. Select postdir   q .. Quit easy-hugo
 ")
     (progn
       "n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort char     T .. Publish timer    N .. No help-mode
-d .. Delete post      c .. Open config   M .. Magit status     I .. GCS timer
-P .. Publish server   C .. Deploy GCS    a .. Search blog ag   H .. GitHub timer
+d .. Delete post      c .. Open config   ; .. Select blog      I .. GCS timer
+P .. Publish server   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  W .. AWS S3 timer  / .. Select postdir   q .. Quit easy-hugo
 "))
@@ -1228,14 +1228,16 @@ Enjoy!
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
 m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
-J .. Jump blog        e .. Edit file     S .. Sort char        ? .. Describe-mode
+J .. Jump blog        e .. Edit file     S .. Sort char        M .. Magit status
+? .. Describe-mode
 ")
     (progn
       "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
 m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
-J .. Jump blog        e .. Edit file     S .. Sort time        ? .. Describe-mode
+J .. Jump blog        e .. Edit file     S .. Sort time        M .. Magit status
+? .. Describe-mode
 "))
   "Add help of easy-hugo."
   :group 'easy-hugo
@@ -1307,6 +1309,7 @@ J .. Jump blog        e .. Edit file     S .. Sort time        ? .. Describe-mod
     (define-key map "D" 'easy-hugo-list-draft)
     (define-key map "q" 'easy-hugo-quit)
     (define-key map "/" 'easy-hugo-select-postdir)
+    (define-key map ";" 'easy-hugo-select-blog)
     (define-key map "<" 'easy-hugo-previous-blog)
     (define-key map ">" 'easy-hugo-next-blog)
     map)
@@ -1898,6 +1901,27 @@ Optional prefix ARG says how many lines to move; default is one line."
     (easy-hugo--preview-end)
     (easy-hugo)))
 
+(defvar easy-hugo-bloglist-maxnumber (- (length easy-hugo-bloglist) 1))
+
+(defun easy-hugo-url-list (a)
+  "Return url list from blog max number A."
+  (if (>= a 0)
+      (cons
+       (list (cdr (rassoc (easy-hugo-nth-eval-bloglist easy-hugo-url a)
+			  (nth a easy-hugo-bloglist)))
+	     a)
+       (easy-hugo-url-list (- a 1)))))
+
+;;;###autoload
+(defun easy-hugo-select-blog ()
+  "Select blog url you want to go."
+  (interactive)
+  (let ((completions (easy-hugo-url-list easy-hugo-bloglist-maxnumber)))
+    (easy-hugo-nth-blog
+     (cadr (assoc
+	    (completing-read "Complete easy-hugo-url: " completions)
+	    completions)))))
+
 (defun easy-hugo-next-postdir ()
   "Go to next postdir."
   (interactive)
@@ -1950,7 +1974,7 @@ Optional prefix ARG says how many lines to move; default is one line."
 
 ;;;###autoload
 (defun easy-hugo-select-postdir ()
-  "Select postdir you want to go to."
+  "Select postdir you want to go."
   (interactive)
   (setq easy-hugo-postdir
 	(file-relative-name
