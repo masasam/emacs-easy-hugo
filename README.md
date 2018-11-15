@@ -247,6 +247,7 @@ You can install `easy-hugo.el` from [MELPA](http://melpa.org) with package.el
 (`M-x package-install easy-hugo`).
 Confirm that PATH passes from emacs to go.
 I recommend you are going to install [exec-path-from-shell]( https://github.com/purcell/exec-path-from-shell).
+I recommend you are going to install [keychain-environment](https://github.com/tarsius/keychain-environment).
 Easy-hugo-ag needs [the_silver_searcher](https://github.com/ggreer/the_silver_searcher).
 Easy-hugo-ag needs [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/syohex/emacs-helm-ag).
 
