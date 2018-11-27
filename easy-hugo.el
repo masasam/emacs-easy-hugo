@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.5.33
+;; Version: 3.5.34
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1665,7 +1665,7 @@ Optional prefix ARG says how many lines to move; default is one line."
 		    easy-hugo-postdir)))
 	 (when (and (file-exists-p file)
 		    (not (file-directory-p file)))
-	   (when (y-or-n-p (concat "Delete " file))
+	   (when (yes-or-no-p (concat "Delete " file))
 	     (if easy-hugo-no-help
 		 (setq easy-hugo--line (- (line-number-at-pos) 4))
 	       (setq easy-hugo--line (- (line-number-at-pos) (+ easy-hugo--unmovable-line 1))))
