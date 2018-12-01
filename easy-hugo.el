@@ -275,6 +275,10 @@ Because only two are supported by hugo."
   (make-list (length easy-hugo-bloglist) 'nil)
   "Timer list for cansel publish timer.")
 
+(defvar easy-hugo--firebase-deploy-timer-list
+  (make-list (length easy-hugo-bloglist) 'nil)
+  "Timer list for cansel firebase deploy timer.")
+
 (defvar easy-hugo--github-deploy-timer-list
   (make-list (length easy-hugo-bloglist) 'nil)
   "Timer list for cansel github deploy timer.")
@@ -680,7 +684,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
     (setf (nth n easy-hugo--publish-timer-list) nil)))
 
 ;;;###autoload
-(defun easy-hugo-firebase ()
+(defun easy-hugo-firebase-deploy ()
   "Deploy hugo at firebase."
   (interactive)
   (unless (executable-find "firebase")
@@ -701,12 +705,68 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 			    "deploy")))
      (unless (zerop ret)
        (switch-to-buffer (get-buffer "*hugo-firebase*"))
-       (error "'firebase' command does not end normally")))
+       (error "'firebase deploy' command does not end normally")))
    (when (get-buffer "*hugo-firebase*")
      (kill-buffer "*hugo-firebase*"))
    (message "Blog published")
    (when easy-hugo-url
      (browse-url easy-hugo-url))))
+
+
+;;;###autoload
+(defun easy-hugo-firebase-deploy-timer (n)
+  "A timer that firebase deploy after the N number of minutes has elapsed."
+  (interactive "nMinute:")
+  (unless easy-hugo-basedir
+    (error "Please set easy-hugo-basedir variable"))
+  (unless (executable-find easy-hugo-bin)
+    (error "'hugo' is not installed"))
+  (unless (executable-find "firebase")
+    (error "'firebase-tools' is not installed"))
+  (let ((blognum easy-hugo--current-blog))
+    (if (nth blognum easy-hugo--firebase-deploy-timer-list)
+	(message "There is already reserved firebase-deploy-timer on %s" easy-hugo-url)
+      (setf (nth easy-hugo--current-blog easy-hugo--firebase-deploy-timer-list)
+	    (run-at-time (* n 60) nil
+			 #'(lambda () (easy-hugo-firebase-deploy-on-timer blognum)))))))
+
+;;;###autoload
+(defun easy-hugo-cancel-firebase-deploy-timer ()
+  "Cancel timer that firebase deploy after the specified number of minutes has elapsed."
+  (interactive)
+  (if (nth easy-hugo--current-blog easy-hugo--firebase-deploy-timer-list)
+      (progn
+	(cancel-timer (nth easy-hugo--current-blog easy-hugo--firebase-deploy-timer-list))
+	(setf (nth easy-hugo--current-blog easy-hugo--firebase-deploy-timer-list) nil)
+	(message "Firebase-deploy-timer canceled on %s" easy-hugo-url))
+    (message "There is no reserved firebase-deploy-timer on %s" easy-hugo-url)))
+
+(defun easy-hugo-firebase-deploy-on-timer (n)
+  "Deploy hugo at firebase on timer at N."
+  (let ((default-directory (easy-hugo-nth-eval-bloglist easy-hugo-basedir n)))
+    (when (file-directory-p "public")
+      (delete-directory "public" t nil))
+    (let ((ret (call-process easy-hugo-bin nil "*hugo-firebase*" t "--destination" "public")))
+      (unless (zerop ret)
+	(switch-to-buffer (get-buffer "*hugo-firebase*"))
+	(setf (nth n easy-hugo--firebase-deploy-timer-list) nil)
+	(error "'hugo --destination public' command does not end normally")))
+    (when (get-buffer "*hugo-firebase*")
+      (kill-buffer "*hugo-firebase*"))
+    (let ((ret (call-process "firebase"
+			     nil
+			     "*hugo-firebase*"
+			     t
+			     "deploy")))
+      (unless (zerop ret)
+	(switch-to-buffer (get-buffer "*hugo-firebase*"))
+	(error "'firebase deploy' command does not end normally")))
+    (when (get-buffer "*hugo-firebase*")
+      (kill-buffer "*hugo-firebase*"))
+    (message "Blog published")
+    (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
+      (browse-url (easy-hugo-nth-eval-bloglist easy-hugo-url n)))
+    (setf (nth n easy-hugo--firebase-deploy-timer-list) nil)))
 
 (defun easy-hugo--org-headers (file)
   "Return a draft org mode header string for a new article as FILE."
@@ -1256,16 +1316,16 @@ Enjoy!
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
 m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
-J .. Jump blog        e .. Edit file     S .. Sort char        M .. Magit status
-? .. Describe-mode
+J .. Jump blog        e .. Edit file     B .. Firebase deploy  ! .. X firebase timer
+L .. firebase timer   S .. Sort char     M .. Magit status     ? .. Describe-mode
 ")
     (progn
       "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
 m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
-J .. Jump blog        e .. Edit file     S .. Sort time        M .. Magit status
-? .. Describe-mode
+J .. Jump blog        e .. Edit file     B .. Firebase deploy  ! .. X firebase timer
+L .. firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mode
 "))
   "Add help of easy-hugo."
   :group 'easy-hugo
@@ -1326,6 +1386,9 @@ J .. Jump blog        e .. Edit file     S .. Sort time        M .. Magit status
       (progn
 	(define-key map "S" 'easy-hugo-sort-time)
 	(define-key map "s" 'easy-hugo-sort-char)))
+    (define-key map "B" 'easy-hugo-firebase-deploy)
+    (define-key map "L" 'easy-hugo-firebase-deploy-timer)
+    (define-key map "!" 'easy-hugo-cancel-firebase-deploy-timer)
     (define-key map "G" 'easy-hugo-github-deploy)
     (define-key map "H" 'easy-hugo-github-deploy-timer)
     (define-key map "b" 'easy-hugo-cancel-github-deploy-timer)
