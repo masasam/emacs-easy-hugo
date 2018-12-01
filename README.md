@@ -80,6 +80,7 @@ To use easy-hugo-firebase-deploy, you make project at firebase hosting using you
 Next run command.
 
 	npm install -g firebase-tools
+	cd [your-hugo-directory]
 	firebase login
 	firebase init
 	firebase deploy
