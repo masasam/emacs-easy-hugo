@@ -166,7 +166,7 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'integer)
 
-(defcustom easy-hugo-add-help-line 5
+(defcustom easy-hugo-add-help-line 6
   "Number of lines of `easy-hugo-add-help'."
   :group 'easy-hugo
   :type 'integer)
