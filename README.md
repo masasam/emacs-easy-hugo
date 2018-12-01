@@ -108,6 +108,12 @@ Deploy hugo source at Google Cloud Storage.
 
 With this you can go to a directory other than content/post.
 
+	M-x easy-hugo-select-filename
+
+Select filename you want to open. You can open a selected filename article.
+
+![easy-hugo-select-filename](image/easy-hugo-select-filename.png)
+
 	M-x easy-hugo-select-postdir
 
 Select postdir you want to go. You can go to a selected directory.
@@ -233,7 +239,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |c		|easy-hugo-open-config|
 |d		|easy-hugo-delete|
 |e      |easy-hugo-open|
-|f		|easy-hugo-open|
+|f		|easy-hugo-select-filename|
 |g		|easy-hugo-refresh|
 |h		|easy-hugo-backward-char|
 |i		|easy-hugo-cancel-google-cloud-storage-deploy-timer|
