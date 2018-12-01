@@ -273,23 +273,23 @@ Because only two are supported by hugo."
 
 (defvar easy-hugo--publish-timer-list
   (make-list (length easy-hugo-bloglist) 'nil)
-  "Timer list for cansel publish timer.")
+  "Timer list for cancel publish timer.")
 
 (defvar easy-hugo--firebase-deploy-timer-list
   (make-list (length easy-hugo-bloglist) 'nil)
-  "Timer list for cansel firebase deploy timer.")
+  "Timer list for cancel firebase deploy timer.")
 
 (defvar easy-hugo--github-deploy-timer-list
   (make-list (length easy-hugo-bloglist) 'nil)
-  "Timer list for cansel github deploy timer.")
+  "Timer list for cancel github deploy timer.")
 
 (defvar easy-hugo--amazon-s3-deploy-timer-list
   (make-list (length easy-hugo-bloglist) 'nil)
-  "Timer list for cansel amazon s3 deploy timer.")
+  "Timer list for cancel amazon s3 deploy timer.")
 
 (defvar easy-hugo--google-cloud-storage-deploy-timer-list
   (make-list (length easy-hugo-bloglist) 'nil)
-  "Timer list for cansel google cloud storage deploy timer.")
+  "Timer list for cancel google cloud storage deploy timer.")
 
 (defconst easy-hugo--default-bin
   "hugo"
