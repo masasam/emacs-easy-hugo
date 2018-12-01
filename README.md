@@ -72,6 +72,18 @@ you can use helm-ag by writing the following to .emacs or init.el
 
 	(setq easy-hugo-helm-ag t)
 
+If you deploy your blog at [Firebase](https://firebase.google.com/)
+
+	M-x easy-hugo-firebase-deploy
+
+To use easy-hugo-firebase-deploy, you make project at firebase hosting using your browser.
+Next run command.
+
+	npm install -g firebase-tools
+	firebase login
+	firebase init
+	firebase deploy
+
 If you deploy your blog at github etc
 
 	M-x easy-hugo-github-deploy
@@ -79,7 +91,7 @@ If you deploy your blog at github etc
 Execute deploy.sh which exists in directory `easy-hugo-basedir`.
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-and-deployment/),
-it can also correspond to Firebase or Netlify etc.
+it can also correspond to Netlify etc.
 For more information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27).
 
 	M-x easy-hugo-amazon-s3-deploy
@@ -195,7 +207,9 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |<		|easy-hugo-previous-blog|
 |>		|easy-hugo-next-blog|
 |?		|describe-mode|
+|!		|easy-hugo-cancel-firebase-deploy-timer|
 |A		|easy-hugo-amazon-s3-deploy|
+|B      |easy-hugo-firebase-deploy|
 |C		|easy-hugo-google-cloud-storage-deploy|
 |D		|easy-hugo-list-draft|
 |F		|easy-hugo-full-help|
@@ -203,6 +217,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |H		|easy-hugo-github-deploy-timer|
 |I		|easy-hugo-google-cloud-storage-deploy-timer|
 |J      |easy-hugo-nth-blog|
+|L      |easy-hugo-firebase-deploy-timer|
 |M		|easy-hugo-magit|
 |N		|easy-hugo-no-help|
 |O		|easy-hugo-open-basedir|
