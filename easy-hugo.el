@@ -2078,6 +2078,21 @@ Optional prefix ARG says how many lines to move; default is one line."
 	  nil t)))
   (easy-hugo))
 
+;;;###autoload
+(defun easy-hugo-select-file ()
+  "Select file you want to open."
+  (interactive)
+  (find-file
+   (concat (expand-file-name easy-hugo-postdir easy-hugo-basedir)
+	   "/"
+	   (completing-read
+	    "Complete file: "
+	    (delete ".."
+		    (delete "."
+			    (directory-files
+			     (expand-file-name easy-hugo-postdir easy-hugo-basedir))))
+	    nil t))))
+
 (defun easy-hugo--directory-list (list)
   "Return only directories in LIST."
   (if list
