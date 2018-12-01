@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.5.35
+;; Version: 3.5.36
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -268,8 +268,7 @@ Because only two are supported by hugo."
 	(easy-hugo-asciidoc-extension . ,easy-hugo-asciidoc-extension)
 	(easy-hugo-html-extension . ,easy-hugo-html-extension)
 	(easy-hugo-markdown-extension . ,easy-hugo-markdown-extension)
-	(easy-hugo-default-ext . ,easy-hugo-default-ext)
-	(easy-hugo-postdir . ,easy-hugo-postdir))
+	(easy-hugo-default-ext . ,easy-hugo-default-ext))
       easy-hugo-bloglist)
 
 (defvar easy-hugo--publish-timer-list
@@ -1930,14 +1929,14 @@ Optional prefix ARG says how many lines to move; default is one line."
 	 (easy-hugo--directory-files-recursively
 	  (expand-file-name "content" easy-hugo-basedir) "" t)))
   (setq easy-hugo--postdir-list
-	(delete (expand-file-name easy-hugo-postdir easy-hugo-basedir)
+	(delete (expand-file-name (easy-hugo-eval-bloglist easy-hugo-postdir) easy-hugo-basedir)
 		easy-hugo--postdir-list))
   (add-to-list 'easy-hugo--postdir-list (expand-file-name
 					 "content"
 					 easy-hugo-basedir)
 	       t)
   (add-to-list 'easy-hugo--postdir-list (expand-file-name
-					 easy-hugo-postdir
+					 (easy-hugo-eval-bloglist easy-hugo-postdir)
 					 easy-hugo-basedir))
   (if (eq (- (length easy-hugo--postdir-list) 1) easy-hugo--current-postdir)
       (setq easy-hugo--current-postdir 0)
@@ -1955,21 +1954,21 @@ Optional prefix ARG says how many lines to move; default is one line."
 	 (easy-hugo--directory-files-recursively
 	  (expand-file-name "content" easy-hugo-basedir) "" t)))
   (setq easy-hugo--postdir-list
-	(delete
-	 (expand-file-name "content/post" easy-hugo-basedir)
-	 easy-hugo--postdir-list))
-  (add-to-list 'easy-hugo--postdir-list
-	       (expand-file-name "content" easy-hugo-basedir)
+	(delete (expand-file-name (easy-hugo-eval-bloglist easy-hugo-postdir) easy-hugo-basedir)
+		easy-hugo--postdir-list))
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name
+					 "content"
+					 easy-hugo-basedir)
 	       t)
-  (add-to-list 'easy-hugo--postdir-list
-	       (expand-file-name "content/post" easy-hugo-basedir))
-  (setq easy-hugo--current-postdir (- easy-hugo--current-postdir 1))
-  (when (> 0 easy-hugo--current-postdir)
-    (setq easy-hugo--current-postdir (- (length easy-hugo--postdir-list) 1)))
+  (add-to-list 'easy-hugo--postdir-list (expand-file-name
+					 (easy-hugo-eval-bloglist easy-hugo-postdir)
+					 easy-hugo-basedir))
+  (if (eq 0 easy-hugo--current-postdir)
+      (setq easy-hugo--current-postdir (- (length easy-hugo--postdir-list) 1))
+    (setq easy-hugo--current-postdir (- easy-hugo--current-postdir 1)))
   (setq easy-hugo-postdir
-	(file-relative-name
-	 (nth easy-hugo--current-postdir easy-hugo--postdir-list)
-	 easy-hugo-basedir))
+	(file-relative-name (nth easy-hugo--current-postdir easy-hugo--postdir-list)
+			    easy-hugo-basedir))
   (easy-hugo))
 
 ;;;###autoload
