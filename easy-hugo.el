@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.5.34
+;; Version: 3.5.35
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -289,27 +289,27 @@ Because only two are supported by hugo."
   "Timer list for cansel google cloud storage deploy timer.")
 
 (defconst easy-hugo--default-bin
-  easy-hugo-bin
+  "hugo"
   "Default easy-hugo-bin.")
 
 (defconst easy-hugo--default-github-deploy-script
-  easy-hugo-github-deploy-script
+  "deploy.sh"
   "Default easy-hugo github-deploy-script.")
 
 (defconst easy-hugo--default-image-directory
-  easy-hugo-image-directory
+  "images"
   "Default easy-hugo image-directory.")
 
 (defconst easy-hugo--default-picture-directory
-  easy-hugo-default-picture-directory
+  "~"
   "Default easy-hugo picture-directory.")
 
 (defconst easy-hugo--default-publish-chmod
-  easy-hugo-publish-chmod
+  "Du=rwx,Dgo=rx,Fu=rw,Fog=r"
   "Default easy-hugo publish-chmod.")
 
 (defconst easy-hugo--default-previewtime
-  easy-hugo-previewtime
+  300
   "Default easy-hugo previewtime.")
 
 (defconst easy-hugo--default-preview-url
@@ -317,28 +317,28 @@ Because only two are supported by hugo."
   "Default easy-hugo preview-url.")
 
 (defconst easy-hugo--default-sort-default-char
-  easy-hugo-sort-default-char
+  nil
   "Default easy-hugo sort-default-char.")
 
 (defconst easy-hugo--default-asciidoc-extension
-  easy-hugo-asciidoc-extension
+  "ad"
   "Default easy-hugo asciidoc-extension.")
 
 (defconst easy-hugo--default-html-extension
-  easy-hugo-html-extension
+  "html"
   "Default easy-hugo html-extension.")
 
 (defconst easy-hugo--default-markdown-extension
-  easy-hugo-markdown-extension
+  "md"
   "Default easy-hugo markdown-extension.")
+
+(defconst easy-hugo--default-postdir
+  "content/post"
+  "Default easy-hugo-postdir.")
 
 (defconst easy-hugo--default-ext
   easy-hugo-default-ext
   "Default easy-hugo default-ext.")
-
-(defconst easy-hugo--default-postdir
-  easy-hugo-postdir
-  "Default easy-hugo-postdir.")
 
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
   "Buffer name of easy-hugo.")
