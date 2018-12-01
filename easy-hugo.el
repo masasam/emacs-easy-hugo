@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.6.36
+;; Version: 3.7.36
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1278,7 +1278,7 @@ to the server."
 	"n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
-d .. Delete post      c .. Open config   W .. AWS S3 timer     I .. GCS timer
+d .. Delete post      c .. Open config   W .. AWS S3 timer     f .. Select filename
 P .. Publish server   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  ; .. Select blog   / .. Select postdir   q .. Quit easy-hugo
@@ -1287,7 +1287,7 @@ F .. Full help [tab]  ; .. Select blog   / .. Select postdir   q .. Quit easy-hu
       "n .. New blog post    R .. Rename file   G .. Deploy GitHub    D .. Draft list
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort char     T .. Publish timer    N .. No help-mode
-d .. Delete post      c .. Open config   ; .. Select blog      I .. GCS timer
+d .. Delete post      c .. Open config   ; .. Select blog      f .. Select filename
 P .. Publish server   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  W .. AWS S3 timer  / .. Select postdir   q .. Quit easy-hugo
@@ -1314,7 +1314,7 @@ Enjoy!
       (progn
 	"O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
-m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
+m .. X s3-timer       i .. X GCS timer   I .. GCS timer        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
 J .. Jump blog        e .. Edit file     B .. Firebase deploy  ! .. X firebase timer
 L .. firebase timer   S .. Sort char     M .. Magit status     ? .. Describe-mode
@@ -1322,7 +1322,7 @@ L .. firebase timer   S .. Sort char     M .. Magit status     ? .. Describe-mod
     (progn
       "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
 k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
-m .. X s3-timer       i .. X GCS timer   f .. File open        V .. View other window
+m .. X s3-timer       i .. X GCS timer   I .. GCS timer        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
 J .. Jump blog        e .. Edit file     B .. Firebase deploy  ! .. X firebase timer
 L .. firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mode
@@ -1355,7 +1355,7 @@ L .. firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
     (put 'easy-hugo-open :advertised-binding "\C-m")
     (define-key map "d" 'easy-hugo-delete)
     (define-key map "e" 'easy-hugo-open)
-    (define-key map "f" 'easy-hugo-open)
+    (define-key map "f" 'easy-hugo-select-filename)
     (define-key map "F" 'easy-hugo-full-help)
     (define-key map [tab] 'easy-hugo-full-help)
     (define-key map [backtab] 'easy-hugo-no-help)
@@ -2079,14 +2079,14 @@ Optional prefix ARG says how many lines to move; default is one line."
   (easy-hugo))
 
 ;;;###autoload
-(defun easy-hugo-select-file ()
-  "Select file you want to open."
+(defun easy-hugo-select-filename ()
+  "Select filename you want to open."
   (interactive)
   (find-file
    (concat (expand-file-name easy-hugo-postdir easy-hugo-basedir)
 	   "/"
 	   (completing-read
-	    "Complete file: "
+	    "Complete filename: "
 	    (delete ".."
 		    (delete "."
 			    (directory-files
