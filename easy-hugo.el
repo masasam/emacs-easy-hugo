@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.5.36
+;; Version: 3.6.36
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -678,6 +678,35 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
     (when (easy-hugo-nth-eval-bloglist easy-hugo-url n)
       (browse-url (easy-hugo-nth-eval-bloglist easy-hugo-url n)))
     (setf (nth n easy-hugo--publish-timer-list) nil)))
+
+;;;###autoload
+(defun easy-hugo-firebase ()
+  "Deploy hugo at firebase."
+  (interactive)
+  (unless (executable-find "firebase")
+    (error "'firebase-tools' is not installed"))
+  (easy-hugo-with-env
+   (when (file-directory-p "public")
+     (delete-directory "public" t nil))
+   (let ((ret (call-process easy-hugo-bin nil "*hugo-publish*" t "--destination" "public")))
+     (unless (zerop ret)
+       (switch-to-buffer (get-buffer "*hugo-publish*"))
+       (error "'hugo --destination public' command does not end normally")))
+   (when (get-buffer "*hugo-publish*")
+     (kill-buffer "*hugo-publish*"))
+   (let ((ret (call-process "firebase"
+			    nil
+			    "*hugo-firebase*"
+			    t
+			    "deploy")))
+     (unless (zerop ret)
+       (switch-to-buffer (get-buffer "*hugo-firebase*"))
+       (error "'firebase' command does not end normally")))
+   (when (get-buffer "*hugo-firebase*")
+     (kill-buffer "*hugo-firebase*"))
+   (message "Blog published")
+   (when easy-hugo-url
+     (browse-url easy-hugo-url))))
 
 (defun easy-hugo--org-headers (file)
   "Return a draft org mode header string for a new article as FILE."
