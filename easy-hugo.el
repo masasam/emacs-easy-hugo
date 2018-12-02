@@ -2124,7 +2124,7 @@ Optional prefix ARG says how many lines to move; default is one line."
     (nconc result (nreverse files))))
 
 (defun easy-hugo--directory-files-nondirectory (dir regexp)
-  "Return list of all files under DIR that have file names matching REGEXP."
+  "Return list of all files nondirectory under DIR that have file names matching REGEXP."
   (let ((result nil)
 	(files nil)
 	(tramp-mode (and tramp-mode (file-remote-p (expand-file-name dir)))))
