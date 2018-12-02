@@ -62,6 +62,16 @@ Since the process of hugo running in the laptop or desktop disappears in 300 sec
 
 You can publish your blog to the server and the browser opens automatically.
 
+	M-x easy-hugo-publish-clever
+
+Clever publish command.
+Automatically select the deployment destination from init.el.
+If the target blog set easy-hugo-root, easy-hugo-publish will be executed.
+If the target blog set easy-hugo-amazon-s3-bucket-name, easy-hugo-amazon-s3-deploy will be executed.
+If the target blog set easy-hugo-google-cloud-storage-bucket-name, easy-hugo-google-cloud-storage-bucket-name will be executed.
+If the target blog has "deploy.sh" on easy-hugo-basedir, easy-hugo-github-deploy will be executed.
+If there is firebase command , easy-hugo-firebase-deploy will be executed.
+
 	M-x easy-hugo-ag
 
 ![easy-hugo-helm-ag](image/easy-hugo-helm-ag.png)
@@ -228,7 +238,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |M		|easy-hugo-magit|
 |N		|easy-hugo-no-help|
 |O		|easy-hugo-open-basedir|
-|P		|easy-hugo-publish|
+|P		|easy-hugo-publish-clever|
 |R		|easy-hugo-rename|
 |S		|easy-hugo-sort-char|
 |T		|easy-hugo-publish-timer|
