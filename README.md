@@ -395,15 +395,21 @@ Then it becomes the following header
 		(easy-hugo-url . "http://example2.com")
 		(easy-hugo-sshdomain . "myblogdomain")
 		(easy-hugo-root . "/home/hugo/"))
-		;; blog3 setting
+		;; blog3 setting for aws s3
 		((easy-hugo-basedir . "~/src/github.com/masasam/hugo3/")
 		(easy-hugo-url . "http://example3.net")
 		(easy-hugo-amazon-s3-bucket-name . "yours3bucketname"))
-		;; blog4 setting
+		;; blog4 setting for google cloud strage
 		((easy-hugo-basedir . "~/src/github.com/masasam/hugo4/")
 		(easy-hugo-url . "http://example4.net")
 		(easy-hugo-google-cloud-storage-bucket-name . "yourGCPbucketname")
-		(easy-hugo-image-directory . "img"))))
+		(easy-hugo-image-directory . "img"))
+		;; blog5 for github pages
+		((easy-hugo-basedir . "~/src/github.com/masasam/githubpages/")
+		(easy-hugo-url . "https://yourid.github.io"))
+		;; blog6 for firebase hosting
+		((easy-hugo-basedir . "~/src/github.com/masasam/firebase/")
+		(easy-hugo-url . "https://yourproject.firebaseapp.com"))))
 
 If you use [use-package](https://github.com/jwiegley/use-package), please write them all in :init.
 
@@ -423,15 +429,21 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 		(easy-hugo-url . "http://example2.com")
 		(easy-hugo-sshdomain . "myblogdomain")
 		(easy-hugo-root . "/home/hugo/"))
-		;; blog3 setting
+		;; blog3 setting for aws s3
 		((easy-hugo-basedir . "~/src/github.com/masasam/hugo3/")
 		(easy-hugo-url . "http://example3.net")
 		(easy-hugo-amazon-s3-bucket-name . "yours3bucketname"))
-		;; blog4 setting
+		;; blog4 setting for google cloud strage
 		((easy-hugo-basedir . "~/src/github.com/masasam/hugo4/")
 		(easy-hugo-url . "http://example4.net")
 		(easy-hugo-google-cloud-storage-bucket-name . "yourGCPbucketname")
-		(easy-hugo-image-directory . "img"))))
+		(easy-hugo-image-directory . "img"))
+		;; blog5 for github pages
+		((easy-hugo-basedir . "~/src/github.com/masasam/githubpages/")
+		(easy-hugo-url . "https://yourid.github.io"))
+		;; blog6 for firebase hosting
+		((easy-hugo-basedir . "~/src/github.com/masasam/firebase/")
+		(easy-hugo-url . "https://yourproject.firebaseapp.com"))))
 	:bind ("C-c C-e" . easy-hugo))
 
 You can manage as many blogs as you like.
