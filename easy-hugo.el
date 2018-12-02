@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.7.37
+;; Version: 3.8.37
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -575,6 +575,28 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
                                "/"
                                (file-name-nondirectory file)))
                       "  title=\"\" >}}"))))))
+
+;;;###autoload
+(defun easy-hugo-publish-clever ()
+  "Clever publish command.
+Automatically select the deployment destination from init.el."
+  (interactive)
+  (easy-hugo-with-env
+   (cond ((easy-hugo-eval-bloglist easy-hugo-root)
+	  (easy-hugo-publish))
+	 ((easy-hugo-eval-bloglist easy-hugo-amazon-s3-bucket-name)
+	  (easy-hugo-amazon-s3-deploy))
+	 ((easy-hugo-eval-bloglist easy-hugo-google-cloud-storage-bucket-name)
+	  (easy-hugo-google-cloud-storage-deploy))
+	 ((executable-find (expand-file-name
+			    (if (easy-hugo-eval-bloglist easy-hugo-github-deploy-script)
+				(easy-hugo-eval-bloglist easy-hugo-github-deploy-script)
+			      easy-hugo-github-deploy-script)
+			    easy-hugo-basedir))
+	  (easy-hugo-github-deploy))
+	 ((executable-find "firebase")
+	  (easy-hugo-firebase-deploy))
+	 (t (error "Nothing is found to publish at %s" easy-hugo-basedir)))))
 
 ;;;###autoload
 (defun easy-hugo-publish ()
@@ -1279,7 +1301,7 @@ to the server."
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   W .. AWS S3 timer     f .. Select filename
-P .. Publish server   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
+P .. Publish clever   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  ; .. Select blog   / .. Select postdir   q .. Quit easy-hugo
 ")
@@ -1288,7 +1310,7 @@ F .. Full help [tab]  ; .. Select blog   / .. Select postdir   q .. Quit easy-hu
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort char     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   ; .. Select blog      f .. Select filename
-P .. Publish server   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
+P .. Publish clever   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  W .. AWS S3 timer  / .. Select postdir   q .. Quit easy-hugo
 "))
@@ -1344,7 +1366,7 @@ L .. firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
     (define-key map "c" 'easy-hugo-open-config)
     (define-key map "u" 'easy-hugo-sort-publishday)
     (define-key map "p" 'easy-hugo-preview)
-    (define-key map "P" 'easy-hugo-publish)
+    (define-key map "P" 'easy-hugo-publish-clever)
     (define-key map "T" 'easy-hugo-publish-timer)
     (define-key map "W" 'easy-hugo-amazon-s3-deploy-timer)
     (define-key map "t" 'easy-hugo-cancel-publish-timer)
