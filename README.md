@@ -69,7 +69,7 @@ Automatically select the deployment destination from init.el.
 Only one command is executed in the following order.
 If easy-hugo-root is set the target blog, easy-hugo-publish will be executed.
 If easy-hugo-amazon-s3-bucket-name is set the target blog, easy-hugo-amazon-s3-deploy will be executed.
-If easy-hugo-google-cloud-storage-bucket-name is set the target blog, easy-hugo-google-cloud-storage-bucket-name will be executed.
+If easy-hugo-google-cloud-storage-bucket-name is set the target blog, easy-hugo-google-cloud-storage-deploy will be executed.
 If the target blog has "deploy.sh" on easy-hugo-basedir, easy-hugo-github-deploy will be executed.
 If there is firebase command , easy-hugo-firebase-deploy will be executed.
 
