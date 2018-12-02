@@ -66,9 +66,10 @@ You can publish your blog to the server and the browser opens automatically.
 
 Clever publish command.
 Automatically select the deployment destination from init.el.
-If the target blog set easy-hugo-root, easy-hugo-publish will be executed.
-If the target blog set easy-hugo-amazon-s3-bucket-name, easy-hugo-amazon-s3-deploy will be executed.
-If the target blog set easy-hugo-google-cloud-storage-bucket-name, easy-hugo-google-cloud-storage-bucket-name will be executed.
+Only one command is executed in the following order.
+If easy-hugo-root is set the target blog, easy-hugo-publish will be executed.
+If easy-hugo-amazon-s3-bucket-name is set the target blog, easy-hugo-amazon-s3-deploy will be executed.
+If easy-hugo-google-cloud-storage-bucket-name is set the target blog, easy-hugo-google-cloud-storage-bucket-name will be executed.
 If the target blog has "deploy.sh" on easy-hugo-basedir, easy-hugo-github-deploy will be executed.
 If there is firebase command , easy-hugo-firebase-deploy will be executed.
 
