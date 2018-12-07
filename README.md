@@ -115,6 +115,7 @@ Example of deploy.sh for netlify
 
 rm -rf public
 hugo --destination public
+cd public
 
 expect -c "
 set timeout 100
