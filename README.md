@@ -106,7 +106,7 @@ When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-
 it can also correspond to Netlify etc.
 For more GuiHub Pages information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27).
 
-Sample deploy.sh for netlify
+Example of deploy.sh for netlify
 
 ```bash
 #!/bin/bash
