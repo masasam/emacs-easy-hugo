@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.8.39
+;; Version: 3.8.40
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -30,6 +30,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(require 'url)
 (require 'request)
 
 (defgroup easy-hugo nil
