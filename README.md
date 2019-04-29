@@ -413,7 +413,7 @@ Then it becomes the following header
 	 
 ## Multiple blogs setting
 
-When you change easy-hugo-bloglist, you need to restart emacs.
+When you change setting, you need to restart emacs.
 
 	;; Main blog
 	(setq easy-hugo-basedir "~/bookshelf/")
