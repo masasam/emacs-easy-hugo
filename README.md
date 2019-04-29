@@ -307,6 +307,8 @@ Easy-hugo-ag needs [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](
 
 ## Sample Configuration
 
+When you change setting, you need to restart emacs.
+
 	(setq easy-hugo-basedir "~/bookshelf/")
 	(setq easy-hugo-url "https://yourblogdomain")
 	(setq easy-hugo-sshdomain "blogdomain")
