@@ -58,6 +58,10 @@ The browser opens automatically and you can preview the blog on your laptop or d
 Even if you run the easy-hugo-preview command many times, only one hugo process will run so do not mind it.
 Since the process of hugo running in the laptop or desktop disappears in 300 seconds, you do not have to worry about killing hugo process.
 
+    (setq easy-hugo-server-flags "-D")
+
+Set `easy-hugo-server-flags` to `-D` in order to preview drafts.
+
     M-x easy-hugo-publish
 
 You can publish your blog to the server and the browser opens automatically.
