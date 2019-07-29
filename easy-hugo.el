@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.8.41
+;; Version: 3.8.42
 ;; Package-Requires: ((emacs "24.4") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -1366,7 +1366,7 @@ k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
 m .. X s3-timer       i .. X GCS timer   I .. GCS timer        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
 J .. Jump blog        e .. Edit file     B .. Firebase deploy  ! .. X firebase timer
-L .. firebase timer   S .. Sort char     M .. Magit status     ? .. Describe-mode
+L .. Firebase timer   S .. Sort char     M .. Magit status     ? .. Describe-mode
 ")
     (progn
       "O .. Open basedir     r .. Refresh       b .. X github timer   t .. X publish-timer
@@ -1374,7 +1374,7 @@ k .. Previous-line    j .. Next line     h .. backward-char    l .. forward-char
 m .. X s3-timer       i .. X GCS timer   I .. GCS timer        V .. View other window
 - .. Pre postdir      + .. Next postdir  w .. Write post       o .. Open other window
 J .. Jump blog        e .. Edit file     B .. Firebase deploy  ! .. X firebase timer
-L .. firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mode
+L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mode
 "))
   "Add help of easy-hugo."
   :group 'easy-hugo
