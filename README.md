@@ -401,7 +401,7 @@ If you want to customise color, write the following in the init.el or .emacs.
 	:group 'easy-hugo-faces)
 
 In order to generate link of image from image file directory under 'static' directory,
-If you want to change image file directory that is under 'static' directory.
+if you want to change image file directory that is under 'static' directory.
 If not set the default image file directory will be 'images'.
 
 	(setq easy-hugo-image-directory "img")
