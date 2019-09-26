@@ -386,6 +386,12 @@ If not set the default s key will be sort time.
 
 	(setq easy-hugo-sort-default-char t)
 
+If you want to sort article in order of creation.
+
+	(setq easy-hugo--sort-char-flg nil)
+	(setq easy-hugo--sort-time-flg nil)
+	(setq easy-hugo--sort-publishday-flg 1)
+
 If you want to customise color, write the following in the init.el or .emacs.
 
 	(defface easy-hugo-help-face
