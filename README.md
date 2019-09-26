@@ -386,7 +386,7 @@ If not set the default s key will be sort time.
 
 	(setq easy-hugo-sort-default-char t)
 
-If you want to sort article in order of creation.
+If you want to sort article in order of creation from startup.
 
 	(setq easy-hugo--sort-char-flg nil)
 	(setq easy-hugo--sort-time-flg nil)
