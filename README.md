@@ -296,7 +296,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 
 ## Requirements
 
-- Emacs 24.4 or higher
+- Emacs 25.1 or higher
 - hugo 0.19 or higher
 
 ## Installation

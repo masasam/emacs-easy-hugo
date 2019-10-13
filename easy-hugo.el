@@ -4,8 +4,8 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.8.42
-;; Package-Requires: ((emacs "24.4") (popup "0.5.3") (request "0.3.0"))
+;; Version: 3.8.43
+;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@
   :type 'string)
 
 (defcustom easy-hugo-preview-url "http://localhost:1313/"
-  "Preview url of easy-hugo."
+  "Preview url of `easy-hugo'."
   :group 'easy-hugo
   :type 'string)
 
@@ -112,12 +112,12 @@
   :type 'string)
 
 (defcustom easy-hugo-no-help nil
-  "No help flg of easy-hugo."
+  "No help flg of `easy-hugo'."
   :group 'easy-hugo
   :type 'integer)
 
 (defcustom easy-hugo-additional-help nil
-  "Additional help flg of easy-hugo."
+  "Additional help flg of `easy-hugo'."
   :group 'easy-hugo
   :type 'integer)
 
@@ -229,25 +229,25 @@ Because only two are supported by hugo."
   :group 'easy-hugo-faces)
 
 (defvar easy-hugo--mode-buffer nil
-  "Main buffer of easy-hugo.")
+  "Main buffer of `easy-hugo'.")
 
 (defvar easy-hugo--cursor nil
-  "Cursor of easy-hugo.")
+  "Cursor of `easy-hugo'.")
 
 (defvar easy-hugo--line nil
-  "Line of easy-hugo.")
+  "Line of `easy-hugo'.")
 
 (defvar easy-hugo--sort-time-flg 1
-  "Sort time flg of easy-hugo.")
+  "Sort time flg of `easy-hugo'.")
 
 (defvar easy-hugo--sort-char-flg nil
-  "Sort char flg of easy-hugo.")
+  "Sort char flg of `easy-hugo'.")
 
 (defvar easy-hugo--sort-publishday-flg nil
-  "Sort publishtime flg of easy-hugo.")
+  "Sort publishtime flg of `easy-hugo'.")
 
 (defvar easy-hugo--refresh nil
-  "Refresh flg of easy-hugo.")
+  "Refresh flg of `easy-hugo'.")
 
 (defvar easy-hugo--current-blog 0
   "Current blog number.")
@@ -304,57 +304,57 @@ Because only two are supported by hugo."
 
 (defconst easy-hugo--default-github-deploy-script
   "deploy.sh"
-  "Default easy-hugo github-deploy-script.")
+  "Default `easy-hugo' github-deploy-script.")
 
 (defconst easy-hugo--default-image-directory
   "images"
-  "Default easy-hugo image-directory.")
+  "Default `easy-hugo' image-directory.")
 
 (defconst easy-hugo--default-picture-directory
   "~"
-  "Default easy-hugo picture-directory.")
+  "Default `easy-hugo' picture-directory.")
 
 (defconst easy-hugo--default-publish-chmod
   "Du=rwx,Dgo=rx,Fu=rw,Fog=r"
-  "Default easy-hugo publish-chmod.")
+  "Default `easy-hugo' publish-chmod.")
 
 (defconst easy-hugo--default-previewtime
   300
-  "Default easy-hugo previewtime.")
+  "Default `easy-hugo' previewtime.")
 
 (defconst easy-hugo--default-preview-url
   "http://localhost:1313/"
-  "Default easy-hugo preview-url.")
+  "Default `easy-hugo' preview-url.")
 
 (defconst easy-hugo--default-sort-default-char
   nil
-  "Default easy-hugo sort-default-char.")
+  "Default `easy-hugo' sort-default-char.")
 
 (defconst easy-hugo--default-asciidoc-extension
   "ad"
-  "Default easy-hugo asciidoc-extension.")
+  "Default `easy-hugo' asciidoc-extension.")
 
 (defconst easy-hugo--default-html-extension
   "html"
-  "Default easy-hugo html-extension.")
+  "Default `easy-hugo' html-extension.")
 
 (defconst easy-hugo--default-markdown-extension
   "md"
-  "Default easy-hugo markdown-extension.")
+  "Default `easy-hugo' markdown-extension.")
 
 (defconst easy-hugo--default-postdir
   "content/post"
-  "Default easy-hugo-postdir.")
+  "Default `easy-hugo-postdir'.")
 
 (defconst easy-hugo--default-ext
   easy-hugo-default-ext
-  "Default easy-hugo default-ext.")
+  "Default `easy-hugo' default-ext.")
 
 (defconst easy-hugo--buffer-name "*Easy-hugo*"
-  "Buffer name of easy-hugo.")
+  "Buffer name of `easy-hugo'.")
 
 (defconst easy-hugo--forward-char 20
-  "Forward-char of easy-hugo.")
+  "Forward-char of `easy-hugo'.")
 
 (defmacro easy-hugo-with-env (&rest body)
   "Evaluate BODY with `default-directory' set to `easy-hugo-basedir'.
@@ -1299,7 +1299,7 @@ to the server."
 
 ;;;###autoload
 (defun easy-hugo-ag ()
-  "Search for blog article with counsel-ag or helm-ag."
+  "Search for blog article with `counsel-ag' or `helm-ag'."
   (interactive)
   (easy-hugo-with-env
    (if (and (require 'counsel nil t) (not easy-hugo-helm-ag))
@@ -1341,7 +1341,7 @@ P .. Publish clever   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  W .. AWS S3 timer  / .. Select postdir   q .. Quit easy-hugo
 "))
-  "Help of easy-hugo."
+  "Help of `easy-hugo'."
   :group 'easy-hugo
   :type 'string)
 
@@ -1356,7 +1356,7 @@ article which you wrote should appear here.
 Enjoy!
 
 "
-  "Help of easy-hugo first time.")
+  "Help of `easy-hugo' first time.")
 
 (defcustom easy-hugo-add-help
   (if (null easy-hugo-sort-default-char)
@@ -1376,7 +1376,7 @@ m .. X s3-timer       i .. X GCS timer   I .. GCS timer        V .. View other w
 J .. Jump blog        e .. Edit file     B .. Firebase deploy  ! .. X firebase timer
 L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mode
 "))
-  "Add help of easy-hugo."
+  "Add help of `easy-hugo'."
   :group 'easy-hugo
   :type 'string)
 
@@ -1453,7 +1453,7 @@ L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
     (define-key map "<" 'easy-hugo-previous-blog)
     (define-key map ">" 'easy-hugo-next-blog)
     map)
-  "Keymap for easy-hugo major mode.")
+  "Keymap for `easy-hugo' major mode.")
 
 (define-derived-mode easy-hugo-mode special-mode "Easy-hugo"
   "Major mode for easy hugo.")
@@ -2213,7 +2213,7 @@ output directories whose names match REGEXP."
     (nconc result (nreverse files))))
 
 (defun easy-hugo-draft-list ()
-  "Drafts list mode of easy-hugo."
+  "Drafts list mode of `easy-hugo'."
   (easy-hugo-with-env
    (when (> 0.25 (easy-hugo--version))
      (error "'List draft' requires hugo 0.25 or higher"))
