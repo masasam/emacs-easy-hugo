@@ -113,6 +113,8 @@ For more GuiHub Pages information refer to [here](https://github.com/masasam/ema
 Example of deploy.sh for netlify
 
 	npm install netlify-cli -g
+	netlify login
+	netlify init
 
 ```bash
 #!/bin/bash
