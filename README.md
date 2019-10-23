@@ -75,7 +75,7 @@ If easy-hugo-root is set the target blog, easy-hugo-publish will be executed.
 If easy-hugo-amazon-s3-bucket-name is set the target blog, easy-hugo-amazon-s3-deploy will be executed.
 If easy-hugo-google-cloud-storage-bucket-name is set the target blog, easy-hugo-google-cloud-storage-deploy will be executed.
 If the target blog has "deploy.sh" on easy-hugo-basedir, easy-hugo-github-deploy will be executed.
-If there is firebase command , easy-hugo-firebase-deploy will be executed.
+If there is firebase command, easy-hugo-firebase-deploy will be executed.
 
 	M-x easy-hugo-ag
 
@@ -83,11 +83,11 @@ If there is firebase command , easy-hugo-firebase-deploy will be executed.
 
 You can search blog article with [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/syohex/emacs-helm-ag).
 If both are installed, counsel-ag takes precedence at default and
-you can use helm-ag by writing the following to .emacs or init.el
+you can use helm-ag by writing the following to .emacs or init.el.
 
 	(setq easy-hugo-helm-ag t)
 
-If you deploy your blog at [Firebase](https://firebase.google.com/)
+If you deploy your blog at [Firebase](https://firebase.google.com/).
 
 	M-x easy-hugo-firebase-deploy
 
@@ -100,7 +100,7 @@ Next run command.
 	firebase init
 	firebase deploy
 
-If you deploy your blog at github etc
+If you deploy your blog at github etc.
 
 	M-x easy-hugo-github-deploy
 
@@ -236,7 +236,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 |SPC	|easy-hugo-next-line|
 |Shift-SPC|easy-hugo-previous-line|
 |←	    |easy-hugo-backward-char|
-|→     |easy-hugo-forward-char|
+|→      |easy-hugo-forward-char|
 |C-b	|easy-hugo-backward-char|
 |C-f	|easy-hugo-forward-char|
 |C-n	|easy-hugo-next-line|
@@ -371,7 +371,7 @@ Easy-hugo will not start when easy-hugo-postdir doesn't exist.
 
 	(setq easy-hugo-postdir "content/posts")
 
-If you use [Academic theme](https://themes.gohugo.io/academic/)
+If you use [Academic theme](https://themes.gohugo.io/academic/).
 
 	(setq easy-hugo-postdir "content/home")
 
@@ -403,7 +403,7 @@ If not set the default extension will be '.md'.
 
 	(setq easy-hugo-default-ext ".rst")
 
-If you want to change to No help-mode from startup
+If you want to change to No help-mode from startup.
 
 	(setq easy-hugo-no-help t)
 
@@ -432,7 +432,7 @@ If not set the default image file directory will be 'images'.
 
 	(setq easy-hugo-image-directory "img")
 
-Setting the picture directory of your laptop or desktop, it is easy to execute M-x easy-hugo-put-image
+Setting the picture directory of your laptop or desktop, it is easy to execute M-x easy-hugo-put-image.
 
 	(setq easy-hugo-default-picture-directory "~/Pictures")
 
@@ -440,7 +440,7 @@ If you want to use org style header, set as below but you can not use M-x easy-h
 
 	(setq easy-hugo-org-header t)
 
-Then it becomes the following header
+Then it becomes the following header.
 
      #+TITLE:  filename
      #+DATE:  2018-01-31T12:10:08-08:00
@@ -537,7 +537,7 @@ Because only these two are supported by hugo. If not set html filename extension
 
 ## For spacemacs or evil-mode users
 
-If you use [spacemacs](https://github.com/syl20bnr/spacemacs) or [evil-mode](https://github.com/emacs-evil/evil), see [cescoferraro's configration](https://github.com/cescoferraro/dotfiles/blob/master/src/emacs.d/configuration.org#hugo)
+If you use [spacemacs](https://github.com/syl20bnr/spacemacs) or [evil-mode](https://github.com/emacs-evil/evil), see [cescoferraro's configration](https://github.com/cescoferraro/dotfiles/blob/master/src/emacs.d/configuration.org#hugo).
 
 ## Preparation for using this package
 
@@ -634,7 +634,7 @@ If you want deploy hugo at GitHub Pages or Amazon S3 or Google Cloud Storage, Th
 I created my blog in google compute engine.
 Check if rsync is installed on the server.
 
-Write at ~/.ssh/config on your laptop or desktop
+Write at ~/.ssh/config on your laptop or desktop.
 
 	 Host blogdomain
 		 HostName "Your server's IP"
@@ -667,7 +667,7 @@ sample nginx.conf
 		}
 	}
 
-PPAP source sample for hugo
+PPAP source sample for hugo.
 
 https://github.com/masasam/PPAP
 
