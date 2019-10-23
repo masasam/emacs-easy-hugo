@@ -315,6 +315,8 @@ Easy-hugo-ag needs [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](
 
 When you change setting, you need to restart emacs.
 
+If you deploy your blog at your server.
+
 	(setq easy-hugo-basedir "~/bookshelf/")
 	(setq easy-hugo-url "https://yourblogdomain")
 	(setq easy-hugo-sshdomain "blogdomain")
@@ -332,6 +334,28 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 	(setq easy-hugo-root "/home/blog/")
 	(setq easy-hugo-previewtime "300")
 	:bind ("C-c C-e" . easy-hugo))
+
+If you deploy your blog at amazon s3.
+
+	(setq easy-hugo-basedir "~/bookshelf/")
+	(setq easy-hugo-url "https://yourblogdomain")
+	(setq easy-hugo-amazon-s3-bucket-name "yourS3bucketname")
+
+If you deploy your blog at google cloud strage.
+
+	(setq easy-hugo-basedir "~/bookshelf/")
+	(setq easy-hugo-url "https://yourblogdomain")
+	(setq easy-hugo-google-cloud-storage-bucket-name "yourGCPbucketname")
+
+If you deploy your blog at github pages etc.
+
+	(setq easy-hugo-basedir "~/bookshelf/")
+	(setq easy-hugo-url "https://yourid.github.io"))
+
+If you deploy your blog at firebase hosting.
+
+	(setq easy-hugo-basedir "~/bookshelf/")
+	(setq easy-hugo-url "https://yourproject.firebaseapp.com")
 
 |name    |description      |
 |-------|--------------|
@@ -446,7 +470,7 @@ When you change setting, you need to restart emacs.
 		;; blog3 setting for aws s3
 		((easy-hugo-basedir . "~/src/github.com/masasam/hugo3/")
 		(easy-hugo-url . "http://example3.net")
-		(easy-hugo-amazon-s3-bucket-name . "yours3bucketname"))
+		(easy-hugo-amazon-s3-bucket-name . "yourS3bucketname"))
 		;; blog4 setting for google cloud strage
 		((easy-hugo-basedir . "~/src/github.com/masasam/hugo4/")
 		(easy-hugo-url . "http://example4.net")
@@ -480,7 +504,7 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 		;; blog3 setting for aws s3
 		((easy-hugo-basedir . "~/src/github.com/masasam/hugo3/")
 		(easy-hugo-url . "http://example3.net")
-		(easy-hugo-amazon-s3-bucket-name . "yours3bucketname"))
+		(easy-hugo-amazon-s3-bucket-name . "yourS3bucketname"))
 		;; blog4 setting for google cloud strage
 		((easy-hugo-basedir . "~/src/github.com/masasam/hugo4/")
 		(easy-hugo-url . "http://example4.net")
