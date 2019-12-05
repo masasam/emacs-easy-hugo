@@ -4,7 +4,7 @@
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.8.43
+;; Version: 3.8.44
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -421,14 +421,14 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 				  (expand-file-name
 				   easy-hugo-image-directory
 				   (expand-file-name "static" easy-hugo-basedir)))))
-	(insert (concat (format "<img src=\"%s%s\""
+	(insert (concat (format "{{< figure src=\"%s%s\""
 				easy-hugo-url
 				(concat
 				 "/"
 				 easy-hugo-image-directory
 				 "/"
 				 (file-name-nondirectory file)))
-			" alt=\"\" width=\"100%\"/>")))))))
+			" alt=\"\" >}}")))))))
 
 ;;;###autoload
 (defun easy-hugo-figure ()
@@ -457,7 +457,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 				 easy-hugo-image-directory
 				 "/"
 				 (file-name-nondirectory file)))
-			"  title=\"\" >}}")))))))
+			" title=\"\" >}}")))))))
 
 ;;;###autoload
 (defun easy-hugo-put-image ()
@@ -465,11 +465,11 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (interactive
    (easy-hugo-with-env
     (unless (file-directory-p (expand-file-name
-			       easy-hugo-image-directory
-			       (expand-file-name "static" easy-hugo-basedir)))
+                               easy-hugo-image-directory
+                               (expand-file-name "static" easy-hugo-basedir)))
       (error "%s does not exist" (expand-file-name
-				  easy-hugo-image-directory
-				  (expand-file-name "static" easy-hugo-basedir))))
+                                  easy-hugo-image-directory
+                                  (expand-file-name "static" easy-hugo-basedir))))
     (let ((insert-default-directory nil))
       (let* ((file (read-file-name "Image file: " nil
 				   (expand-file-name easy-hugo-default-picture-directory)
@@ -481,14 +481,14 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 	(when (file-exists-p putfile)
 	  (error "%s already exists!" putfile))
 	(copy-file file putfile)
-	(insert (concat (format "<img src=\"%s%s\""
+	(insert (concat (format "{{< figure src=\"%s%s\""
 				easy-hugo-url
 				(concat
 				 "/"
 				 easy-hugo-image-directory
 				 "/"
 				 (file-name-nondirectory file)))
-			" alt=\"\" width=\"100%\"/>")))))))
+			" alt=\"\" >}}")))))))
 
 ;;;###autoload
 (defun easy-hugo-put-figure ()
@@ -519,7 +519,7 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
 				 easy-hugo-image-directory
 				 "/"
 				 (file-name-nondirectory file)))
-			"  title=\"\" >}}")))))))
+			" title=\"\" >}}")))))))
 
 (defun easy-hugo--request-image (url file)
   "Resuest image from URL and save file at the location of FILE."
@@ -561,14 +561,14 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
       (when (file-exists-p (file-truename file))
 	(error "%s already exists!" (file-truename file)))
       (easy-hugo--request-image url file)
-      (insert (concat (format "<img src=\"%s%s\""
-			      easy-hugo-url
-			      (concat
-			       "/"
-			       easy-hugo-image-directory
-			       "/"
-			       (file-name-nondirectory file)))
-		      " alt=\"\" width=\"100%\"/>"))))))
+      (insert (concat (format "{{< figure src=\"%s%s\""
+                              easy-hugo-url
+                              (concat
+                               "/"
+                               easy-hugo-image-directory
+                               "/"
+                               (file-name-nondirectory file)))
+                      " alt=\"\" >}}"))))))
 
 ;;;###autoload
 (defun easy-hugo-pull-figure ()
