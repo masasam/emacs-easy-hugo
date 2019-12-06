@@ -108,7 +108,7 @@ Execute deploy.sh which exists in directory `easy-hugo-basedir`.
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-and-deployment/),
 it can also correspond to Netlify etc.
-For more GuiHub Pages information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27).
+For more GitHub Pages information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27).
 
 Example of deploy.sh for netlify
 
