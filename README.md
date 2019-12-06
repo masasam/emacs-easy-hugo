@@ -637,7 +637,7 @@ Check if rsync is installed on the server.
 Write at ~/.ssh/config on your laptop or desktop.
 
 	 Host blogdomain
-		 HostName "Your server's IP"
+         HostName "Your server's IP"
          User "Your server's ssh login username"
 
 Because blog is generated under /home/blog/ on the server, set it to reference it with nginx.
