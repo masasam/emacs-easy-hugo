@@ -113,6 +113,7 @@ For more GitHub Pages information refer to [here](https://github.com/masasam/ema
 	M-x easy-hugo-magit
 
 Netlify just press M and commit to GitHub.
+Please install [Magit](https://github.com/magit/magit) to use this feature.
 
 	M-x easy-hugo-amazon-s3-deploy
 
