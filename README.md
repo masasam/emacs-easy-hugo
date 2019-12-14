@@ -109,29 +109,7 @@ It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pa
 When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-and-deployment/),
 it can also correspond to Netlify etc.
 For more GitHub Pages information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27).
-
-Example of deploy.sh for netlify
-
-	npm install netlify-cli -g
-	netlify login
-	netlify init
-
-```bash
-#!/bin/bash
-
-rm -rf public
-hugo --destination public
-cd public
-
-expect -c "
-set timeout 100
-spawn env LANG=C netlify deploy --prod
-expect \"(.)\"
-send \"\n\"
-expect \"$\"
-exit 0
-"
-```
+Netlify just press M and commit to github.
 
 	M-x easy-hugo-amazon-s3-deploy
 
