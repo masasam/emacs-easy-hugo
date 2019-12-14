@@ -108,8 +108,11 @@ Execute deploy.sh which exists in directory `easy-hugo-basedir`.
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-and-deployment/),
 it can also correspond to various sites.
-Netlify just press M and commit to GitHub.
 For more GitHub Pages information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27).
+
+	M-x easy-hugo-magit
+
+Netlify just press M and commit to GitHub.
 
 	M-x easy-hugo-amazon-s3-deploy
 
