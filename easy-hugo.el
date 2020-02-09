@@ -1,10 +1,10 @@
 ;;; easy-hugo.el --- Write blogs made with hugo by markdown or org-mode -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017-2019 by Masashı Mıyaura
+;; Copyright (C) 2017-2020 by Masashı Mıyaura
 
 ;; Author: Masashı Mıyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.8.45
+;; Version: 3.9.45
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -118,6 +118,11 @@
 
 (defcustom easy-hugo-no-help nil
   "No help flg of `easy-hugo'."
+  :group 'easy-hugo
+  :type 'integer)
+
+(defcustom easy-hugo-emacspeak nil
+  "Emacspeak flg of `easy-hugo'."
   :group 'easy-hugo
   :type 'integer)
 
@@ -405,6 +410,17 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   (if (require 'magit nil t)
       (magit-status-internal easy-hugo-basedir)
     (error "'magit' is not installed")))
+
+(defun easy-hugo-emacspeak-filename ()
+  "Read filename with emacspeak."
+  (cl-declare (special emacspeak-speak-last-spoken-word-position))
+  (let ((filename (substring (thing-at-point 'line) easy-hugo--forward-char -1))
+        (personality (dtk-get-style)))
+    (cond
+     (filename
+      (dtk-speak (propertize filename 'personality personality))
+      (setq emacspeak-speak-last-spoken-word-position (point)))
+     (t (emacspeak-speak-line)))))
 
 ;;;###autoload
 (defun easy-hugo-image ()
@@ -1674,7 +1690,9 @@ Optional prefix ARG says how many lines to move; default is one line."
   (interactive)
   (goto-char (point-min))
   (forward-line (- easy-hugo--unmovable-line 1))
-  (forward-char easy-hugo--forward-char))
+  (forward-char easy-hugo--forward-char)
+  (when easy-hugo-emacspeak
+    (easy-hugo-emacspeak-filename)))
 
 (defun easy-hugo-backward-word (&optional arg)
   "Easy-hugo backward-word.
@@ -1697,7 +1715,9 @@ Optional prefix ARG says how many lines to move; default is one line."
 	      (not (if (and arg (< arg 0)) (bobp) (eobp))))
     (forward-char (if (and arg (< arg 0)) -1 1)))
   (beginning-of-line)
-  (forward-char easy-hugo--forward-char))
+  (forward-char easy-hugo--forward-char)
+  (when easy-hugo-emacspeak
+    (easy-hugo-emacspeak-filename)))
 
 (defun easy-hugo-previous-line (arg)
   "Move up lines then position at filename.
@@ -2319,7 +2339,9 @@ output directories whose names match REGEXP."
 	   (beginning-of-line)
 	   (forward-char easy-hugo--forward-char))
        (forward-char easy-hugo--forward-char))
-     (easy-hugo-mode))))
+     (easy-hugo-mode)
+     (when easy-hugo-emacspeak
+       (easy-hugo-emacspeak-filename)))))
 
 ;;;###autoload
 (defun easy-hugo ()
@@ -2418,7 +2440,9 @@ output directories whose names match REGEXP."
 	       (beginning-of-line)
 	       (forward-char easy-hugo--forward-char))
 	   (forward-char easy-hugo--forward-char))
-	 (easy-hugo-mode))))))
+	 (easy-hugo-mode)
+	 (when easy-hugo-emacspeak
+	   (easy-hugo-emacspeak-filename)))))))
 
 (provide 'easy-hugo)
 

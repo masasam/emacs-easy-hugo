@@ -521,6 +521,12 @@ Because only these two are supported by hugo. If not set html filename extension
 
 If you use [spacemacs](https://github.com/syl20bnr/spacemacs) or [evil-mode](https://github.com/emacs-evil/evil), see [cescoferraro's configration](https://github.com/cescoferraro/dotfiles/blob/master/src/emacs.d/configuration.org#hugo).
 
+## Support emacspeak
+
+If you use easy-hugo with [emacspeak](https://github.com/tvraman/emacspeak).
+
+	(setq easy-hugo-emacspeak t)
+
 ## Preparation for using this package
 
 Install hugo
