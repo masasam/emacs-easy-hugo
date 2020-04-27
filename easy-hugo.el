@@ -1,10 +1,10 @@
 ;;; easy-hugo.el --- Write blogs made with hugo by markdown or org-mode -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017-2020 by Masashı Mıyaura
+;; Copyright (C) 2017-2020 by Masashi Miyaura
 
-;; Author: Masashı Mıyaura
+;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.9.45
+;; Version: 3.9.46
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -53,6 +53,11 @@
 
 (defcustom easy-hugo-server-flags ""
   "Additional flags to pass to hugo server."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-rsync-flags "-rtpl"
+  "Additional flags for rsync."
   :group 'easy-hugo
   :type 'string)
 
@@ -671,7 +676,7 @@ Automatically select the deployment destination from init.el."
 			    nil
 			    "*hugo-rsync*"
 			    t
-			    "-rtpl"
+			    easy-hugo-rsync-flags
 			    (concat "--chmod=" easy-hugo-publish-chmod)
 			    "--delete"
 			    easy-hugo-rsync-delete-directory
@@ -735,7 +740,7 @@ Automatically select the deployment destination from init.el."
 			     nil
 			     "*hugo-rsync*"
 			     t
-			     "-rtpl"
+			     easy-hugo-rsync-flags
 			     (concat "--chmod=" easy-hugo-publish-chmod)
 			     "--delete"
 			     easy-hugo-rsync-delete-directory
