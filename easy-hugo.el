@@ -4,7 +4,7 @@
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.9.46
+;; Version: 3.9.47
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -236,10 +236,16 @@ Because only two are supported by hugo."
 			       ,easy-hugo-html-extension))
 
 (defface easy-hugo-help-face
-  '((((class color) (background light))
-     (:bold t :foreground "#82c600" :background "#f0f8ff"))
+  `((((class color) (background light))
+     ,@(and (>= emacs-major-version 27) '(:extend t))
+     :bold t
+     :foreground "#82c600"
+     :background "#f0f8ff")
     (((class color) (background dark))
-     (:bold t :foreground "#82c600" :background "#2f4f4f")))
+     ,@(and (>= emacs-major-version 27) '(:extend t))
+     :bold t
+     :foreground "#82c600"
+     :background "#2f4f4f"))
   "Definition of help color."
   :group 'easy-hugo-faces)
 
