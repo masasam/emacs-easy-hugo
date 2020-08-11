@@ -402,11 +402,21 @@ If you want to sort article in order of creation from startup.
 
 If you want to customise color, write the following in the init.el or .emacs.
 
-	(defface easy-hugo-help-face
-	'((((class color) (background light)) (:bold t :foreground "your-hex-color" :background "your-hex-color"))
-    (((class color) (background dark)) (:bold t :foreground "your-hex-color" :background "your-hex-color")))
-	""
-	:group 'easy-hugo-faces)
+```
+(defface easy-hugo-help-face
+  `((((class color) (background light))
+     ,@(and (>= emacs-major-version 27) '(:extend t))
+     :bold t
+     :foreground "your-hex-color"
+     :background "your-hex-color")
+    (((class color) (background dark))
+     ,@(and (>= emacs-major-version 27) '(:extend t))
+     :bold t
+     :foreground "your-hex-color"
+     :background "your-hex-color"))
+  "Definition of help color."
+  :group 'easy-hugo-faces)
+```
 
 In order to generate link of image from image file directory under 'static' directory,
 if you want to change image file directory that is under 'static' directory.
