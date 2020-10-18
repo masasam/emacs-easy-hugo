@@ -4,7 +4,7 @@
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.9.47
+;; Version: 3.9.48
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -56,12 +56,22 @@
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-server-flags2 ""
+  "Additional flags to pass to hugo server."
+  :group 'easy-hugo
+  :type 'string)
+
 (defcustom easy-hugo-rsync-flags "-rtpl"
   "Additional flags for rsync."
   :group 'easy-hugo
   :type 'string)
 
 (defcustom easy-hugo-server-value ""
+  "Additional value to pass to hugo server."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-server-value2 ""
   "Additional value to pass to hugo server."
   :group 'easy-hugo
   :type 'string)
@@ -924,9 +934,9 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
        (if (<= 0.25 (easy-hugo--version))
 	   (setq easy-hugo--server-process
 		 (start-process "hugo-server"
-				easy-hugo--preview-buffer easy-hugo-bin "server" "--navigateToChanged" easy-hugo-server-flags easy-hugo-server-value))
+				easy-hugo--preview-buffer easy-hugo-bin "server" "--navigateToChanged" easy-hugo-server-flags easy-hugo-server-value easy-hugo-server-flags2 easy-hugo-server-value2))
 	 (setq easy-hugo--server-process
-	       (start-process "hugo-server" easy-hugo--preview-buffer easy-hugo-bin "server" easy-hugo-server-flags easy-hugo-server-value)))
+	       (start-process "hugo-server" easy-hugo--preview-buffer easy-hugo-bin "server" easy-hugo-server-flags easy-hugo-server-value easy-hugo-server-flags2 easy-hugo-server-value2)))
        (while easy-hugo--preview-loop
 	 (if (equal (easy-hugo--preview-status easy-hugo-preview-url) "200")
 	     (progn
