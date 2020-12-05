@@ -2453,14 +2453,15 @@ output directories whose names match REGEXP."
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
 	 (goto-char easy-hugo--cursor)
-	 (if easy-hugo--refresh
-	     (progn
-	       (when (< (line-number-at-pos) easy-hugo--unmovable-line)
-		 (goto-char (point-min))
-		 (forward-line (- easy-hugo--unmovable-line 1)))
-	       (beginning-of-line)
-	       (forward-char easy-hugo--forward-char))
-	   (forward-char easy-hugo--forward-char))
+	 (ignore-error
+         (if easy-hugo--refresh
+	         (progn
+	           (when (< (line-number-at-pos) easy-hugo--unmovable-line)
+		         (goto-char (point-min))
+		         (forward-line (- easy-hugo--unmovable-line 1)))
+	           (beginning-of-line)
+	           (forward-char easy-hugo--forward-char))
+	       (forward-char easy-hugo--forward-char)))
 	 (easy-hugo-mode)
 	 (when easy-hugo-emacspeak
 	   (easy-hugo-emacspeak-filename)))))))
