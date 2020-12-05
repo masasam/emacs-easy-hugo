@@ -4,7 +4,7 @@
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.9.48
+;; Version: 3.9.49
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -413,6 +413,14 @@ Report an error if hugo is not installed, or if `easy-hugo-basedir' is unset."
   "Macros to eval variables of BODY from `easy-hugo-bloglist' at BLOG."
   `(cdr (assoc ',body
 	       (nth ,blog easy-hugo-bloglist))))
+
+(defmacro easy-hugo-ignore-error (condition &rest body)
+  "Execute BODY; if the error CONDITION occurs, return nil.
+Otherwise, return result of last form in BODY.
+
+CONDITION can also be a list of error conditions."
+  (declare (debug t) (indent 1))
+  `(condition-case nil (progn ,@body) (,condition nil)))
 
 ;;;###autoload
 (defun easy-hugo-article ()
@@ -2453,15 +2461,15 @@ output directories whose names match REGEXP."
 	   (insert (concat (car lists) "\n"))
 	   (pop lists))
 	 (goto-char easy-hugo--cursor)
-	 (ignore-error
-         (if easy-hugo--refresh
-	         (progn
-	           (when (< (line-number-at-pos) easy-hugo--unmovable-line)
-		         (goto-char (point-min))
-		         (forward-line (- easy-hugo--unmovable-line 1)))
-	           (beginning-of-line)
-	           (forward-char easy-hugo--forward-char))
-	       (forward-char easy-hugo--forward-char)))
+	 (easy-hugo-ignore-error
+          (if easy-hugo--refresh
+	      (progn
+	        (when (< (line-number-at-pos) easy-hugo--unmovable-line)
+		  (goto-char (point-min))
+		  (forward-line (- easy-hugo--unmovable-line 1)))
+	        (beginning-of-line)
+	        (forward-char easy-hugo--forward-char))
+	    (forward-char easy-hugo--forward-char)))
 	 (easy-hugo-mode)
 	 (when easy-hugo-emacspeak
 	   (easy-hugo-emacspeak-filename)))))))
