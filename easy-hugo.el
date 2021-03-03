@@ -2373,7 +2373,7 @@ output directories whose names match REGEXP."
   (easy-hugo-with-env
    (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
      (error "%s%s does not exist!" easy-hugo-basedir easy-hugo-postdir))
-   (when (<= 0.25 (easy-hugo--version))
+   (when (>= 0.25 (easy-hugo--version))
      (error "Please install hugo 0.25 or higher version."))
    (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
    (setq easy-hugo--draft-list nil)
