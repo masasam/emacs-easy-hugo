@@ -4,7 +4,7 @@
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.9.50
+;; Version: 3.9.51
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -899,8 +899,7 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
 	      easy-hugo-html-extension))
      (when (file-exists-p (file-truename filename))
        (error "%s already exists!" filename))
-     (if (and (null easy-hugo-org-header)
-	      (<= 0.25 (easy-hugo--version)))
+     (if (null easy-hugo-org-header)
 	 (call-process easy-hugo-bin nil "*hugo*" t "new"
 		       (file-relative-name filename
 					   (expand-file-name "content" easy-hugo-basedir)))
@@ -916,20 +915,11 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
      (when (get-buffer "*hugo*")
        (kill-buffer "*hugo*"))
      (find-file filename)
-     (when (or easy-hugo-org-header
-	       (and (> 0.25 (easy-hugo--version))
-		    (string-equal file-ext "org")))
+     (when (and easy-hugo-org-header
+	       (string-equal file-ext "org"))
        (insert (easy-hugo--org-headers (file-name-base post-file))))
      (goto-char (point-max))
      (save-buffer))))
-
-(defun easy-hugo--version ()
-  "Return the version of hugo."
-  (let ((source (split-string
-		 (with-temp-buffer
-		   (shell-command-to-string (concat easy-hugo-bin " version")))
-		 " ")))
-    (string-to-number (substring (nth 4 source) 1))))
 
 ;;;###autoload
 (defun easy-hugo-preview ()
@@ -939,12 +929,9 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
    (if (process-live-p easy-hugo--server-process)
        (easy-hugo--preview-open)
      (progn
-       (if (<= 0.25 (easy-hugo--version))
-	   (setq easy-hugo--server-process
+       (setq easy-hugo--server-process
 		 (start-process "hugo-server"
 				easy-hugo--preview-buffer easy-hugo-bin "server" "--navigateToChanged" easy-hugo-server-flags easy-hugo-server-value easy-hugo-server-flags2 easy-hugo-server-value2))
-	 (setq easy-hugo--server-process
-	       (start-process "hugo-server" easy-hugo--preview-buffer easy-hugo-bin "server" easy-hugo-server-flags easy-hugo-server-value easy-hugo-server-flags2 easy-hugo-server-value2)))
        (while easy-hugo--preview-loop
 	 (if (equal (easy-hugo--preview-status easy-hugo-preview-url) "200")
 	     (progn
@@ -2269,8 +2256,6 @@ output directories whose names match REGEXP."
 (defun easy-hugo-draft-list ()
   "Drafts list mode of `easy-hugo'."
   (easy-hugo-with-env
-   (when (> 0.25 (easy-hugo--version))
-     (error "'List draft' requires hugo 0.25 or higher"))
    (let ((source (split-string
 		  (with-temp-buffer
 		    (let ((ret (call-process-shell-command (concat easy-hugo-bin " list drafts") nil t)))
