@@ -2373,6 +2373,8 @@ output directories whose names match REGEXP."
   (easy-hugo-with-env
    (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
      (error "%s%s does not exist!" easy-hugo-basedir easy-hugo-postdir))
+   (when (<= 0.25 (easy-hugo--version))
+     (error "Please install hugo 0.25 or higher version."))
    (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
    (setq easy-hugo--draft-list nil)
    (switch-to-buffer easy-hugo--mode-buffer)
@@ -2456,14 +2458,14 @@ output directories whose names match REGEXP."
 	   (pop lists))
 	 (goto-char easy-hugo--cursor)
 	 (easy-hugo-ignore-error
-          (if easy-hugo--refresh
-	      (progn
-	        (when (< (line-number-at-pos) easy-hugo--unmovable-line)
-		  (goto-char (point-min))
-		  (forward-line (- easy-hugo--unmovable-line 1)))
-	        (beginning-of-line)
-	        (forward-char easy-hugo--forward-char))
-	    (forward-char easy-hugo--forward-char)))
+             (if easy-hugo--refresh
+		 (progn
+	           (when (< (line-number-at-pos) easy-hugo--unmovable-line)
+		     (goto-char (point-min))
+		     (forward-line (- easy-hugo--unmovable-line 1)))
+	           (beginning-of-line)
+	           (forward-char easy-hugo--forward-char))
+	       (forward-char easy-hugo--forward-char)))
 	 (easy-hugo-mode)
 	 (when easy-hugo-emacspeak
 	   (easy-hugo-emacspeak-filename)))))))
