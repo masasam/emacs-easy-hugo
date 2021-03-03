@@ -4,7 +4,7 @@
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.9.53
+;; Version: 3.9.54
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
 
 ;; This program is free software; you can redistribute it and/or modify
