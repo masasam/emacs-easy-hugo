@@ -1096,6 +1096,14 @@ to the server."
   (when (get-buffer easy-hugo--preview-buffer)
     (kill-buffer easy-hugo--preview-buffer)))
 
+(defun easy-hugo--version ()
+    "Return the version of hugo."
+    (let ((source (split-string
+		           (with-temp-buffer
+		             (shell-command-to-string (concat easy-hugo-bin " version")))
+		           " ")))
+      (string-to-number (substring (nth 1 source) 1))))
+
 ;;;###autoload
 (defun easy-hugo-current-time ()
   "Generate current time in date format at the frontmatter."
