@@ -48,7 +48,7 @@ If you enter '.html' file name in the minibuffer, html file is automatically gen
 
 ![screencast](image/screencast2.gif)
 
-If your hugo version is 0.25 or higher, you can preview by following the edited part.
+You can preview by following the edited part.
 When permalinks is hugo's default and English URL, if you press p with easy-hugo-mode, it displays a preview of the article on pointer.
 
 ![easy-hugo6](image/easy-hugo6.png)
@@ -281,7 +281,7 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 ## Requirements
 
 - Emacs 25.1 or higher
-- hugo 0.19 or higher
+- hugo 0.25 or higher
 
 ## Installation
 
