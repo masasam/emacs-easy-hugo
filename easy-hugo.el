@@ -879,6 +879,7 @@ Automatically select the deployment destination from init.el."
      "\n#+PUBLISHDATE: " datetimezone
      "\n#+DRAFT: nil"
      "\n#+TAGS: nil, nil"
+     "\n#+CATEGORIES: nil"
      "\n#+DESCRIPTION: Short description"
      "\n\n")))
 
@@ -950,7 +951,8 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   "Open preview at the file name on the pointer.
 If not applicable, return the default preview."
   (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
-      (if (not (or (string-match "^$" (thing-at-point 'line))
+      (if (not (or (string-match "^
+$" (thing-at-point 'line))
 		   (eq (point) (point-max))
 		   (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line)))))
 	  (progn
@@ -1762,7 +1764,8 @@ Optional prefix ARG says how many lines to move; default is one line."
      (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
        (when (file-exists-p (file-truename newname))
 	 (error "%s already exists!" newname))
-       (unless (or (string-match "^$" (thing-at-point 'line))
+       (unless (or (string-match "^
+$" (thing-at-point 'line))
 		   (eq (point) (point-max))
 		   (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
 	 (let ((oldname (expand-file-name
@@ -1776,7 +1779,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (interactive)
   (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
     (easy-hugo-with-env
-     (unless (or (string-match "^$" (thing-at-point 'line))
+     (unless (or (string-match "^
+$" (thing-at-point 'line))
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((file (expand-file-name
@@ -1791,7 +1795,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (interactive)
   (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
     (easy-hugo-with-env
-     (unless (or (string-match "^$" (thing-at-point 'line))
+     (unless (or (string-match "^
+$" (thing-at-point 'line))
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((file (expand-file-name
@@ -1813,7 +1818,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (easy-hugo-with-env
    (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
        (progn
-	 (unless (or (string-match "^$" (thing-at-point 'line))
+	 (unless (or (string-match "^
+$" (thing-at-point 'line))
 		     (eq (point) (point-max))
 		     (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
 	   (let ((file (expand-file-name
@@ -1830,7 +1836,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (easy-hugo-with-env
    (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
        (progn
-	 (unless (or (string-match "^$" (thing-at-point 'line))
+	 (unless (or (string-match "^
+$" (thing-at-point 'line))
 		     (eq (point) (point-max))
 		     (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
 	   (let ((file (expand-file-name
@@ -1846,7 +1853,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (interactive)
   (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
     (easy-hugo-with-env
-     (unless (or (string-match "^$" (thing-at-point 'line))
+     (unless (or (string-match "^
+$" (thing-at-point 'line))
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((file (expand-file-name
