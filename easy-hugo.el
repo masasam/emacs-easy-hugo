@@ -1356,6 +1356,18 @@ to the server."
        (error "'counsel' or 'helm-ag' is not installed")))))
 
 ;;;###autoload
+(defun easy-hugo-rg ()
+  "Search for blog article with `counsel-rg' or `consult-ripgrep'."
+  (interactive)
+  (easy-hugo-with-env
+   (let ((dir (expand-file-name easy-hugo-postdir easy-hugo-basedir)))
+     (if (require 'counsel nil t)
+         (counsel-rg nil dir)
+       (if (require 'consult nil t)
+           (consult-ripgrep dir nil)
+         (error "'counsel' or 'consult' is not installed"))))))
+
+;;;###autoload
 (defun easy-hugo-open-config ()
   "Open Hugo's config file."
   (interactive)
