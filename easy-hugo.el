@@ -5,7 +5,7 @@
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
 ;; Version: 3.9.55
-;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0"))
+;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0") (transient "0.3.6"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -2481,6 +2481,15 @@ output directories whose names match REGEXP."
 	 (easy-hugo-mode)
 	 (when easy-hugo-emacspeak
 	   (easy-hugo-emacspeak-filename)))))))
+
+;;;###autoload
+(defun easy-hugo-enable-menu ()
+  "Enable transient menu for easy-hugo-mode."
+  (interactive)
+  (setq easy-hugo-no-help t)
+  (require 'easy-hugo-transient)
+  (unless (where-is-internal #'easy-hugo-menu (list easy-hugo-mode-map) t)
+    (define-key easy-hugo-mode-map "K" #'easy-hugo-menu)))
 
 (provide 'easy-hugo)
 

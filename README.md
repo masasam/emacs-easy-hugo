@@ -317,6 +317,21 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 	(setq easy-hugo-previewtime "300")
 	:bind ("C-c C-e" . easy-hugo))
 
+If you wannt to use transient menu style, setting as follow and then call `easy-hugo-menu`
+
+```elisp
+;; Directly setting
+(require 'easy-hugo)
+(easy-hugo-enable-menu)
+
+;; Or with use-package
+(use-package easy-hugo
+:bind ("C-c C-k" . easy-hugo-menu)
+:config
+(easy-hugo-enable-menu))
+```
+
+
 If you deploy your blog at amazon s3.
 
 	(setq easy-hugo-basedir "~/bookshelf/")
