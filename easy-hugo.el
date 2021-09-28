@@ -437,7 +437,7 @@ CONDITION can also be a list of error conditions."
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
   (if (require 'magit nil t)
-      (magit-status-internal easy-hugo-basedir)
+      (magit-status-setup-buffer easy-hugo-basedir)
     (error "'magit' is not installed")))
 
 (defun easy-hugo-emacspeak-filename ()
