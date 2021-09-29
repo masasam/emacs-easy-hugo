@@ -321,7 +321,7 @@ If you wannt to use [transient](https://github.com/magit/transient) menu style, 
 
 ```elisp
 ;; Directly setting
-(require 'easy-hugo)
+(setq easy-hugo-no-help t)
 (easy-hugo-enable-menu)
 
 ;; Or with use-package
