@@ -368,7 +368,7 @@ Easy-hugo will not start when easy-hugo-postdir doesn't exist.
 
 	(setq easy-hugo-postdir "content/posts")
 
-If you use [Academic theme](https://themes.gohugo.io/academic/).
+If you use [Academic theme](https://github.com/wowchemy/starter-hugo-academic).
 
 	(setq easy-hugo-postdir "content/home")
 
