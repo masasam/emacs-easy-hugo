@@ -330,7 +330,7 @@ If you want to use [transient](https://github.com/magit/transient) menu style, s
 :config
 (easy-hugo-enable-menu))
 ```
-
+![transient](image/transient.png)
 
 If you deploy your blog at amazon s3.
 
