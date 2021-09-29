@@ -2487,6 +2487,7 @@ output directories whose names match REGEXP."
   "Enable transient menu for easy-hugo-mode."
   (interactive)
   (setq easy-hugo-no-help t)
+  (setq easy-hugo-sort-default-char nil)
   (require 'easy-hugo-transient)
   (unless (where-is-internal #'easy-hugo-menu (list easy-hugo-mode-map) t)
     (define-key easy-hugo-mode-map "K" #'easy-hugo-menu)))
