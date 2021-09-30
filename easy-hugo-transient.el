@@ -11,10 +11,12 @@
 ;;; Code:
 
 (require 'transient)
+(require 'subr-x)
 
 (defun easy-hugo-menu--header ()
   "Header used in `easy-hugo-menu'."
-  (let ((dir (file-relative-name easy-hugo-postdir "content")))
+  (let ((dir (file-relative-name easy-hugo-postdir "content"))
+        (url (string-remove-suffix "/" easy-hugo-url)))
     (format (propertize "[%s]: %s\t[%s]: %s\t[%s]: %s\t[%s]: %s%s\n" 'face 'bold)
             (propertize "sort" 'face 'font-lock-doc-face)
             (propertize
@@ -34,8 +36,10 @@
                 (propertize "on " 'face 'font-lock-variable-name-face)
               (propertize "off" 'face 'font-lock-warning-face))
             (propertize "url" 'face 'font-lock-doc-face)
-            (propertize easy-hugo-url 'face  'font-lock-variable-name-face)
-            (propertize (if (string= dir ".") "" dir) 'face 'font-lock-warning-face))))
+            (propertize url 'face  'font-lock-variable-name-face)
+            (propertize (if (string= dir ".") "" (concat "/" dir))
+                        'face
+                        'font-lock-warning-face))))
 
 (transient-define-prefix easy-hugo-menu ()
   "Invoke commands for easy-hugo-mode"
