@@ -81,7 +81,7 @@ If there is firebase command, easy-hugo-firebase-deploy will be executed.
 
 ![easy-hugo-helm-ag](image/easy-hugo-helm-ag.png)
 
-You can search blog article with [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/syohex/emacs-helm-ag).
+You can search blog article with [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/emacsorphanage/helm-ag).
 If both are installed, counsel-ag takes precedence at default and
 you can use helm-ag by writing the following to .emacs or init.el.
 
