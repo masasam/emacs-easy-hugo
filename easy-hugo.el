@@ -1112,6 +1112,21 @@ to the server."
 	   (format-time-string "%Y-%m-%dT%T")
 	   (easy-hugo--orgtime-format (format-time-string "%z")))))
 
+;;;###autoload
+(defun easy-hugo-slugify (start end)
+  "Slugify the region from START to END."
+  (interactive "r")
+  (when (use-region-p)
+    (let ((string (buffer-substring-no-properties start end)))
+      (save-excursion
+        (delete-region start end)
+        (insert
+         (replace-regexp-in-string
+          "[^a-z0-9-]" ""
+          (replace-regexp-in-string
+           "\s+" "-"
+           (downcase string))))))))
+
 (defun easy-hugo--orgtime-format (x)
   "Format orgtime as X."
   (concat (substring x 0 3) ":" (substring x 3 5)))
