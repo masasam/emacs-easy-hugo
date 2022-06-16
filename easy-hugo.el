@@ -1,10 +1,10 @@
 ;;; easy-hugo.el --- Write blogs made with hugo by markdown or org-mode -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2017-2021 by Masashi Miyaura
+;; Copyright (C) 2017-2022 by Masashi Miyaura
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.9.55
+;; Version: 3.9.56
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0") (transient "0.3.6"))
 
 ;; This program is free software; you can redistribute it and/or modify
