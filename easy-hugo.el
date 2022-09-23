@@ -950,7 +950,8 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mm
   "Open preview at the file name on the pointer.
 If not applicable, return the default preview."
   (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
-      (if (not (or (string-match "^$" (thing-at-point 'line))
+      (if (not (or (string-match "^
+$" (thing-at-point 'line))
 		   (eq (point) (point-max))
 		   (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line)))))
 	  (progn
@@ -1789,7 +1790,8 @@ Optional prefix ARG says how many lines to move; default is one line."
      (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
        (when (file-exists-p (file-truename newname))
 	 (error "%s already exists!" newname))
-       (unless (or (string-match "^$" (thing-at-point 'line))
+       (unless (or (string-match "^
+$" (thing-at-point 'line))
 		   (eq (point) (point-max))
 		   (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
 	 (let ((oldname (expand-file-name
@@ -1803,7 +1805,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (interactive)
   (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
     (easy-hugo-with-env
-     (unless (or (string-match "^$" (thing-at-point 'line))
+     (unless (or (string-match "^
+$" (thing-at-point 'line))
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((file (expand-file-name
@@ -1818,7 +1821,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (interactive)
   (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
     (easy-hugo-with-env
-     (unless (or (string-match "^$" (thing-at-point 'line))
+     (unless (or (string-match "^
+$" (thing-at-point 'line))
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((file (expand-file-name
@@ -1840,7 +1844,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (easy-hugo-with-env
    (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
        (progn
-	 (unless (or (string-match "^$" (thing-at-point 'line))
+	 (unless (or (string-match "^
+$" (thing-at-point 'line))
 		     (eq (point) (point-max))
 		     (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
 	   (let ((file (expand-file-name
@@ -1857,7 +1862,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (easy-hugo-with-env
    (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
        (progn
-	 (unless (or (string-match "^$" (thing-at-point 'line))
+	 (unless (or (string-match "^
+$" (thing-at-point 'line))
 		     (eq (point) (point-max))
 		     (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
 	   (let ((file (expand-file-name
@@ -1873,7 +1879,8 @@ Optional prefix ARG says how many lines to move; default is one line."
   (interactive)
   (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
     (easy-hugo-with-env
-     (unless (or (string-match "^$" (thing-at-point 'line))
+     (unless (or (string-match "^
+$" (thing-at-point 'line))
 		 (eq (point) (point-max))
 		 (> (+ 1 easy-hugo--forward-char) (length (thing-at-point 'line))))
        (let ((file (expand-file-name
@@ -2400,7 +2407,7 @@ output directories whose names match REGEXP."
   (easy-hugo-with-env
    (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
      (error "%s%s does not exist!" easy-hugo-basedir easy-hugo-postdir))
-   (when (> 0.25 (easy-hugo--version))
+   (when  (version< (number-to-string (easy-hugo--version)) "0.25"))
      (message "Please install hugo 0.25 or higher version."))
    (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
    (setq easy-hugo--draft-list nil)
