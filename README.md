@@ -544,7 +544,7 @@ Because only these two are supported by hugo. If not set html filename extension
 
 ## For spacemacs or evil-mode users
 
-If you use [spacemacs](https://github.com/syl20bnr/spacemacs) or [evil-mode](https://github.com/emacs-evil/evil), see [cescoferraro's configration](https://github.com/cescoferraro/dotfiles/blob/master/src/emacs.d/configuration.org#hugo) or [spacemacs-easy-hugo](https://github.com/humanfactors/spacemacs-easy-hugo).
+If you use [spacemacs](https://github.com/syl20bnr/spacemacs) or [evil-mode](https://github.com/emacs-evil/evil), see [spacemacs-easy-hugo](https://github.com/humanfactors/spacemacs-easy-hugo).
 
 ## Support emacspeak
 
