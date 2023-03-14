@@ -878,7 +878,8 @@ Automatically select the deployment destination from init.el."
      "\n#+DATE: " datetimezone
      "\n#+PUBLISHDATE: " datetimezone
      "\n#+DRAFT: nil"
-     "\n#+TAGS[]: nil, nil"
+     "\n#+CATEGORIES[]: nil nil"
+     "\n#+TAGS[]: nil nil"
      "\n#+DESCRIPTION: Short description"
      "\n\n")))
 
