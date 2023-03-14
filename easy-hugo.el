@@ -4,7 +4,7 @@
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.9.58
+;; Version: 3.9.59
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0") (transient "0.3.6"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -2401,8 +2401,6 @@ output directories whose names match REGEXP."
   (easy-hugo-with-env
    (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
      (error "%s%s does not exist!" easy-hugo-basedir easy-hugo-postdir))
-   (when (version< (number-to-string (easy-hugo--version)) "0.25")
-     (message "Please install hugo 0.25 or higher version."))
    (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
    (setq easy-hugo--draft-list nil)
    (switch-to-buffer easy-hugo--mode-buffer)
