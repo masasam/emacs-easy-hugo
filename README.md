@@ -483,10 +483,10 @@ When you change setting, you need to restart emacs.
 		(easy-hugo-url . "http://example4.net")
 		(easy-hugo-google-cloud-storage-bucket-name . "yourGCPbucketname")
 		(easy-hugo-image-directory . "img"))
-		;; blog5 for github pages
+		;; blog5 setting for github pages
 		((easy-hugo-basedir . "~/src/github.com/masasam/githubpages/")
 		(easy-hugo-url . "https://yourid.github.io"))
-		;; blog6 for firebase hosting
+		;; blog6 setting for firebase hosting
 		((easy-hugo-basedir . "~/src/github.com/masasam/firebase/")
 		(easy-hugo-url . "https://yourproject.firebaseapp.com"))))
 
@@ -517,10 +517,10 @@ If you use [use-package](https://github.com/jwiegley/use-package), please write 
 		(easy-hugo-url . "http://example4.net")
 		(easy-hugo-google-cloud-storage-bucket-name . "yourGCPbucketname")
 		(easy-hugo-image-directory . "img"))
-		;; blog5 for github pages
+		;; blog5 setting for github pages
 		((easy-hugo-basedir . "~/src/github.com/masasam/githubpages/")
 		(easy-hugo-url . "https://yourid.github.io"))
-		;; blog6 for firebase hosting
+		;; blog6 setting for firebase hosting
 		((easy-hugo-basedir . "~/src/github.com/masasam/firebase/")
 		(easy-hugo-url . "https://yourproject.firebaseapp.com"))))
 	:bind ("C-c C-e" . easy-hugo))
