@@ -108,7 +108,7 @@ Execute deploy.sh which exists in directory `easy-hugo-basedir`.
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-and-deployment/),
 it can also correspond to various sites.
-For more GitHub Pages information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27).
+For more GitHub Pages information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27) and [here](https://github.com/masasam/emacs-easy-hugo/issues/75).
 If you use .github/workflows/hugo.yaml, GitHub Actions will work, so you don't need deploy.sh.
 
 	M-x easy-hugo-magit
