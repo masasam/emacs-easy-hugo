@@ -1,8 +1,8 @@
 # easy-hugo [![melpa badge][melpa-badge]][melpa-link] [![melpa stable badge][melpa-stable-badge]][melpa-stable-link] [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-![logo](image/logo.png)
+<p align="center"><img src="image/logo.png" alt="logo"></p>
 
-Emacs major mode for writing blogs made with hugo by markdown or org-mode or AsciiDoc or reStructuredText or mmark or html
+Emacs major mode designed for writing Hugo-powered blogs using various markup formats, including Markdown, Org-mode, AsciiDoc, reStructuredText, mmark, and HTML. It enhances the blogging experience within Emacs, making it easier to manage and create content.
 
 ## Screencast
 
