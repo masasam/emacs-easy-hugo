@@ -448,13 +448,14 @@ If you want to use org style header, set as below but you can not use M-x easy-h
 
 	(setq easy-hugo-org-header t)
 
-Then it becomes the following header.
+Then it becomes the following header. If you want to expand its keywords, use either ```#+KEY: VALUE``` format to set a single value string or ```#+KEY[]: VALUE_1 VALUE_2``` format to assign multiple values in a whitespace-separated list of strings.
 
      #+TITLE:  filename
      #+DATE:  2018-01-31T12:10:08-08:00
      #+PUBLISHDATE:  2018-01-31T12:10:08-08:00
      #+DRAFT: nil
-     #+TAGS: nil, nil
+     #+CATEGORIES[]: nil nil
+     #+TAGS[]: nil nil
      #+DESCRIPTION: Short description
 	 
 ## Multiple blogs setting
