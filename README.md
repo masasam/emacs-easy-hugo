@@ -444,7 +444,7 @@ Setting the picture directory of your laptop or desktop, it is easy to execute M
 
 	(setq easy-hugo-default-picture-directory "~/Pictures")
 
-If you want to use org style header, set as below but you can not use M-x easy-hugo-list-draft with this setting.
+If you want to use org style header, set it as below.
 
 	(setq easy-hugo-org-header t)
 
