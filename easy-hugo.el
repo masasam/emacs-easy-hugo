@@ -876,7 +876,6 @@ Automatically select the deployment destination from init.el."
     (concat
      "#+TITLE: " file
      "\n#+DATE: " datetimezone
-     "\n#+PUBLISHDATE: " datetimezone
      "\n#+DRAFT: nil"
      "\n#+CATEGORIES[]: nil nil"
      "\n#+TAGS[]: nil nil"
@@ -1667,7 +1666,7 @@ L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
       (save-match-data
 	(let ((pos 0)
 	      matches)
-	  (while (string-match "^[D\\|d]ate[:]? [=]?+[ ]*\\(.+?\\)$" source pos)
+	  (while (string-match "^[#]?[+]?[Dd][Aa][Tt][Ee][:]? [=]?+[ ]*\\(.+?\\)$" source pos)
 	    (push (match-string 1 source) matches)
 	    (setq pos (match-end 0)))
 	  (when matches
@@ -1707,7 +1706,7 @@ L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
 	(save-match-data
 	  (let ((pos 0)
 		matches)
-	    (while (string-match "^[D\\|d]ate[:]? [=]?+[ ]*\\(.+?\\)$" source pos)
+	    (while (string-match "^[#]?[+]?[Dd][Aa][Tt][Ee][:]? [=]?+[ ]*\\(.+?\\)$" source pos)
 	      (push (match-string 1 source) matches)
 	      (setq pos (match-end 0)))
 	    (when matches

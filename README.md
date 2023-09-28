@@ -452,7 +452,6 @@ Then it becomes the following header. If you want to expand its keywords, use ei
 
      #+TITLE:  filename
      #+DATE:  2018-01-31T12:10:08-08:00
-     #+PUBLISHDATE:  2018-01-31T12:10:08-08:00
      #+DRAFT: nil
      #+CATEGORIES[]: nil nil
      #+TAGS[]: nil nil
