@@ -456,7 +456,7 @@ Then it becomes the following header. If you want to expand its keywords, use ei
      #+CATEGORIES[]: nil nil
      #+TAGS[]: nil nil
      #+DESCRIPTION: Short description
-	 
+
 ## Multiple blogs setting
 
 When you change setting, you need to restart emacs.
@@ -563,7 +563,7 @@ See https://gohugo.io/overview/quickstart/
 
 ### Configuration file example
 
-config.toml
+hugo.toml
 
 	hasCJKLanguage = true
 	theme="material-design"
