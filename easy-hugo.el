@@ -1386,13 +1386,14 @@ to the server."
   (interactive)
   (easy-hugo-with-env
    (let ((config-files '("config.toml" "config.yaml" "config.json"
-                          "hugo.toml" "hugo.yaml" "hugo.json")))
-     (dolist (file config-files)
-       (let ((full-path (expand-file-name file easy-hugo-basedir)))
-         (when (file-exists-p full-path)
-           (find-file full-path)
-           (return))))
-     (error "No Hugo config file found in %s" easy-hugo-basedir))))
+                         "hugo.toml" "hugo.yaml" "hugo.json")))
+     (catch 'found-config
+       (dolist (file config-files)
+         (let ((full-path (expand-file-name file easy-hugo-basedir)))
+           (when (file-exists-p full-path)
+             (find-file full-path)
+             (throw 'found-config t))))
+       (error "No Hugo config file found in %s" easy-hugo-basedir)))))
 
 (defcustom easy-hugo-help
   (if (null easy-hugo-sort-default-char)
