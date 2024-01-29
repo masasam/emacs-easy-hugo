@@ -1386,13 +1386,14 @@ to the server."
   "Open Hugo's config file."
   (interactive)
   (easy-hugo-with-env
-   (cond ((file-exists-p (expand-file-name "config.toml" easy-hugo-basedir))
-	  (find-file (expand-file-name "config.toml" easy-hugo-basedir)))
-	 ((file-exists-p (expand-file-name "config.yaml" easy-hugo-basedir))
-	  (find-file (expand-file-name "config.yaml" easy-hugo-basedir)))
-	 ((file-exists-p (expand-file-name "config.json" easy-hugo-basedir))
-	  (find-file (expand-file-name "config.json" easy-hugo-basedir)))
-	 (t (error "Hugo config file not found at %s" easy-hugo-basedir)))))
+   (let ((config-files '("config.toml" "config.yaml" "config.json"
+                          "hugo.toml" "hugo.yaml" "hugo.json")))
+     (dolist (file config-files)
+       (let ((full-path (expand-file-name file easy-hugo-basedir)))
+         (when (file-exists-p full-path)
+           (find-file full-path)
+           (return))))
+     (error "No Hugo config file found in %s" easy-hugo-basedir))))
 
 (defcustom easy-hugo-help
   (if (null easy-hugo-sort-default-char)
