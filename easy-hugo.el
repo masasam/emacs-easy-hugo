@@ -1160,8 +1160,8 @@ the deployment buffer during execution."
 	 (setq-local view-exit-action #'kill-buffer)
 	 (view-mode 1)
 	 (when (zerop (buffer-size))
-	   (insert "-*- " (substring (buffer-name) 1 -1)
-		   ": " deployscript " -*-\n")
+	   (insert "*** " (substring (buffer-name) 1 -1)
+		   ": " deployscript " ***\n")
 	   (insert (format "Deployment started at %s\n\n"
 			   (substring (current-time-string) 0 19))))
 	 (when easy-hugo-github-deploy-display-buffer
