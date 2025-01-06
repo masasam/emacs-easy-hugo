@@ -38,7 +38,7 @@
   :group 'tools)
 
 (defgroup easy-hugo-faces nil
-  "Faces used in `easy-hugo'"
+  "Faces used in `easy-hugo'."
   :group 'easy-hugo :group 'faces)
 
 (defcustom easy-hugo-basedir nil
@@ -102,7 +102,7 @@
   :type 'integer)
 
 (defcustom easy-hugo-image-directory "images"
-  "Image file directory under 'static' directory."
+  "Image file directory under `static' directory."
   :group 'easy-hugo
   :type 'string)
 
@@ -338,7 +338,7 @@ Because only two are supported by hugo."
 
 (defconst easy-hugo--default-bin
   "hugo"
-  "Default easy-hugo-bin.")
+  "Default `easy-hugo-bin'.")
 
 (defconst easy-hugo--default-github-deploy-script
   "deploy.sh"
@@ -431,7 +431,7 @@ CONDITION can also be a list of error conditions."
 
 ;;;###autoload
 (defun easy-hugo-article ()
-  "Open a list of articles written in hugo with dired."
+  "Open a list of articles written in hugo with Dired."
   (interactive)
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
@@ -821,7 +821,7 @@ Automatically select the deployment destination from init.el."
 
 ;;;###autoload
 (defun easy-hugo-firebase-deploy-timer (n)
-  "A timer that firebase deploy after the N number of minutes has elapsed."
+  "A timer to deploy to Firebase after N minutes."
   (interactive "nMinute:")
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
@@ -838,7 +838,7 @@ Automatically select the deployment destination from init.el."
 
 ;;;###autoload
 (defun easy-hugo-cancel-firebase-deploy-timer ()
-  "Cancel timer that firebase deploy after the specified number of minutes has elapsed."
+  "Cancel Firebase deployment timer."
   (interactive)
   (if (nth easy-hugo--current-blog easy-hugo--firebase-deploy-timer-list)
       (progn
@@ -892,7 +892,8 @@ Automatically select the deployment destination from init.el."
 ;;;###autoload
 (defun easy-hugo-newpost (post-file)
   "Create a new post with hugo.
-POST-FILE needs to have and extension '.md' or '.org' or '.ad' or '.rst' or '.mmark' or '.html'."
+POST-FILE needs to have and extension '.md' or '.org' or '.ad' or
+'.rst' or '.mmark' or '.html'."
   (interactive (list (read-from-minibuffer
 		      "Filename: "
 		      `(,easy-hugo-default-ext . 1) nil nil nil)))
@@ -1025,7 +1026,7 @@ If not applicable, return the default preview."
 (defun easy-hugo--url-retrieve-synchronously (url &optional silent inhibit-cookies)
   "Retrieve URL synchronously.
 Return the buffer containing the data, or nil if there are no data
-associated with it (the case for dired, info, or mailto URLs that need
+associated with it (the case for Dired, info, or mailto URLs that need
 no further processing).  URL is either a string or a parsed URL.
 If SILENT is non-nil, don't display progress reports and similar messages.
 If INHIBIT-COOKIES is non-nil, cookies will neither be stored nor sent
@@ -1182,7 +1183,7 @@ the deployment buffer during execution."
 
 ;;;###autoload
 (defun easy-hugo-github-deploy-timer (n)
-  "A timer that github-deploy after the N number of minutes has elapsed."
+  "A timer to deploy to GitHub after N minutes."
   (interactive "nMinute:")
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
@@ -1202,7 +1203,7 @@ the deployment buffer during execution."
 
 ;;;###autoload
 (defun easy-hugo-cancel-github-deploy-timer ()
-  "Cancel timer that github-deploy after the specified number of minutes has elapsed."
+  "Cancel GitHub deployment timer."
   (interactive)
   (if (nth easy-hugo--current-blog easy-hugo--github-deploy-timer-list)
       (progn
@@ -1212,7 +1213,9 @@ the deployment buffer during execution."
     (message "There is no reserved github-deploy-timer on %s" easy-hugo-url)))
 
 (defun easy-hugo-github-deploy-on-timer (n)
-  "Execute `easy-hugo-github-deploy-script' script on timer locate at `easy-hugo-basedir' at N."
+  "Execute `easy-hugo-github-deploy-script' script after N minutes.
+This function locates the script in `easy-hugo-basedir' and
+executes it after N minutes."
   (let* ((deployscript (file-truename
 			(expand-file-name
 			 (if (easy-hugo-nth-eval-bloglist easy-hugo-github-deploy-script n)
@@ -1259,7 +1262,7 @@ the deployment buffer during execution."
 
 ;;;###autoload
 (defun easy-hugo-amazon-s3-deploy-timer (n)
-  "A timer that amazon-s3-deploy after the N number of minutes has elapsed."
+  "A timer to deploy to Amazon-S3 after N minutes."
   (interactive "nMinute:")
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
@@ -1278,7 +1281,7 @@ the deployment buffer during execution."
 
 ;;;###autoload
 (defun easy-hugo-cancel-amazon-s3-deploy-timer ()
-  "Cancel timer that amazon-s3-deploy after the specified number of minutes has elapsed."
+  "Cancel Amazon-S3 deployment timer."
   (interactive)
   (if (nth easy-hugo--current-blog easy-hugo--amazon-s3-deploy-timer-list)
       (progn
@@ -1335,7 +1338,7 @@ the deployment buffer during execution."
 
 ;;;###autoload
 (defun easy-hugo-google-cloud-storage-deploy-timer (n)
-  "A timer that google-cloud-storage-deploy after the N number of minutes has elapsed."
+  "A timer to deploy to Google Cloud Storage after N minutes."
   (interactive "nMinute:")
   (unless easy-hugo-basedir
     (error "Please set easy-hugo-basedir variable"))
@@ -1354,7 +1357,7 @@ the deployment buffer during execution."
 
 ;;;###autoload
 (defun easy-hugo-cancel-google-cloud-storage-deploy-timer ()
-  "Cancel timer that google-cloud-storage-deploy after the specified number of minutes has elapsed."
+  "Cancel Google Cloud Storage deployment timer."
   (interactive)
   (if (nth easy-hugo--current-blog easy-hugo--google-cloud-storage-deploy-timer-list)
       (progn
@@ -1614,7 +1617,7 @@ L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
       (easy-hugo-draft-list))))
 
 (defun easy-hugo-refresh ()
-  "Refresh easy-hugo-mode."
+  "Refresh `easy-hugo-mode'."
   (interactive)
   (setq easy-hugo--cursor (point))
   (setq easy-hugo--refresh 1)
@@ -1624,7 +1627,7 @@ L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
   (setq easy-hugo--refresh nil))
 
 (defun easy-hugo-sort-time ()
-  "Sort article by time on easy-hugo-mode."
+  "Sort article by time on `easy-hugo-mode'."
   (interactive)
   (if easy-hugo--draft-list
       (progn
@@ -1643,7 +1646,7 @@ L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
       (easy-hugo))))
 
 (defun easy-hugo-sort-char ()
-  "Sort article by characters on easy-hugo-mode."
+  "Sort article by characters on `easy-hugo-mode'."
   (interactive)
   (if easy-hugo--draft-list
       (progn
@@ -1662,7 +1665,7 @@ L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
       (easy-hugo))))
 
 (defun easy-hugo-sort-publishday ()
-  "Sort article by publishday on easy-hugo-mode."
+  "Sort article by publishday on `easy-hugo-mode'."
   (interactive)
   (if easy-hugo--draft-list
       (progn
@@ -1754,14 +1757,14 @@ L .. Firebase timer   S .. Sort time     M .. Magit status     ? .. Describe-mod
 		result))))))))
 
 (defun easy-hugo-forward-char (arg)
-  "Forward-char on easy-hugo-mode.
+  "Forward-char on `easy-hugo-mode'.
 Optional prefix ARG says how many lines to move; default is one line."
   (interactive "^p")
   (when (not (eolp))
     (forward-char (or arg 1))))
 
 (defun easy-hugo-backward-char (arg)
-  "Backward-char on easy-hugo-mode.
+  "Backward-char on `easy-hugo-mode'.
 Optional prefix ARG says how many lines to move; default is one line."
   (interactive "^p")
   (when (not (bolp))
@@ -1860,13 +1863,13 @@ Optional prefix ARG says how many lines to move; default is one line."
 	   (find-file-other-window file)))))))
 
 (defun easy-hugo-open-basedir ()
-  "Open `easy-hugo-basedir' with dired."
+  "Open `easy-hugo-basedir' with Dired."
   (interactive)
   (easy-hugo-with-env
    (switch-to-buffer (find-file-noselect easy-hugo-basedir))))
 
 (defun easy-hugo-view ()
-  "Open the file on the pointer with 'view-mode'."
+  "Open the file on the pointer with `view-mode'."
   (interactive)
   (easy-hugo-with-env
    (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
@@ -1883,7 +1886,7 @@ Optional prefix ARG says how many lines to move; default is one line."
      (view-file buffer-file-name))))
 
 (defun easy-hugo-view-other-window ()
-  "Open the file on the pointer with 'view-mode'."
+  "Open the file on the pointer with `view-mode'."
   (interactive)
   (easy-hugo-with-env
    (if (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
@@ -2280,7 +2283,7 @@ Optional prefix ARG says how many lines to move; default is one line."
     (nconc result (nreverse files))))
 
 (defun easy-hugo--directory-files-nondirectory (dir regexp)
-  "Return list of all files nondirectory under DIR that have file names matching REGEXP."
+  "Return a list of all non-directory files in DIR whose names match REGEXP."
   (let ((result nil)
 	(files nil)
 	(tramp-mode (and tramp-mode (file-remote-p (expand-file-name dir)))))
@@ -2528,7 +2531,7 @@ output directories whose names match REGEXP."
 
 ;;;###autoload
 (defun easy-hugo-enable-menu ()
-  "Enable transient menu for easy-hugo-mode."
+  "Enable transient menu for `easy-hugo-mode'."
   (interactive)
   (setq easy-hugo-no-help t)
   (setq easy-hugo-sort-default-char nil)
