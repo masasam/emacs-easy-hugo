@@ -104,10 +104,14 @@ If you deploy your blog at github etc.
 
 	M-x easy-hugo-github-deploy
 
-Execute deploy.sh which exists in directory `easy-hugo-basedir`.
+Execute deploy.sh which should be located in the directory `easy-hugo-basedir`.
 It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
 When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-and-deployment/),
 it can also correspond to various sites.
+If you set the variable `easy-hugo-github-deploy-display-buffer` to a non-nil value, the deployment output will be displayed in the `*hugo-github-deploy*` buffer during execution.
+
+    (setq easy-hugo-github-deploy-display-buffer t)
+
 For more GitHub Pages information refer to [here](https://github.com/masasam/emacs-easy-hugo/issues/27) and [here](https://github.com/masasam/emacs-easy-hugo/issues/75).
 If you use .github/workflows/hugo.yaml, GitHub Actions will work, so you don't need deploy.sh.
 

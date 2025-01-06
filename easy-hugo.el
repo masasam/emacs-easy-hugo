@@ -162,6 +162,13 @@ The default is drwxr-xr-x."
   :group 'easy-hugo
   :type 'string)
 
+(defcustom easy-hugo-github-deploy-display-buffer nil
+  "GitHub deployment output.
+If non-nil, the script output will be displayed in the
+*hugo-github-deploy* buffer during execution."
+  :group 'easy-hugo
+  :type 'boolean)
+
 (defcustom easy-hugo-markdown-extension "md"
   "Markdown extension.
 Please select md or markdown or mdown.
@@ -1133,23 +1140,45 @@ to the server."
 
 ;;;###autoload
 (defun easy-hugo-github-deploy ()
-  "Execute `easy-hugo-github-deploy-script' script locate at `easy-hugo-basedir'."
+  "Execute `easy-hugo-github-deploy-script' script located at `easy-hugo-basedir'.
+If `easy-hugo-github-deploy-display-buffer' is non-nil, display
+the deployment buffer during execution."
   (interactive)
   (easy-hugo-with-env
    (let ((deployscript (file-truename (expand-file-name
 				       easy-hugo-github-deploy-script
-				       easy-hugo-basedir))))
+				       easy-hugo-basedir)))
+	 (deploy-buffer "*hugo-github-deploy*"))
      (unless (executable-find deployscript)
-       (error "%s do not execute" deployscript))
-     (let ((ret (call-process deployscript nil "*hugo-github-deploy*" t)))
-       (unless (zerop ret)
-	 (switch-to-buffer (get-buffer "*hugo-github-deploy*"))
-	 (error "%s command does not end normally" deployscript)))
-     (when (get-buffer "*hugo-github-deploy*")
-       (kill-buffer "*hugo-github-deploy*"))
-     (message "Blog deployed")
-     (when easy-hugo-url
-       (browse-url easy-hugo-url)))))
+       (error "%s is not executable" deployscript))
+     (when (get-buffer deploy-buffer)
+       (kill-buffer deploy-buffer))
+     ;; Ensure a previous `deploy-buffer' is not open before starting.
+     (let ((deploy-buffer (get-buffer-create deploy-buffer))
+	   (inhibit-read-only t))
+       (with-current-buffer deploy-buffer
+	 (setq-local view-exit-action #'kill-buffer)
+	 (view-mode 1)
+	 (when (zerop (buffer-size))
+	   (insert "*** " (substring (buffer-name) 1 -1)
+		   ": " deployscript " ***\n")
+	   (insert (format "Deployment started at %s\n\n"
+			   (substring (current-time-string) 0 19))))
+	 (when easy-hugo-github-deploy-display-buffer
+	   (switch-to-buffer deploy-buffer))
+	 (let ((ret (call-process deployscript nil deploy-buffer t)))
+	   (unless (zerop ret)
+	     (switch-to-buffer deploy-buffer)
+	     (insert (format "\nDeployment exited abnormally with code %d at %s\n"
+			     ret (substring (current-time-string) 0 19)))
+	     (error "%s command exited abnormally" deployscript)))
+	 (insert (format "\nDeployment finished at %s\n"
+			 (substring (current-time-string) 0 19))))
+       (unless easy-hugo-github-deploy-display-buffer
+	 (kill-buffer deploy-buffer))
+       (message "Blog deployed")
+       (when easy-hugo-url
+	 (browse-url easy-hugo-url))))))
 
 ;;;###autoload
 (defun easy-hugo-github-deploy-timer (n)
