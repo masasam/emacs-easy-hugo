@@ -101,6 +101,11 @@
   :group 'easy-hugo
   :type 'integer)
 
+(defcustom easy-hugo-static-directory "static"
+  "Customizable `static' directory."
+  :group 'easy-hugo
+  :type 'string)
+
 (defcustom easy-hugo-image-directory "images"
   "Image file directory under `static' directory."
   :group 'easy-hugo
@@ -465,19 +470,19 @@ CONDITION can also be a list of error conditions."
    (easy-hugo-with-env
     (unless (file-directory-p (expand-file-name
 			       easy-hugo-image-directory
-			       (expand-file-name "static" easy-hugo-basedir)))
+			       (expand-file-name easy-hugo-static-directory easy-hugo-basedir)))
       (error "%s does not exist" (expand-file-name
 				  easy-hugo-image-directory
-				  (expand-file-name "static" easy-hugo-basedir))))
+				  (expand-file-name easy-hugo-static-directory easy-hugo-basedir))))
     (let ((insert-default-directory nil))
       (let ((file (read-file-name "Image file: " nil
 				  (expand-file-name
 				   easy-hugo-image-directory
-				   (expand-file-name "static" easy-hugo-basedir))
+				   (expand-file-name easy-hugo-static-directory easy-hugo-basedir))
 				  t
 				  (expand-file-name
 				   easy-hugo-image-directory
-				   (expand-file-name "static" easy-hugo-basedir)))))
+				   (expand-file-name easy-hugo-static-directory easy-hugo-basedir)))))
 	(insert (concat (format "{{< figure src=\"%s%s\""
 				easy-hugo-url
 				(concat
@@ -494,19 +499,19 @@ CONDITION can also be a list of error conditions."
    (easy-hugo-with-env
     (unless (file-directory-p (expand-file-name
 			       easy-hugo-image-directory
-			       (expand-file-name "static" easy-hugo-basedir)))
+			       (expand-file-name easy-hugo-static-directory easy-hugo-basedir)))
       (error "%s does not exist" (expand-file-name
 				  easy-hugo-image-directory
-				  (expand-file-name "static" easy-hugo-basedir))))
+				  (expand-file-name easy-hugo-static-directory easy-hugo-basedir))))
     (let ((insert-default-directory nil))
       (let ((file (read-file-name "Image file: " nil
 				  (expand-file-name
 				   easy-hugo-image-directory
-				   (expand-file-name "static" easy-hugo-basedir))
+				   (expand-file-name easy-hugo-static-directory easy-hugo-basedir))
 				  t
 				  (expand-file-name
 				   easy-hugo-image-directory
-				   (expand-file-name "static" easy-hugo-basedir)))))
+				   (expand-file-name easy-hugo-static-directory easy-hugo-basedir)))))
 	(insert (concat (format "{{< figure src=\"%s%s\""
 				easy-hugo-url
 				(concat
@@ -523,10 +528,10 @@ CONDITION can also be a list of error conditions."
    (easy-hugo-with-env
     (unless (file-directory-p (expand-file-name
                                easy-hugo-image-directory
-                               (expand-file-name "static" easy-hugo-basedir)))
+                               (expand-file-name easy-hugo-static-directory easy-hugo-basedir)))
       (error "%s does not exist" (expand-file-name
                                   easy-hugo-image-directory
-                                  (expand-file-name "static" easy-hugo-basedir))))
+                                  (expand-file-name easy-hugo-static-directory easy-hugo-basedir))))
     (let ((insert-default-directory nil))
       (let* ((file (read-file-name "Image file: " nil
 				   (expand-file-name easy-hugo-default-picture-directory)
@@ -534,7 +539,7 @@ CONDITION can also be a list of error conditions."
 				   (expand-file-name easy-hugo-default-picture-directory)))
 	     (putfile (expand-file-name
 		       (file-name-nondirectory file)
-		       (expand-file-name easy-hugo-image-directory "static"))))
+		       (expand-file-name easy-hugo-image-directory easy-hugo-static-directory))))
 	(when (file-exists-p putfile)
 	  (error "%s already exists!" putfile))
 	(copy-file file putfile)
@@ -554,10 +559,10 @@ CONDITION can also be a list of error conditions."
    (easy-hugo-with-env
     (unless (file-directory-p (expand-file-name
                                easy-hugo-image-directory
-                               (expand-file-name "static" easy-hugo-basedir)))
+                               (expand-file-name easy-hugo-static-directory easy-hugo-basedir)))
       (error "%s does not exist" (expand-file-name
                                   easy-hugo-image-directory
-                                  (expand-file-name "static" easy-hugo-basedir))))
+                                  (expand-file-name easy-hugo-static-directory easy-hugo-basedir))))
     (let ((insert-default-directory nil))
       (let* ((file (read-file-name "Image file: " nil
 				   (expand-file-name easy-hugo-default-picture-directory)
@@ -565,7 +570,7 @@ CONDITION can also be a list of error conditions."
 				   (expand-file-name easy-hugo-default-picture-directory)))
 	     (putfile (expand-file-name
 		       (file-name-nondirectory file)
-		       (expand-file-name easy-hugo-image-directory "static"))))
+		       (expand-file-name easy-hugo-image-directory easy-hugo-static-directory))))
 	(when (file-exists-p putfile)
 	  (error "%s already exists!" putfile))
 	(copy-file file putfile)
@@ -601,16 +606,16 @@ CONDITION can also be a list of error conditions."
    (easy-hugo-with-env
     (unless (file-directory-p (expand-file-name
 			       easy-hugo-image-directory
-			       (expand-file-name "static" easy-hugo-basedir)))
+			       (expand-file-name easy-hugo-static-directory easy-hugo-basedir)))
       (error "%s does not exist" (expand-file-name
 				  easy-hugo-image-directory
-				  (expand-file-name "static" easy-hugo-basedir))))
+				  (expand-file-name easy-hugo-static-directory easy-hugo-basedir))))
     (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection)
 					(gui-get-selection))))
 	  (file (read-file-name "Save as: "
 				(expand-file-name
 				 easy-hugo-image-directory
-				 (expand-file-name "static" easy-hugo-basedir))
+				 (expand-file-name easy-hugo-static-directory easy-hugo-basedir))
 				(car (last (split-string
 					    (substring-no-properties (gui-get-selection))
 					    "/")))
@@ -634,16 +639,16 @@ CONDITION can also be a list of error conditions."
    (easy-hugo-with-env
     (unless (file-directory-p (expand-file-name
 			       easy-hugo-image-directory
-			       (expand-file-name "static" easy-hugo-basedir)))
+			       (expand-file-name easy-hugo-static-directory easy-hugo-basedir)))
       (error "%s does not exist" (expand-file-name
 				  easy-hugo-image-directory
-				  (expand-file-name "static" easy-hugo-basedir))))
+				  (expand-file-name easy-hugo-static-directory easy-hugo-basedir))))
     (let ((url (read-string "URL: " (if (fboundp 'gui-get-selection)
 					(gui-get-selection))))
 	  (file (read-file-name "Save as: "
 				(expand-file-name
 				 easy-hugo-image-directory
-				 (expand-file-name "static" easy-hugo-basedir))
+				 (expand-file-name easy-hugo-static-directory easy-hugo-basedir))
 				(car (last (split-string
 					    (substring-no-properties (gui-get-selection))
 					    "/")))
