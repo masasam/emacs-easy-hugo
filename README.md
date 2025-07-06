@@ -105,8 +105,8 @@ If you deploy your blog at github etc.
 	M-x easy-hugo-github-deploy
 
 Execute deploy.sh which should be located in the directory `easy-hugo-basedir`.
-It is useful for hosting on [GitHub Pages](https://gohugo.io/tutorials/github-pages-blog/) etc.
-When you create deploy.sh with reference to [hosting](https://gohugo.io/hosting-and-deployment/),
+It is useful for hosting on [deploy example](https://gohugo.io/hosting-and-deployment/) etc.
+When you create deploy.sh with reference to [deploy example](https://gohugo.io/hosting-and-deployment/),
 it can also correspond to various sites.
 If you set the variable `easy-hugo-github-deploy-display-buffer` to a non-nil value, the deployment output will be displayed in the `*hugo-github-deploy*` buffer during execution.
 
