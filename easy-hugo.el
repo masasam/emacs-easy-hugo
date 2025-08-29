@@ -4,7 +4,7 @@
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.11.61
+;; Version: 3.12.61
 ;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0") (transient "0.3.6"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -133,6 +133,11 @@
 
 (defcustom easy-hugo-helm-ag nil
   "Helm-ag use flg."
+  :group 'easy-hugo
+  :type 'string)
+
+(defcustom easy-hugo-counsel-ag nil
+  "Counsel-ag use flg."
   :group 'easy-hugo
   :type 'string)
 
@@ -1396,14 +1401,16 @@ executes it after N minutes."
 
 ;;;###autoload
 (defun easy-hugo-ag ()
-  "Search for blog article with `counsel-ag' or `helm-ag'."
+  "Search for blog article with `consult-ripgrep' or `counsel-ag' or `helm-ag'."
   (interactive)
   (easy-hugo-with-env
-   (if (and (require 'counsel nil t) (not easy-hugo-helm-ag))
+   (if (and (require 'consult nil t) (not easy-hugo-counsel-ag) (not easy-hugo-helm-ag))
+	   (consult--grep "Ripgrep" #'consult--ripgrep-make-builder (expand-file-name easy-hugo-postdir easy-hugo-basedir) nil)
+	 (if (and (require 'counsel nil t) (not easy-hugo-helm-ag))
        (counsel-ag nil (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-     (if (require 'helm-ag nil t)
-	 (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-       (error "'counsel' or 'helm-ag' is not installed")))))
+       (if (require 'helm-ag nil t)
+		   (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+		 (error "'counsel' or 'helm-ag' is not installed"))))))
 
 ;;;###autoload
 (defun easy-hugo-rg ()

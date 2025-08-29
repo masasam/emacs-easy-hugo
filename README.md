@@ -81,10 +81,11 @@ If there is firebase command, easy-hugo-firebase-deploy will be executed.
 
 ![easy-hugo-helm-ag](image/easy-hugo-helm-ag.png)
 
-You can search blog article with [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/emacsorphanage/helm-ag).
-If both are installed, counsel-ag takes precedence at default and
-you can use helm-ag by writing the following to .emacs or init.el.
+You can search blog article with [consult-ripgrep](https://github.com/minad/consult) or [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/emacsorphanage/helm-ag).
+If all installed, it will run in the order of priority of consult-ripgrep counsel-ag helm-ag and 
+you can use helm-ag or counsel-ag by writing the following to .emacs or init.el.
 
+	(setq easy-hugo-counsel-ag t)
 	(setq easy-hugo-helm-ag t)
 
 If you deploy your blog at [Firebase](https://firebase.google.com/).
