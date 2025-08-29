@@ -1446,7 +1446,7 @@ executes it after N minutes."
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort time     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   W .. AWS S3 timer     f .. Select filename
-P .. Publish clever   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
+P .. Publish clever   C .. Deploy GCS    a .. Search articles  H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  ; .. Select blog   / .. Select postdir   q .. Quit easy-hugo
 ")
@@ -1455,7 +1455,7 @@ F .. Full help [tab]  ; .. Select blog   / .. Select postdir   q .. Quit easy-hu
 p .. Preview          g .. Refresh       A .. Deploy AWS S3    u .. Sort publishday
 v .. Open view-mode   s .. Sort char     T .. Publish timer    N .. No help-mode
 d .. Delete post      c .. Open config   ; .. Select blog      f .. Select filename
-P .. Publish clever   C .. Deploy GCS    a .. Search with ag   H .. GitHub timer
+P .. Publish clever   C .. Deploy GCS    a .. Search articles  H .. GitHub timer
 < .. Previous blog    > .. Next blog     , .. Pre postdir      . .. Next postdir
 F .. Full help [tab]  W .. AWS S3 timer  / .. Select postdir   q .. Quit easy-hugo
 "))
