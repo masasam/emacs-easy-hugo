@@ -1405,9 +1405,9 @@ executes it after N minutes."
   (interactive)
   (easy-hugo-with-env
    (if (and (require 'consult nil t) (not easy-hugo-counsel-ag) (not easy-hugo-helm-ag))
-	   (consult--grep "Ripgrep" #'consult--ripgrep-make-builder (expand-file-name easy-hugo-postdir easy-hugo-basedir) nil)
+	   (consult-ripgrep (expand-file-name easy-hugo-postdir easy-hugo-basedir) nil)
 	 (if (and (require 'counsel nil t) (not easy-hugo-helm-ag))
-       (counsel-ag nil (expand-file-name easy-hugo-postdir easy-hugo-basedir))
+		 (counsel-ag nil (expand-file-name easy-hugo-postdir easy-hugo-basedir))
        (if (require 'helm-ag nil t)
 		   (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
 		 (error "'consult' or 'counsel' or 'helm-ag' is not installed"))))))
