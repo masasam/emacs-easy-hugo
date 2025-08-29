@@ -1410,7 +1410,7 @@ executes it after N minutes."
        (counsel-ag nil (expand-file-name easy-hugo-postdir easy-hugo-basedir))
        (if (require 'helm-ag nil t)
 		   (helm-ag (expand-file-name easy-hugo-postdir easy-hugo-basedir))
-		 (error "'counsel' or 'helm-ag' is not installed"))))))
+		 (error "'consult' or 'counsel' or 'helm-ag' is not installed"))))))
 
 ;;;###autoload
 (defun easy-hugo-rg ()
