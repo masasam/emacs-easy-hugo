@@ -4,8 +4,8 @@
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.12.61
-;; Package-Requires: ((emacs "25.1") (popup "0.5.3") (request "0.3.0") (transient "0.3.6"))
+;; Version: 3.12.62
+;; Package-Requires: ((emacs "25.1") (request "0.3.0") (transient "0.3.6"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -1956,15 +1956,13 @@ Optional prefix ARG says how many lines to move; default is one line."
 	  (while (string-match "^[T\\|t]ags[:]? [=]?+.*\\[\\(.+?\\)\\]$" source pos)
 	    (push (match-string 1 source) matches)
 	    (setq pos (match-end 0)))
-	  (insert
-	   (popup-menu*
-	    (delete-dups
-	     (delete "" (split-string
-			 (replace-regexp-in-string "[\"\']" " "
-						   (replace-regexp-in-string
-						    "[,()]" ""
-						    (format "%s" matches)))
-			 " "))))))))))
+	  (let ((target (delete-dups
+					 (delete "" (split-string
+								 (replace-regexp-in-string "[\"\']" " "
+														   (replace-regexp-in-string
+															"[,()]" "" (format "%s" matches)))
+								 " ")))))
+		(insert (completing-read "Complete tag: " target nil t))))))))
 
 ;;;###autoload
 (defun easy-hugo-complete-categories ()
@@ -1983,15 +1981,15 @@ Optional prefix ARG says how many lines to move; default is one line."
 	  (while (string-match "^[C\\|c]ategories[:]? [=]?+.*\\[\\(.+?\\)\\]$" source pos)
 	    (push (match-string 1 source) matches)
 	    (setq pos (match-end 0)))
-	  (insert
-	   (popup-menu*
-	    (delete-dups
-	     (delete "" (split-string
-			 (replace-regexp-in-string "[\"\']" " "
-						   (replace-regexp-in-string
-						    "[,()]" ""
-						    (format "%s" matches)))
-			 " "))))))))))
+	  (let ((target (delete-dups
+					 (delete "" (split-string
+								 (replace-regexp-in-string "[\"\']" " "
+														   (replace-regexp-in-string
+															"[,()]" ""
+															(format "%s" matches)))
+								 " ")))))
+
+		(insert (completing-read "Complete categories: " target nil t))))))))
 
 (defun easy-hugo-next-blog ()
   "Go to next blog."
