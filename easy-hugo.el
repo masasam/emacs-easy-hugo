@@ -220,11 +220,6 @@ Because only two are supported by hugo."
   :group 'easy-hugo
   :type 'integer)
 
-(defcustom easy-hugo-org-header nil
-  "Flg of use in org format header with hugo version 0.25 and above."
-  :group 'easy-hugo
-  :type 'integer)
-
 (defvar easy-hugo--preview-loop t
   "Preview loop flg.")
 
@@ -893,32 +888,18 @@ Automatically select the deployment destination from init.el."
       (browse-url (easy-hugo-nth-eval-bloglist easy-hugo-url n)))
     (setf (nth n easy-hugo--firebase-deploy-timer-list) nil)))
 
-(defun easy-hugo--org-headers (file)
-  "Return a draft org mode header string for a new article as FILE."
-  (let ((datetimezone
-         (concat
-          (format-time-string "%Y-%m-%dT%T")
-          (easy-hugo--orgtime-format (format-time-string "%z")))))
-    (concat
-     "#+TITLE: " file
-     "\n#+DATE: " datetimezone
-     "\n#+DRAFT: nil"
-     "\n#+CATEGORIES[]: nil nil"
-     "\n#+TAGS[]: nil nil"
-     "\n#+DESCRIPTION: Short description"
-     "\n\n")))
 
 ;;;###autoload
 (defun easy-hugo-newpost (post-file)
   "Create a new post with hugo.
-POST-FILE needs to have and extension '.md' or '.org' or '.ad' or
-'.rst' or '.mmark' or '.html'."
+POST-FILE needs to have an extension '.md', '.org', '.ad', '.rst',
+'.mmark', or '.html'."
   (interactive (list (read-from-minibuffer
-		      "Filename: "
-		      `(,easy-hugo-default-ext . 1) nil nil nil)))
+                      "Filename: "
+                      `(,easy-hugo-default-ext . 1) nil nil nil)))
   (easy-hugo-with-env
    (let ((filename (expand-file-name post-file easy-hugo-postdir))
-	 (file-ext (file-name-extension post-file)))
+         (file-ext (file-name-extension post-file)))
      (when (not (member file-ext easy-hugo--formats))
        (error "Please enter .%s, .%s, .%s, .%s, .%s, or .%s file name"
               easy-hugo-markdown-extension
@@ -929,25 +910,13 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or
               easy-hugo-html-extension))
      (when (file-exists-p (file-truename filename))
        (error "%s already exists!" filename))
-     (if (null easy-hugo-org-header)
-	 (call-process easy-hugo-bin nil "*hugo*" t "new"
-		       (file-relative-name filename
-					   (expand-file-name "content" easy-hugo-basedir)))
-       (progn
-	 (if (or (string-equal file-ext easy-hugo-markdown-extension)
-		 (string-equal file-ext easy-hugo-asciidoc-extension)
-		 (string-equal file-ext "rst")
-		 (string-equal file-ext "mmark")
-		 (string-equal file-ext easy-hugo-html-extension))
-	     (call-process easy-hugo-bin nil "*hugo*" t "new"
-			   (file-relative-name filename
-					       (expand-file-name "content" easy-hugo-basedir))))))
+     (call-process
+      easy-hugo-bin nil "*hugo*" t "new"
+      (file-relative-name filename
+                          (expand-file-name "content" easy-hugo-basedir)))
      (when (get-buffer "*hugo*")
        (kill-buffer "*hugo*"))
      (find-file filename)
-     (when (and easy-hugo-org-header
-	       (string-equal file-ext "org"))
-       (insert (easy-hugo--org-headers (file-name-base post-file))))
      (goto-char (point-max))
      (save-buffer))))
 

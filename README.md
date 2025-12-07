@@ -448,18 +448,19 @@ Setting the picture directory of your laptop or desktop, it is easy to execute M
 
 	(setq easy-hugo-default-picture-directory "~/Pictures")
 
-If you want to use org style header, set it as below.
+To use an org-style header, create an `archetypes/default.org` file in your root directory as shown below:
 
-	(setq easy-hugo-org-header t)
+```
+#+TITLE: {{ replace .File.ContentBaseName "-" " " | title }}
+#+DATE: {{ .Date }}
+#+DRAFT: t
+#+CATEGORIES[]:
+#+TAGS[]:
+```
 
-Then it becomes the following header. If you want to expand its keywords, use either ```#+KEY: VALUE``` format to set a single value string or ```#+KEY[]: VALUE_1 VALUE_2``` format to assign multiple values in a whitespace-separated list of strings.
-
-     #+TITLE:  filename
-     #+DATE:  2018-01-31T12:10:08-08:00
-     #+DRAFT: nil
-     #+CATEGORIES[]: nil nil
-     #+TAGS[]: nil nil
-     #+DESCRIPTION: Short description
+You can then use the `easy-hugo-newpost` command (`n`) to create new `.org` posts with this template.
+Custom archetypes for other content types and front matter formats are also supported.
+For more information, see the official documentation on [archetypes](https://gohugo.io/content-management/archetypes/).
 
 ## Multiple blogs setting
 
