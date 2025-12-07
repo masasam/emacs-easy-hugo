@@ -255,12 +255,21 @@ Because only two are supported by hugo."
 (defconst easy-hugo--preview-buffer "*Hugo Preview*"
   "Easy-hugo preview buffer name.")
 
+(defconst easy-hugo--org-extension "org"
+  "Default org extension value, only supported variant.")
+
+(defconst easy-hugo--rst-extension "rst"
+  "Default rst extension value, only supported variant.")
+
+(defconst easy-hugo--mmark-extension "mmark"
+  "Default mmark extension value, only supported variant.")
+
 (defconst easy-hugo--formats `(,easy-hugo-markdown-extension
-			       "org"
-			       ,easy-hugo-asciidoc-extension
-			       "rst"
-			       "mmark"
-			       ,easy-hugo-html-extension))
+			                   ,easy-hugo--org-extension
+			                   ,easy-hugo-asciidoc-extension
+			                   ,easy-hugo--rst-extension
+			                   ,easy-hugo--mmark-extension
+			                   ,easy-hugo-html-extension))
 
 (defface easy-hugo-help-face
   `((((class color) (background light))
@@ -911,10 +920,13 @@ POST-FILE needs to have and extension '.md' or '.org' or '.ad' or
    (let ((filename (expand-file-name post-file easy-hugo-postdir))
 	 (file-ext (file-name-extension post-file)))
      (when (not (member file-ext easy-hugo--formats))
-       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name"
-	      easy-hugo-markdown-extension
-	      easy-hugo-asciidoc-extension
-	      easy-hugo-html-extension))
+       (error "Please enter .%s, .%s, .%s, .%s, .%s, or .%s file name"
+              easy-hugo-markdown-extension
+              easy-hugo--org-extension
+              easy-hugo-asciidoc-extension
+              easy-hugo--rst-extension
+              easy-hugo--mmark-extension
+              easy-hugo-html-extension))
      (when (file-exists-p (file-truename filename))
        (error "%s already exists!" filename))
      (if (null easy-hugo-org-header)
@@ -1830,8 +1842,13 @@ Optional prefix ARG says how many lines to move; default is one line."
    (let ((newname (expand-file-name post-file easy-hugo-postdir))
 	 (file-ext (file-name-extension post-file)))
      (when (not (member file-ext easy-hugo--formats))
-       (error "Please enter .%s or .org or .%s or .rst or .mmark or .%s file name"
-	      easy-hugo-markdown-extension easy-hugo-asciidoc-extension easy-hugo-html-extension))
+       (error "Please enter .%s, .%s, .%s, .%s, .%s, or .%s file name"
+	      easy-hugo-markdown-extension
+          easy-hugo--org-extension
+          easy-hugo-asciidoc-extension
+          easy-hugo--rst-extension
+          easy-hugo--mmark-extension
+          easy-hugo-html-extension))
      (when (equal (buffer-name (current-buffer)) easy-hugo--buffer-name)
        (when (file-exists-p (file-truename newname))
 	 (error "%s already exists!" newname))
