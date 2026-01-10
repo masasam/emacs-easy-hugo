@@ -2337,7 +2337,7 @@ output directories whose names match REGEXP."
 	 (when (string-match
 		(concat (file-relative-name easy-hugo-postdir "content") "/\\(.+?\\)$")
 		file)
-	   (push (match-string 1 file) files))))
+	   (push (car (string-split (match-string 1 file) ",")) files))))
      (unless (file-directory-p (expand-file-name easy-hugo-postdir easy-hugo-basedir))
        (error "%s%s does not exist!" easy-hugo-basedir easy-hugo-postdir))
      (setq easy-hugo--mode-buffer (get-buffer-create easy-hugo--buffer-name))
