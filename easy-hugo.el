@@ -4,7 +4,7 @@
 
 ;; Author: Masashi Miyaura
 ;; URL: https://github.com/masasam/emacs-easy-hugo
-;; Version: 3.13.63
+;; Version: 3.13.64
 ;; Package-Requires: ((emacs "25.1") (request "0.3.0") (transient "0.3.6"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -2331,7 +2331,8 @@ output directories whose names match REGEXP."
 	 (lists (list))
 	 (files (list)))
      (dolist (file source)
-       (if (equal (file-relative-name easy-hugo-postdir "content") ".")
+       (if (and (equal (file-relative-name easy-hugo-postdir "content") ".")
+				(not (equal (file-name-nondirectory easy-hugo-postdir) "content")))
 	   (when (eq (string-match "\\([^/]+\\)$" file) 0)
 	     (push (match-string 1 file) files))
 	 (when (string-match
