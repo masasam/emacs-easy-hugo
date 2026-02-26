@@ -293,9 +293,9 @@ The file is saved in 'easy-hugo-image-directory' and generate image link.
 
 You can install `easy-hugo.el` from [MELPA](http://melpa.org) with package.el
 (`M-x package-install easy-hugo`).
-Confirm that PATH passes from emacs to go.
+Confirm that PATH passes from emacs to hugo.
 I recommend you are going to install [exec-path-from-shell]( https://github.com/purcell/exec-path-from-shell).
-I recommend you are going to install [keychain-environment](https://github.com/tarsius/keychain-environment).
+When you use easy-hugo-github-deploy with ssh, I recommend you are going to install [keychain-environment](https://github.com/tarsius/keychain-environment).
 Easy-hugo-ag needs [consult-ripgrep](https://github.com/minad/consult) or [counsel-ag](https://github.com/abo-abo/swiper) or [helm-ag](https://github.com/syohex/emacs-helm-ag) or [the_silver_searcher](https://github.com/ggreer/the_silver_searcher).
 
 ## Sample Configuration
